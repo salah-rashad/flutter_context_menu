@@ -2,6 +2,7 @@ name: context_menu
 description: A new Flutter package project.
 version: 0.0.1
 homepage: https://github.com/salah-rashad/context_menu
+repository: https://github.com/salah-rashad/context_menu
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -17,5 +18,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-
-flutter:

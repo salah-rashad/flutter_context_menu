@@ -1,39 +1,23 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Context Menu
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+The **Context Menu** package provides a flexible and customizable solution for creating and displaying context menus in Flutter applications. It allows you to easily add context menus to your UI, providing users with a convenient way to access additional options and actions specific to the selected item or area.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Context Menu Widget**: The package includes a highly customizable context menu widget that can be easily integrated into your Flutter application. It provides a seamless and intuitive user experience, enhancing the usability of your app.
 
-## Getting started
+- **Hierarchical Structure**: The context menu supports a hierarchical structure with submenu functionality. This enables you to create nested menus, providing a clear and organized representation of options and suboptions.
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- **Customization Options**: Customize the appearance and behavior of the context menu to match your app's design and requirements. Modify the style, positioning, animation, and interaction of the menu to create a cohesive user interface.
 
-## Usage
+- **Selection Handling**: The package includes built-in selection handling for context menu items. It allows you to define callback functions for individual menu items, enabling you to execute specific actions or logic when an item is selected.
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+## Getting Started
 
-```dart
-const like = 'sample';
-```
+To use the **Context Menu** package, simply import it into your Flutter project and start integrating context menus into your UI. With the provided `ContextMenu` widget and abstract classes like `ContextMenuEntry` and `ContextMenuItem`, you can easily create and manage context menus tailored to your application's needs.
 
-## Additional information
+Check out the documentation and examples for detailed usage instructions and to explore the available customization options.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+## Feedback and Contributions
+
+We welcome feedback, bug reports, and contributions from the Flutter community. Help us improve the **Context Menu** package by providing suggestions, reporting issues, or submitting pull requests on [GitHub](https://github.com/salah-rashad/context_menu).
