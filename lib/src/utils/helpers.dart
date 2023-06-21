@@ -1,0 +1,46 @@
+import 'package:flutter/widgets.dart';
+
+import '../widgets/context_menu.dart';
+
+/// Shows a context menu popup.
+Future<T?> showContextMenu<T>(
+  BuildContext context, {
+  required ContextMenu contextMenu,
+  RouteSettings? routeSettings,
+  bool? opaque,
+  bool? barrierDismissible,
+  Color? barrierColor,
+  String? barrierLabel,
+  Duration? transitionDuration,
+  Duration? reverseTransitionDuration,
+  RouteTransitionsBuilder? transitionsBuilder,
+  bool allowSnapshotting = true,
+  bool maintainState = false,
+}) async {
+  return await Navigator.push<T>(
+    context,
+    PageRouteBuilder<T>(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Stack(
+          children: [contextMenu],
+        );
+      },
+      settings: routeSettings ?? const RouteSettings(name: "context-menu"),
+      fullscreenDialog: true,
+      barrierDismissible: barrierDismissible ?? true,
+      opaque: opaque ?? false,
+      transitionDuration: transitionDuration ?? Duration.zero,
+      reverseTransitionDuration: reverseTransitionDuration ?? Duration.zero,
+      barrierColor: barrierColor,
+      barrierLabel: barrierLabel,
+      transitionsBuilder: transitionsBuilder ?? _defaultTransitionsBuilder,
+      allowSnapshotting: allowSnapshotting,
+      maintainState: maintainState,
+    ),
+  );
+}
+
+Widget _defaultTransitionsBuilder(
+    context, animation, secondaryAnimation, child) {
+  return child;
+}
