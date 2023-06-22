@@ -1,4 +1,4 @@
-library context_menu;
+library flutter_context_menu;
 
 export 'src/entries/context_menu_entry.dart';
 export 'src/entries/context_menu_item.dart';
