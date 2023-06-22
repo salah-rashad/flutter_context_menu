@@ -114,7 +114,7 @@ class _MenuEntry<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final menuState = context.read<ContextMenuState>();
     return MouseRegion(
-      onEnter: (event) => _onEnter(menuState, context, event),
+      onEnter: (event) => _onMouseEnter(menuState, context, event),
       onExit: (event) {
         // menuState.focusedEntry = null;
         entry.onMouseExit(event);
@@ -124,7 +124,7 @@ class _MenuEntry<T> extends StatelessWidget {
     );
   }
 
-  void _onEnter(
+  void _onMouseEnter(
     ContextMenuState menuState,
     BuildContext context,
     PointerEnterEvent event,
@@ -132,14 +132,13 @@ class _MenuEntry<T> extends StatelessWidget {
     if (isContextMenuItem) {
       final item = entry as ContextMenuItem;
 
-      final isSubmenuOpen = menuState.isSubmenuOpen;
-      final focusedItemIsNotOpened =
-          menuState.focusedEntry != menuState.openedEntry;
+      final isSubmenuItem = item.isSubmenuItem;
+      // final isSubmenuOpen = menuState.isSubmenuOpen;
+      final itemIsNotOpened = item != menuState.openedEntry;
 
-      final canShowSubmenu =
-          item.isSubmenuItem && !isSubmenuOpen && focusedItemIsNotOpened;
+      final canShowSubmenu = isSubmenuItem && itemIsNotOpened;
 
-      if (!item.isSubmenuItem && menuState.focusedEntry != entry) {
+      if (!isSubmenuItem && menuState.focusedEntry != item) {
         menuState.closeCurrentSubmenu();
       } else if (canShowSubmenu) {
         menuState.showSubmenu(
@@ -149,7 +148,7 @@ class _MenuEntry<T> extends StatelessWidget {
         );
       }
 
-      menuState.focusedEntry = entry;
+      menuState.focusedEntry = item;
     }
     entry.onMouseEnter(event);
   }
