@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.1.1
 
-* TODO: Describe initial release.
+* Changed library file name from "context_menu.dart" to "flutter_context_menu.dart" to match package's name.
