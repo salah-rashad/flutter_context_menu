@@ -1,8 +1,8 @@
-import 'package:context_menu/src/utils/extensions.dart';
 import 'package:flutter/widgets.dart';
 
 import '../entries/context_menu_entry.dart';
 import '../entries/context_menu_item.dart';
+import '../utils/extensions.dart';
 import '../utils/utils.dart';
 import 'context_menu.dart';
 

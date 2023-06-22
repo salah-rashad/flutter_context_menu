@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:context_menu/src/utils/extensions.dart';
 import 'package:flutter/widgets.dart';
+
+import '../utils/extensions.dart';
 
 Offset calculateContextMenuPosition(
   BuildContext context, {

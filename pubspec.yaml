@@ -1,8 +1,8 @@
-name: context_menu
-description: A new Flutter package project.
-version: 0.0.1
-homepage: https://github.com/salah-rashad/context_menu
-repository: https://github.com/salah-rashad/context_menu
+name: flutter_context_menu
+description: Create and display a customizable context menus in your app.
+version: 0.1.0
+homepage: https://github.com/salah-rashad/flutter_context_menu
+repository: https://github.com/salah-rashad/flutter_context_menu
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

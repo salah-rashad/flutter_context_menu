@@ -16,4 +16,3 @@ abstract class ContextMenuEntry {
   /// Called when the mouse pointer hovers over the context menu entry.
   void onMouseHover(PointerHoverEvent event) {}
 }
-

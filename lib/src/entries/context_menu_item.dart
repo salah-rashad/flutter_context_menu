@@ -19,15 +19,24 @@ import 'context_menu_entry.dart';
 /// the submenu associated with the item. If not, it pops the current context menu and
 /// returns the associated [value].
 ///
-/// Example implementation of [builder] method:
+/// Example usage:
 /// ```
-/// @override
-/// Widget builder(BuildContext context) {
-///   return ListTile(
-///     title: const Text("Option 1"),
-///     onTap: () => onSelect(context),
-///     trailing: Icon(isSubmenuItem ? Icons.arrow_right : null),
-///   );
+/// class ContextMenuListTileItem extends ContextMenuItem {
+///   final String title;
+///   ContextMenuListTileItem({
+///     required this.title,
+///     super.value,
+///     super.onPressed,
+///   });
+/// 
+///   @override
+///   Widget builder(BuildContext context) {
+///     return ListTile(
+///       title: Text(title),
+///       onTap: () => onSelect(context),
+///       trailing: Icon(isSubmenuItem ? Icons.arrow_right : null),
+///     );
+///   }
 /// }
 /// ```
 ///
@@ -77,23 +86,5 @@ abstract class ContextMenuItem<T> extends ContextMenuEntry {
     } else {
       menuState.showSubmenu(item: this, context: context, items: items!);
     }
-  }
-}
-
-class ContextMenuListTileItem extends ContextMenuItem {
-  final String title;
-  ContextMenuListTileItem({
-    required this.title,
-    super.value,
-    super.onPressed,
-  });
-
-  @override
-  Widget builder(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      onTap: () => onSelect(context),
-      trailing: Icon(isSubmenuItem ? Icons.arrow_right : null),
-    );
   }
 }
