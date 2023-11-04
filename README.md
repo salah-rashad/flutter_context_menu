@@ -1,6 +1,8 @@
 # Flutter Context Menu
 
-The **Context Menu** package provides a flexible and customizable solution for creating and displaying context menus in Flutter applications. It allows you to easily add context menus to your UI, providing users with a convenient way to access additional options and actions specific to the selected item or area.
+The package provides a flexible and customizable solution for creating and displaying context menus in Flutter applications. It allows you to easily add context menus to your UI, providing users with a convenient way to access additional options and actions specific to the selected item or area.
+
+![preview](preview.gif "preview")
 
 ## Features
 
@@ -16,7 +18,10 @@ The **Context Menu** package provides a flexible and customizable solution for c
 
 To use the **Flutter Context Menu** package, simply import it into your Flutter project and start integrating context menus into your UI. With the provided `ContextMenu` widget and abstract classes like `ContextMenuEntry` and `ContextMenuItem`, you can easily create and manage context menus tailored to your application's needs.
 
-Check out the documentation and examples for detailed usage instructions and to explore the available customization options.
+<!-- Check out the documentation and examples for detailed usage instructions and to explore the available customization options. -->
+
+
+> Stay tuned for an example project soon.
 
 ## Feedback and Contributions
 

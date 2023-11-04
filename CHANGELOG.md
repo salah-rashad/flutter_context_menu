@@ -1,3 +1,8 @@
-## 0.1.1
+## 0.1.2
 
-* Changed library file name from "context_menu.dart" to "flutter_context_menu.dart" to match package's name.
+* added example project.
+* added a preview gif to "README" file.
+* added `DefaultContextMenuDivider` in components.
+* added `DefaultContextMenuItem` in components.
+* added `DefaultContextMenuTextHeader` in components.
+* improvements and fixes.

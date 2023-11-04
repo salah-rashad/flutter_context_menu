@@ -1,17 +1,13 @@
 import 'package:flutter/widgets.dart';
 
-import '../entries/context_menu_entry.dart';
-import '../entries/context_menu_item.dart';
-import '../utils/extensions.dart';
-import '../utils/utils.dart';
+import '../core/models/context_menu_entry.dart';
+import '../core/models/context_menu_item.dart';
+import '../core/utils/extensions.dart';
+import '../core/utils/utils.dart';
 import 'context_menu.dart';
 
 class ContextMenuState extends ChangeNotifier {
   final focusScopeNode = FocusScopeNode();
-
-  final ContextMenu _contextMenu;
-  bool isLTR;
-  Offset position;
 
   OverlayEntry? overlay;
   ContextMenuEntry? _focusedEntry;
@@ -19,15 +15,25 @@ class ContextMenuState extends ChangeNotifier {
   bool isPositionVerified = false;
   bool isSubmenuOpen = false;
 
-  ContextMenuState({
-    required ContextMenu contextMenu,
-    this.isLTR = true,
-    Offset? position,
-  })  : _contextMenu = contextMenu,
-        position = position ?? const Offset(0, 0);
+  Offset position;
+  bool isLTR;
+  final bool isSubmenu;
+  final EdgeInsets padding;
+  final BorderRadiusGeometry? borderRadius;
+  final double maxWidth;
+  final Rect? parentItemRect;
+  final VoidCallback? selfClose;
 
-  bool get isSubmenu => _contextMenu.isSubmenu;
-  VoidCallback? get closeMenu => _contextMenu.selfClose;
+  ContextMenuState({
+    required this.position,
+    required this.isSubmenu,
+    required this.isLTR,
+    required this.padding,
+    required this.borderRadius,
+    required this.maxWidth,
+    required this.parentItemRect,
+    required this.selfClose,
+  });
 
   ContextMenuEntry? get focusedEntry => _focusedEntry;
   set focusedEntry(ContextMenuEntry? value) {
@@ -77,6 +83,9 @@ class ContextMenuState extends ChangeNotifier {
           isLTR: isLTR ?? this.isLTR,
           parentItemRect: parentRect,
           selfClose: closeCurrentSubmenu,
+          padding: padding,
+          borderRadius: borderRadius,
+          maxWidth: maxWidth,
         );
       },
     );
@@ -89,7 +98,7 @@ class ContextMenuState extends ChangeNotifier {
     isSubmenuOpen = false;
   }
 
-  void verifyPosition(BuildContext context, bool isSubmenu, Rect? parentRect) {
+  void verifyPosition(BuildContext context) {
     if (isPositionVerified) return;
 
     focusScopeNode.requestFocus();
@@ -97,15 +106,15 @@ class ContextMenuState extends ChangeNotifier {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Offset newPosition = calculateContextMenuPosition(
         context,
-        padding: _contextMenu.padding,
+        padding: padding,
         isSubmenu: isSubmenu,
-        parentRect: parentRect,
-        isLTR: _contextMenu.isLTR,
+        parentRect: parentItemRect,
+        isLTR: isLTR,
       );
 
       isLTR = newPosition.dx >= position.dx;
-
       position = newPosition;
+      
       notifyListeners();
       isPositionVerified = true;
       focusScopeNode.nextFocus();
@@ -119,8 +128,8 @@ class ContextMenuState extends ChangeNotifier {
     double left = parentRect.left + parentRect.width;
     double top = parentRect.top;
 
-    left += _contextMenu.padding.right;
-    top -= _contextMenu.padding.top;
+    left += padding.right;
+    top -= padding.top;
 
     return Offset(left, top);
   }
