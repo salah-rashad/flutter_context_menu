@@ -38,31 +38,40 @@ then, initialize a `ContextMenu`:
 ```dart
 
 final items = <ContextMenuEntry>[
-    DefaultContextMenuItem(
-        label: 'Copy',
+  DefaultContextMenuItem(
+    label: 'Copy',
+    icon: Icons.copy,
+    onSelected: () {
+      // implement copy
+    },
+  ),
+  DefaultContextMenuItem(
+    label: 'Paste',
+    icon: Icons.paste,
+    onSelected: () {
+      // implement paste
+    },
+  ),
+  DefaultContextMenuItem.submenu(
+    label: 'Edit',
+    icon: Icons.edit,
+    items: [
+      DefaultContextMenuItem(
+        label: 'Undo',
+        value: "Undo",
+        icon: Icons.undo,
         onSelected: () {
-            // implement copy
+          // implement undo
         },
-    ),
-    DefaultContextMenuItem(
-        label: 'Paste',
+      ),
+      DefaultContextMenuItem(
+        label: 'Redo',
+        value: 'Redo',
+        icon: Icons.redo,
         onSelected: () {
-            // implement paste
-        }
-    )
-    DefaultContextMenuItem.submenu(label: 'Edit', items: [
-        DefaultContextMenuItem(
-            label: 'Undo',
-            onSelected: () {
-                // implement undo
-            }
-        ),
-        DefaultContextMenuItem(
-            label: 'Redo',
-            onSelected: () {
-                // implement redo
-            }
-        ),
+          // implement redo
+        },
+      ),
     ],
   ),
 ];
@@ -79,6 +88,10 @@ finally, show the context menu:
 showContextMenu(context, contextMenu: myContextMenu);
 // or 
 myContextMenu.show(context);
+
+// or get the selected item's value
+final selectedValue = await myContextMenu.show(context);
+print(selectedValue);
 ```
 
 ## Feedback and Contributions
