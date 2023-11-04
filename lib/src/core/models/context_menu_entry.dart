@@ -2,10 +2,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../widgets/context_menu_state.dart';
+import 'context_menu_item.dart';
 
 /// Represents an entry in a context menu.
 /// 
-/// The [ContextMenuEntry] class is used to define individual items that can be displayed within a context menu.
+/// This class is used to define individual items that can be displayed within a context menu.
+/// 
+/// see:
+/// - [ContextMenuItem]
+/// 
 abstract class ContextMenuEntry {
   const ContextMenuEntry();
 

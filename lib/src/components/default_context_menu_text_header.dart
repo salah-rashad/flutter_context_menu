@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 import '../core/utils/extensions.dart';
 import '../core/models/context_menu_entry.dart';
 import '../widgets/context_menu_state.dart';
+import 'default_context_menu_divider.dart';
+import 'default_context_menu_item.dart';
 
-// generate doc comment explaining this class
-//
 /// Represents a text header in a context menu.
-///
-/// The [DefaultContextMenuTextHeader] class is used to define a text header that can be displayed in a context menu.
-/// It extends the [ContextMenuEntry] class, providing additional functionality for displaying the text header.
-///
-/// The [text] parameter is the text to display in the header.
-///
-/// The [disableUppercase] parameter is a flag that determines whether the text should be displayed in uppercase.
-///
-/// When the [DefaultContextMenuTextHeader] is displayed in a context menu, it will be displayed in a text header format.
+/// 
+/// This class is used to define a header that can be displayed within a context menu.
+/// 
+/// #### Parameters:
+/// - [text] - The text of the header.
+/// - [disableUppercase] - Whether to disable the text in uppercase.
+/// 
+/// see:
+/// - [ContextMenuEntry]
+/// - [DefaultContextMenuDivider]
+/// - [DefaultContextMenuItem]
+/// 
 class DefaultContextMenuTextHeader extends ContextMenuEntry {
   final String text;
   final bool disableUppercase;

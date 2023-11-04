@@ -49,6 +49,7 @@ class ContextMenuState extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Shows the submenu at the specified position.
   void showSubmenu({
     required ContextMenuItem item,
     required BuildContext context,
@@ -91,6 +92,7 @@ class ContextMenuState extends ChangeNotifier {
     );
   }
 
+  /// Closes the current submenu and removes the overlay.
   void closeCurrentSubmenu() {
     overlay?.remove();
     overlay = null;
@@ -98,6 +100,7 @@ class ContextMenuState extends ChangeNotifier {
     isSubmenuOpen = false;
   }
 
+  /// Verifies the position of the context menu and updates it if necessary.
   void verifyPosition(BuildContext context) {
     if (isPositionVerified) return;
 
@@ -114,7 +117,7 @@ class ContextMenuState extends ChangeNotifier {
 
       isLTR = newPosition.dx >= position.dx;
       position = newPosition;
-      
+
       notifyListeners();
       isPositionVerified = true;
       focusScopeNode.nextFocus();

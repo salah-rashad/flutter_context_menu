@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/default_context_menu_divider.dart';
+import '../../components/default_context_menu_item.dart';
+import '../../components/default_context_menu_text_header.dart';
 import '../../widgets/context_menu_state.dart';
 import 'context_menu_entry.dart';
 
@@ -20,9 +23,16 @@ import 'context_menu_entry.dart';
 /// returns the associated [value].
 ///
 /// #### Parameters:
-/// [value] - The value associated with the context menu item.
-///
-/// [items] - The list of subitems associated with the context menu item.
+/// - [value] - The value associated with the context menu item.
+/// - [items] - The list of subitems associated with the context menu item.
+/// - [onSelected] - The callback that is triggered when the context menu item is selected.
+/// 
+/// see:
+/// - [ContextMenuEntry]
+/// - [DefaultContextMenuItem]
+/// - [DefaultContextMenuTextHeader]
+/// - [DefaultContextMenuDivider]
+/// 
 abstract class ContextMenuItem<T> extends ContextMenuEntry {
   final T? value;
   final List<ContextMenuEntry>? items;
@@ -46,13 +56,13 @@ abstract class ContextMenuItem<T> extends ContextMenuEntry {
   /// If the item has subitems, it toggles the submenu's visibility.
   /// Otherwise, it pops the current context menu and returns the [value].
   void handleItemSelection(BuildContext context) {
-    onSelected?.call();
     if (isSubmenuItem) {
       final menuState = context.read<ContextMenuState>();
       _toggleSubmenu(context, menuState);
     } else {
       Navigator.pop(context, value);
     }
+    onSelected?.call();
   }
 
   /// Toggles the visibility of the submenu associated with this menu item.

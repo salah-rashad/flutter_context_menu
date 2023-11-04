@@ -21,7 +21,6 @@ To use the **Flutter Context Menu** package, simply import it into your Flutter 
 <!-- Check out the documentation and examples for detailed usage instructions and to explore the available customization options. -->
 
 
-> Stay tuned for an example project soon.
 
 ## Feedback and Contributions
 

@@ -4,6 +4,9 @@ import 'package:flutter/widgets.dart';
 
 import '../utils/extensions.dart';
 
+/// Calculates the position of the context menu based on the position of the
+/// menu and the position of the parent menu. To prevent the menu from
+/// extending beyond the screen boundaries.
 Offset calculateContextMenuPosition(
   BuildContext context, {
   EdgeInsets padding = const EdgeInsets.all(0.0),
