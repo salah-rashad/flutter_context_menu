@@ -14,7 +14,7 @@ import 'default_context_menu_text_header.dart';
 /// a context menu.
 ///
 /// #### Parameters:
-/// - [title] - The title of the context menu item
+/// - [label] - The title of the context menu item
 /// - [icon] - The icon of the context menu item.
 /// - [constraints] - The height of the context menu item.
 /// - [focusNode] - The focus node of the context menu item.
@@ -32,13 +32,13 @@ import 'default_context_menu_text_header.dart';
 /// - [DefaultContextMenuDivider]
 ///
 class DefaultContextMenuItem<T> extends ContextMenuItem<T> {
-  final String title;
+  final String label;
   final IconData? icon;
   final BoxConstraints? constraints;
   final FocusNode focusNode = FocusNode();
 
   DefaultContextMenuItem({
-    required this.title,
+    required this.label,
     this.icon,
     super.value,
     super.onSelected,
@@ -46,7 +46,7 @@ class DefaultContextMenuItem<T> extends ContextMenuItem<T> {
   });
 
   DefaultContextMenuItem.submenu({
-    required this.title,
+    required this.label,
     required List<ContextMenuEntry> items,
     this.icon,
     super.onSelected,
@@ -107,7 +107,7 @@ class DefaultContextMenuItem<T> extends ContextMenuItem<T> {
                     const SizedBox(width: 4.0),
                     Expanded(
                       child: Text(
-                        title,
+                        label,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

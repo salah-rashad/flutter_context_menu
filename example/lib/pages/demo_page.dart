@@ -35,22 +35,6 @@ class DemoPage extends StatelessWidget {
         // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text("Flutter Context Menu Demo"),
       ),
-      // body: Row(
-      //   children: [
-      //     Expanded(
-      //       child: ContextMenuRegion(
-      //         color: context.colorScheme.inverseSurface,
-      //         text: "ContextMenu",
-      //         contextMenu: ContextMenu(items: items),
-      //       ),
-      //     ),
-      //     Expanded(
-      //       child: ContextMenuRegion(
-      //         color: context.colorScheme.onBackground,
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200.0,

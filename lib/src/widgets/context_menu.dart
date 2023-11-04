@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
+import '../core/utils/helpers.dart';
 import 'context_menu_state.dart';
 
 const double _kMaxContextMenuWidth = 350.0;
@@ -172,6 +173,10 @@ class ContextMenu extends StatefulWidget {
       parentItemRect: parentItemRect ?? this.parentItemRect,
       selfClose: selfClose ?? this.selfClose,
     );
+  }
+
+  Future<T?> show<T>(BuildContext context) {
+    return showContextMenu(context, contextMenu: this);
   }
 }
 

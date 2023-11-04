@@ -16,11 +16,70 @@ The package provides a flexible and customizable solution for creating and displ
 
 ## Getting Started
 
-To use the **Flutter Context Menu** package, simply import it into your Flutter project and start integrating context menus into your UI. With the provided `ContextMenu` widget and abstract classes like `ContextMenuEntry` and `ContextMenuItem`, you can easily create and manage context menus tailored to your application's needs.
+To get started, install the package using the following command:
+```bash
+flutter pub add flutter_context_menu
+```
 
-<!-- Check out the documentation and examples for detailed usage instructions and to explore the available customization options. -->
+or add the following dependency to your `pubspec.yaml` file:
 
+```yaml
+dependencies:
+    flutter_context_menu: ^0.1.2
+```
 
+## Usage
+
+To use the package in your project, simply add the following import statement to your app's `main.dart` file:
+```dart
+import 'package:flutter_context_menu/flutter_context_menu.dart';
+```
+then, initialize a `ContextMenu`:
+```dart
+
+final items = <ContextMenuEntry>[
+    DefaultContextMenuItem(
+        label: 'Copy',
+        onSelected: () {
+            // implement copy
+        },
+    ),
+    DefaultContextMenuItem(
+        label: 'Paste',
+        onSelected: () {
+            // implement paste
+        }
+    )
+    DefaultContextMenuItem.submenu(label: 'Edit', items: [
+        DefaultContextMenuItem(
+            label: 'Undo',
+            onSelected: () {
+                // implement undo
+            }
+        ),
+        DefaultContextMenuItem(
+            label: 'Redo',
+            onSelected: () {
+                // implement redo
+            }
+        ),
+    ],
+  ),
+];
+
+final myContextMenu = ContextMenu(
+  items: items,
+  position: const Offset(300, 300),
+  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+);
+```
+
+finally, show the context menu:
+```dart
+showContextMenu(context, contextMenu: myContextMenu);
+// or 
+myContextMenu.show(context);
+```
 
 ## Feedback and Contributions
 
