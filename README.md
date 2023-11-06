@@ -1,8 +1,39 @@
-# Flutter Context Menu
+<div align="center">
+  <a href="#">
+    <img src="https://user-images.githubusercontent.com/35843293/280504980-55b66c8f-455d-4b72-b7c5-9a021a362f53.png" alt="Logo" width="80" height="80"/>
+  </a>
+  <h1>Flutter Context Menu</h1>
+  <p>
+    A Flutter library that provides a flexible and customizable solution for creating and displaying context menus in your <b>mobile</b>, <b>web</b>, and <b>desktop</b> applications.
+    <br/><br/>
+  </p>
+  <!-- <h3>
+    <a href="https://salah-rashad.github.io/flutter_context_menu_docs" target="_blank" style="color: white">
+      Explore the docs »
+    </a>
+  </h3> -->
+  <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/example" target="_blank">
+    View Example
+  </a>
+   · 
+  <a href="https://github.com/salah-rashad/flutter_context_menu/issues/new?labels=bug&assignees=salah-rashad" target="_blank">
+    Report Bug
+  </a>
+   · 
+  <a href="https://github.com/salah-rashad/flutter_context_menu/issues/new?labels=feature&assignees=salah-rashad" target="_blank">
+    Request Feature
+  </a>
+  <br/><br/>
+  <a href="https://pub.dev/packages/flutter_context_menu" target="_blank">
+    <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart"/> 
+  </a>
+  <a href="https://github.com/salah-rashad/flutter_context_menu/blob/master/LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge"/> 
+  </a>
+  <br/><br/>
+</div>
 
-The package provides a flexible and customizable solution for creating and displaying context menus in Flutter applications. It allows you to easily add context menus to your UI, providing users with a convenient way to access additional options and actions specific to the selected item or area.
-
-![preview](preview.gif "preview")
+![preview](assets/images/preview.gif)
 
 ## Features
 
@@ -30,69 +61,64 @@ dependencies:
 
 ## Usage
 
-To use the package in your project, simply add the following import statement to your app's `main.dart` file:
-```dart
-import 'package:flutter_context_menu/flutter_context_menu.dart';
-```
-then, initialize a `ContextMenu`:
-```dart
-
-final items = <ContextMenuEntry>[
-  DefaultContextMenuItem(
-    label: 'Copy',
-    icon: Icons.copy,
-    onSelected: () {
-      // implement copy
-    },
-  ),
-  DefaultContextMenuItem(
-    label: 'Paste',
-    icon: Icons.paste,
-    onSelected: () {
-      // implement paste
-    },
-  ),
-  DefaultContextMenuItem.submenu(
-    label: 'Edit',
-    icon: Icons.edit,
-    items: [
-      DefaultContextMenuItem(
-        label: 'Undo',
-        value: "Undo",
-        icon: Icons.undo,
-        onSelected: () {
-          // implement undo
-        },
+1. To use the package in your project, simply add the following import statement to your app's `main.dart` file:
+    ```dart
+    import 'package:flutter_context_menu/flutter_context_menu.dart';
+    ```
+2. Create a list of menu entries and pass it to the `ContextMenu` widget:
+    ```dart
+    // Initialize a list of menu entries
+    final entries = <ContextMenuEntry>[
+      const MenuHeader(text: "Menu Header"),
+      MenuItem(
+        label: 'Copy',
+        icon: Icons.copy,
       ),
-      DefaultContextMenuItem(
-        label: 'Redo',
-        value: 'Redo',
-        icon: Icons.redo,
-        onSelected: () {
-          // implement redo
-        },
+      const MenuDivider(),
+      MenuItem.submenu(
+        label: 'Edit',
+        icon: Icons.edit,
+        items: [
+          MenuItem(
+            label: 'Undo',
+            value: "Undo",
+            icon: Icons.undo,
+            onSelected: () {
+              // implement undo
+            },
+          ),
+          MenuItem(
+            label: 'Redo',
+            value: 'Redo',
+            icon: Icons.redo,
+            onSelected: () {
+              // implement redo
+            },
+          ),
+        ],
       ),
-    ],
-  ),
-];
+    ];
+    ```
+    ```dart
+    // Initialize a context menu
+    final myContextMenu = ContextMenu(
+      entries: entries,
+      position: const Offset(300, 300),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+    );
+    ```
 
-final myContextMenu = ContextMenu(
-  items: items,
-  position: const Offset(300, 300),
-  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-);
-```
-
-finally, show the context menu:
-```dart
-showContextMenu(context, contextMenu: myContextMenu);
-// or 
-myContextMenu.show(context);
-
-// or get the selected item's value
-final selectedValue = await myContextMenu.show(context);
-print(selectedValue);
-```
+- finally, show the context menu:
+  ```dart
+  showContextMenu(context, contextMenu: myContextMenu);
+  // or 
+  myContextMenu.show(context);
+  ```
+  ```dart
+  // Retrieve the selected item's value
+  final selectedValue = await myContextMenu.show(context);
+  print(selectedValue);
+  ```
 
 ## Feedback and Contributions
 

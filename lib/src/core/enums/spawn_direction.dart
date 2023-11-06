@@ -1,0 +1,4 @@
+enum SpawnDirection {
+  start,
+  end,
+}

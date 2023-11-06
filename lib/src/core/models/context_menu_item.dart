@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../components/default_context_menu_divider.dart';
-import '../../components/default_context_menu_item.dart';
-import '../../components/default_context_menu_text_header.dart';
+import '../../components/menu_divider.dart';
+import '../../components/menu_item.dart';
+import '../../components/menu_header.dart';
 import '../../widgets/context_menu_state.dart';
 import 'context_menu_entry.dart';
 
@@ -26,14 +26,14 @@ import 'context_menu_entry.dart';
 /// - [value] - The value associated with the context menu item.
 /// - [items] - The list of subitems associated with the context menu item.
 /// - [onSelected] - The callback that is triggered when the context menu item is selected.
-/// 
+///
 /// see:
 /// - [ContextMenuEntry]
-/// - [DefaultContextMenuItem]
-/// - [DefaultContextMenuTextHeader]
-/// - [DefaultContextMenuDivider]
-/// 
-abstract class ContextMenuItem<T> extends ContextMenuEntry {
+/// - [MenuItem]
+/// - [MenuHeader]
+/// - [MenuDivider]
+///
+abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   final T? value;
   final List<ContextMenuEntry>? items;
   final VoidCallback? onSelected;

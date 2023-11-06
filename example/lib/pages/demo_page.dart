@@ -7,19 +7,19 @@ import '../widgets/context_menu_region.dart';
 part 'demo_page_2.dart';
 
 Map<String, ContextMenu> _contextMenus() => {
-      "Default (built-in)": ContextMenu(items: _defaultContextMenuItems),
+      "Default (built-in)": ContextMenu(entries: _defaultContextMenuItems),
       "Custom\n\nmax width: 200\npadding: 0": ContextMenu(
-        items: _customContextMenuItems,
+        entries: _customContextMenuItems,
         maxWidth: 200,
         padding: EdgeInsets.zero,
       ),
       "Custom\n\nmax width: 150\npadding: horizontal(8)": ContextMenu(
-        items: _customContextMenuItems,
+        entries: _customContextMenuItems,
         maxWidth: 150,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
       ),
       "Default\n\nposition (x: 50, y: 30)\npadding: 0": ContextMenu(
-        items: _defaultContextMenuItems,
+        entries: _defaultContextMenuItems,
         padding: EdgeInsets.zero,
         position: const Offset(50, 30),
       )

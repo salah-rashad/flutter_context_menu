@@ -5,8 +5,8 @@ import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
 import '../core/utils/extensions.dart';
 import '../widgets/context_menu_state.dart';
-import 'default_context_menu_divider.dart';
-import 'default_context_menu_text_header.dart';
+import 'menu_divider.dart';
+import 'menu_header.dart';
 
 /// Represents a selectable item in a context menu.
 ///
@@ -28,16 +28,16 @@ import 'default_context_menu_text_header.dart';
 ///
 /// see:
 /// - [ContextMenuEntry]
-/// - [DefaultContextMenuTextHeader]
-/// - [DefaultContextMenuDivider]
+/// - [MenuHeader]
+/// - [MenuDivider]
 ///
-class DefaultContextMenuItem<T> extends ContextMenuItem<T> {
+final class MenuItem<T> extends ContextMenuItem<T> {
   final String label;
   final IconData? icon;
   final BoxConstraints? constraints;
   final FocusNode focusNode = FocusNode();
 
-  DefaultContextMenuItem({
+  MenuItem({
     required this.label,
     this.icon,
     super.value,
@@ -45,7 +45,7 @@ class DefaultContextMenuItem<T> extends ContextMenuItem<T> {
     this.constraints,
   });
 
-  DefaultContextMenuItem.submenu({
+  MenuItem.submenu({
     required this.label,
     required List<ContextMenuEntry> items,
     this.icon,
@@ -162,7 +162,7 @@ class DefaultContextMenuItem<T> extends ContextMenuItem<T> {
   }
 
   void _setAsFocusedItem(ContextMenuState menuState) {
-    menuState.focusedEntry = this;
     menuState.focusScopeNode.requestFocus(focusNode);
+    menuState.focusedEntry = this;
   }
 }

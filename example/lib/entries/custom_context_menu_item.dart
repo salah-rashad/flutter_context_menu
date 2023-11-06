@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
-class CustomContextMenuItem extends ContextMenuItem<String> {
+final class CustomContextMenuItem extends ContextMenuItem<String> {
   final String label;
 
   CustomContextMenuItem({

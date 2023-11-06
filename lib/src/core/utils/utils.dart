@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
+import '../enums/spawn_direction.dart';
 import '../utils/extensions.dart';
 
 /// Calculates the position of the context menu based on the position of the
@@ -12,7 +13,7 @@ Offset calculateContextMenuPosition(
   EdgeInsets padding = const EdgeInsets.all(0.0),
   bool isSubmenu = false,
   Rect? parentRect,
-  bool isLTR = true,
+  SpawnDirection spawnDirection = SpawnDirection.end,
 }) {
   final screenSize = MediaQuery.of(context).size;
   final menuRect = context.getWidgetBounds()!;
@@ -20,7 +21,7 @@ Offset calculateContextMenuPosition(
   bool isWidthExcceed = menuRect.left + menuRect.width > screenSize.width;
   bool isHeightExcceed = menuRect.top + menuRect.height > screenSize.height;
 
-  if (!isLTR && parentRect != null) {
+  if (spawnDirection == SpawnDirection.start && parentRect != null) {
     isWidthExcceed = parentRect.left - menuRect.width > 0.0;
   }
 

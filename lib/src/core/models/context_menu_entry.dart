@@ -5,13 +5,13 @@ import '../../widgets/context_menu_state.dart';
 import 'context_menu_item.dart';
 
 /// Represents an entry in a context menu.
-/// 
+///
 /// This class is used to define individual items that can be displayed within a context menu.
-/// 
+///
 /// see:
 /// - [ContextMenuItem]
-/// 
-abstract class ContextMenuEntry {
+///
+abstract base class ContextMenuEntry {
   const ContextMenuEntry();
 
   /// Builds the widget representation of the context menu entry.

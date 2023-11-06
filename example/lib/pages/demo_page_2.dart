@@ -1,46 +1,46 @@
 part of 'demo_page.dart';
 
 final _defaultContextMenuItems = <ContextMenuEntry>[
-  DefaultContextMenuItem.submenu(
+  MenuItem.submenu(
     label: "New",
     icon: Icons.add_rounded,
     items: [
-      DefaultContextMenuItem(
+      MenuItem(
         label: "Node",
         value: "Node",
       ),
-      DefaultContextMenuItem(
+      MenuItem(
         label: "Item",
         value: "Item",
       ),
-      DefaultContextMenuItem(
+      MenuItem(
         label: "Group",
         value: "Group",
       ),
     ],
   ),
-  DefaultContextMenuItem(
+  MenuItem(
     label: "Open...",
     value: "Open...",
     icon: Icons.file_open_rounded,
   ),
-  DefaultContextMenuItem.submenu(
+  MenuItem.submenu(
     label: "View",
     icon: Icons.view_comfy_alt_rounded,
     items: [
-      const DefaultContextMenuTextHeader(text: "Visibility"),
-      DefaultContextMenuItem(
+      const MenuHeader(text: "Visibility"),
+      MenuItem(
         label: "Comapct",
         value: "Comapct",
         icon: Icons.view_compact_rounded,
       ),
-      DefaultContextMenuItem(
+      MenuItem(
         label: "Comfortable",
         value: "Comfortable",
         icon: Icons.view_comfortable_rounded,
       ),
-      const DefaultContextMenuDivider(),
-      DefaultContextMenuItem(
+      const MenuDivider(),
+      MenuItem(
         label: "Show Mini Map",
         value: "Show Mini Map",
         icon: Icons.screen_search_desktop_rounded,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../core/enums/spawn_direction.dart';
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
 import '../core/utils/helpers.dart';
@@ -59,15 +60,16 @@ class ContextMenu extends StatefulWidget {
   final Offset? position;
 
   /// The list of entries displayed in the context menu.
-  final List<ContextMenuEntry> items;
+  final List<ContextMenuEntry> entries;
 
   /// Whether the context menu is a submenu or not.
   final bool isSubmenu;
 
-  /// Whether the submenu should be displayed from left to right (LTR) or right to left (RTL) direction.
+  /// The direction in which the context menu should be spawned.
+  /// Used internally by the [ContextMenuState]
   ///
-  /// Defaults to `true`.
-  final bool isLTR;
+  /// Defaults to [SpawnDirection.end].
+  final SpawnDirection spawnDirection;
 
   /// The padding around the context menu.
   final EdgeInsets padding;
@@ -84,51 +86,28 @@ class ContextMenu extends StatefulWidget {
   /// Callback function to close the context menu.
   final VoidCallback? selfClose;
 
-  /// Creates a context menu.
-  ///
-  /// - [items] - The list of entries displayed in the context menu.
-  /// - [position] - The position where the context menu will be displayed.
-  /// - [padding] - The padding around the context menu.
-  /// - [borderRadius] - The border radius of the context menu.
-  /// - [maxWidth] - The maximum width of the context menu.
-  ///
-  /// See also:
-  /// - [ContextMenu.submenu]
   const ContextMenu({
     super.key,
-    required this.items,
+    required this.entries,
     this.position,
     this.padding = const EdgeInsets.all(4.0),
     this.borderRadius,
     this.maxWidth = _kMaxContextMenuWidth,
   })  : isSubmenu = false,
-        isLTR = true,
+        spawnDirection = SpawnDirection.end,
         parentItemRect = null,
         selfClose = null;
 
-  /// Creates a context menu that is a submenu of another context menu.
-  ///
-  /// - [items] - The list of entries displayed in the context menu.
-  /// - [selfClose] - Callback function to close the context menu.
-  /// - [parentItemRect] - The rectangle representing the parent item, used for submenu positioning.
-  /// - [position] - The position where the context menu will be displayed.
-  /// - [padding] - The padding around the context menu.
-  /// - [borderRadius] - The border radius of the context menu.
-  /// - [maxWidth] - The maximum width of the context menu.
-  /// - [isLTR] - Whether the submenu should be displayed from left to right (LTR) or right to left (RTL) direction.
-  ///
-  /// See also:
-  /// - [ContextMenu]
   const ContextMenu.submenu({
     super.key,
-    required this.items,
+    required this.entries,
     required this.selfClose,
     required this.parentItemRect,
     this.position,
     this.padding = const EdgeInsets.all(4.0),
     this.borderRadius,
     this.maxWidth = _kMaxContextMenuWidth,
-    this.isLTR = true,
+    this.spawnDirection = SpawnDirection.end,
   }) : isSubmenu = true;
 
   @override
@@ -138,14 +117,14 @@ class ContextMenu extends StatefulWidget {
   ContextMenu copyWith({
     Key? key,
     Offset? position,
-    List<ContextMenuEntry>? items,
+    List<ContextMenuEntry>? entries,
     EdgeInsets? padding,
     double? maxWidth,
   }) {
     return ContextMenu(
       key: key ?? this.key,
       position: position ?? this.position,
-      items: items ?? this.items,
+      entries: entries ?? this.entries,
       padding: padding ?? this.padding,
       maxWidth: maxWidth ?? this.maxWidth,
     );
@@ -155,21 +134,21 @@ class ContextMenu extends StatefulWidget {
   ContextMenu copyWithAsSubmenu({
     Key? key,
     Offset? position,
-    List<ContextMenuEntry>? items,
+    List<ContextMenuEntry>? entries,
     EdgeInsets? padding,
     double? maxWidth,
     bool? isSubmenu,
-    bool? isLTR,
+    SpawnDirection? spawnDirection,
     Rect? parentItemRect,
     VoidCallback? selfClose,
   }) {
     return ContextMenu.submenu(
       key: key ?? this.key,
       position: position ?? this.position,
-      items: items ?? this.items,
+      entries: entries ?? this.entries,
       padding: padding ?? this.padding,
       maxWidth: maxWidth ?? this.maxWidth,
-      isLTR: isLTR ?? this.isLTR,
+      spawnDirection: spawnDirection ?? this.spawnDirection,
       parentItemRect: parentItemRect ?? this.parentItemRect,
       selfClose: selfClose ?? this.selfClose,
     );
@@ -189,7 +168,7 @@ class _ContextMenuState extends State<ContextMenu> {
     _menuState = ContextMenuState(
       position: widget.position ?? const Offset(0, 0),
       isSubmenu: widget.isSubmenu,
-      isLTR: widget.isLTR,
+      spawnDirection: widget.spawnDirection,
       padding: widget.padding,
       borderRadius: widget.borderRadius,
       maxWidth: widget.maxWidth,
@@ -247,7 +226,7 @@ class _ContextMenuState extends State<ContextMenu> {
         child: IntrinsicWidth(
           child: Column(
             children: [
-              for (final item in widget.items) _MenuEntry(entry: item)
+              for (final item in widget.entries) _MenuEntry(entry: item)
             ],
           ),
         ),
