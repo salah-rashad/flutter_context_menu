@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../core/utils/helpers.dart';
-import '../core/models/context_menu_entry.dart';
+import '../utils/helpers.dart';
+import 'context_menu_entry.dart';
 
 /// Represents a context menu data model.
 class ContextMenu {

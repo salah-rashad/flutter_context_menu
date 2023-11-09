@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../widgets/context_menu_state.dart';
 import '../../widgets/context_menu_widget.dart';
-import '../../widgets/context_menu.dart';
+import '../models/context_menu.dart';
 
 /// Shows the root context menu popup.
 Future<T?> showContextMenu<T>(

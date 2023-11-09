@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../core/enums/spawn_direction.dart';
-import 'context_menu.dart';
+import '../core/models/context_menu.dart';
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
 import '../core/utils/extensions.dart';

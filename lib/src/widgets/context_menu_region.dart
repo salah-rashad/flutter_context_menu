@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'context_menu.dart';
+import '../core/models/context_menu.dart';
 import '../core/utils/helpers.dart';
 
 /// A widget that shows a context menu when the user long presses or right clicks on the widget.
