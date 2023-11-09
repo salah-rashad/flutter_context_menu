@@ -28,8 +28,6 @@ screenshots:
 topics:
   - context_menu
   - options_menu
-  - context
-  - menu
-  - menus
-  - editor
   - command
+  - menu
+  - editor
