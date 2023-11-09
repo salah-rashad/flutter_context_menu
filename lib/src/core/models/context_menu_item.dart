@@ -5,6 +5,7 @@ import '../../components/menu_divider.dart';
 import '../../components/menu_header.dart';
 import '../../components/menu_item.dart';
 import '../../widgets/context_menu_state.dart';
+import '../../widgets/menu_entry_widget.dart';
 import 'context_menu_entry.dart';
 
 /// Represents a selectable item in a context menu.
@@ -56,6 +57,11 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   /// - [MenuItem]
   bool get isSubmenuItem => items != null;
 
+  /// Indicates whether the menu item is using the focus node in a child widget.
+  ///
+  /// Used internally by the [MenuEntryWidget]
+  bool get isFocusMaintained => false;
+
   /// Handles the selection of the context menu item.
   ///
   /// If the item has subitems, it toggles the submenu's visibility.
@@ -83,8 +89,8 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   }
 
   @override
-  Widget builder(
-      BuildContext context, ContextMenuState menuState, [FocusNode focusNode]);
+  Widget builder(BuildContext context, ContextMenuState menuState,
+      [FocusNode focusNode]);
 
   @override
   @mustCallSuper

@@ -52,3 +52,19 @@ Offset calculateContextMenuPosition(
 
   return Offset(left, top);
 }
+
+bool hasSameFocusNodeId(String line1, String line2) {
+  RegExp focusNodeRegex = RegExp(r"FocusNode#(\d+)");
+
+  RegExpMatch? match1 = focusNodeRegex.firstMatch(line1);
+  RegExpMatch? match2 = focusNodeRegex.firstMatch(line2);
+
+  if (match1 != null && match2 != null) {
+    String? focusNodeId1 = match1.group(1);
+    String? focusNodeId2 = match2.group(1);
+
+    return focusNodeId1 == focusNodeId2;
+  } else {
+    return false;
+  }
+}

@@ -111,7 +111,7 @@ class ContextMenuWidget extends StatelessWidget {
         child: IntrinsicWidth(
           child: Column(
             children: [
-              for (final item in state.entries) MenuEntry(entry: item)
+              for (final item in state.entries) MenuEntryWidget(entry: item)
             ],
           ),
         ),

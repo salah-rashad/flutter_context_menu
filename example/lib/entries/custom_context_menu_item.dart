@@ -22,8 +22,13 @@ final class CustomContextMenuItem extends ContextMenuItem<String> {
   }) : super.submenu();
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState, [FocusNode? focusNode]) {
+  bool get isFocusMaintained => true;
+
+  @override
+  Widget builder(BuildContext context, ContextMenuState menuState,
+      [FocusNode? focusNode]) {
     return ListTile(
+      focusNode: focusNode, // important for highlighting item on focus
       title: SizedBox(width: double.maxFinite, child: Text(label)),
       subtitle: subtitle != null ? Text(subtitle!) : null,
       onTap: () => handleItemSelection(context),

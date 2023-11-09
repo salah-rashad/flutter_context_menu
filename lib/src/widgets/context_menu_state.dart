@@ -70,6 +70,7 @@ class ContextMenuState extends ChangeNotifier {
   EdgeInsets get padding => menu.padding;
   Clip get clipBehavior => menu.clipBehavior;
   BoxDecoration? get boxDecoration => menu.boxDecoration;
+  Map<ShortcutActivator, VoidCallback> get shortcuts => menu.shortcuts;
 
   ContextMenuEntry? get focusedEntry => _focusedEntry;
   ContextMenuItem? get selectedItem => _selectedItem;

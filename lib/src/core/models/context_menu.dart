@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../utils/default_menu_shortcuts.dart';
 import '../utils/helpers.dart';
 import 'context_menu_entry.dart';
 
@@ -33,15 +34,24 @@ class ContextMenu {
   /// The decoration of the context menu.
   BoxDecoration? boxDecoration;
 
+  /// A map of shortcuts to be bound to the context menu and the nested context menus.
+  ///
+  /// Note: This overides the default shortcuts in [defaultMenuShortcuts] if any of the keys match.
+  Map<ShortcutActivator, VoidCallback> shortcuts;
+
   ContextMenu({
     required this.entries,
     this.position,
-    this.padding = const EdgeInsets.all(4.0),
+    EdgeInsets? padding,
     this.borderRadius,
-    this.maxWidth = 350.0,
-    this.clipBehavior = Clip.antiAlias,
+    double? maxWidth,
+    Clip? clipBehavior,
     this.boxDecoration,
-  });
+    Map<ShortcutActivator, VoidCallback>? shortcuts,
+  })  : padding = padding ?? const EdgeInsets.all(4.0),
+        maxWidth = maxWidth ?? 350.0,
+        clipBehavior = clipBehavior ?? Clip.antiAlias,
+        shortcuts = shortcuts ?? const {};
 
   /// A shortcut method to show the context menu.
   ///

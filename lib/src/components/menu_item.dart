@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
@@ -68,103 +67,52 @@ final class MenuItem<T> extends ContextMenuItem<T> {
 
     // ~~~~~~~~~~ //
 
-    return CallbackShortcuts(
-      bindings: _keybindings(context, menuState),
-      child: Focus(
-        focusNode: focusNode,
-        onFocusChange: (value) {
-          if (value) {
-            _setAsFocusedItem(menuState, focusNode);
-          }
-        },
-        child: ConstrainedBox(
-          constraints: constraints ?? const BoxConstraints.expand(height: 32.0),
-          child: Material(
-            color:
-                isFocused ? context.theme.focusColor.withAlpha(20) : background,
-            borderRadius: BorderRadius.circular(4.0),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () => handleItemSelection(context),
-              canRequestFocus: false,
-              onHover: (value) {
-                if (value) {
-                  _setAsFocusedItem(menuState, focusNode);
-                }
-              },
-              child: DefaultTextStyle(
-                style: textStyle,
-                child: Row(
-                  children: [
-                    SizedBox.square(
-                      dimension: 32.0,
-                      child: Icon(
-                        icon,
-                        size: 16.0,
-                        color: foregroundColor,
-                      ),
-                    ),
-                    const SizedBox(width: 4.0),
-                    Expanded(
-                      child: Text(
-                        label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    SizedBox.square(
-                      dimension: 32.0,
-                      child: Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Icon(
-                          isSubmenuItem ? Icons.arrow_right : null,
-                          size: 16.0,
-                          color: foregroundColor,
-                        ),
-                      ),
-                    )
-                  ],
+    return ConstrainedBox(
+      constraints: constraints ?? const BoxConstraints.expand(height: 32.0),
+      child: Material(
+        color: isFocused ? context.theme.focusColor.withAlpha(20) : background,
+        borderRadius: BorderRadius.circular(4.0),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => handleItemSelection(context),
+          canRequestFocus: false,
+          child: DefaultTextStyle(
+            style: textStyle,
+            child: Row(
+              children: [
+                SizedBox.square(
+                  dimension: 32.0,
+                  child: Icon(
+                    icon,
+                    size: 16.0,
+                    color: foregroundColor,
+                  ),
                 ),
-              ),
+                const SizedBox(width: 4.0),
+                Expanded(
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8.0),
+                SizedBox.square(
+                  dimension: 32.0,
+                  child: Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Icon(
+                      isSubmenuItem ? Icons.arrow_right : null,
+                      size: 16.0,
+                      color: foregroundColor,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  Map<ShortcutActivator, VoidCallback> _keybindings(
-    BuildContext context,
-    ContextMenuState menuState,
-  ) {
-    return {
-      const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-        final bool isSubmenuOpen = menuState.isSubmenuOpen;
-        final focusedItemIsNotTheSelectedItem =
-            menuState.focusedEntry != menuState.selectedItem;
-        if (isSubmenuItem &&
-            !isSubmenuOpen &&
-            focusedItemIsNotTheSelectedItem) {
-          handleItemSelection(context);
-        }
-      },
-      const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-        if (menuState.isSubmenu) {
-          menuState.selfClose?.call();
-        }
-      },
-      const SingleActivator(LogicalKeyboardKey.space): () =>
-          handleItemSelection(context),
-      const SingleActivator(LogicalKeyboardKey.enter): () =>
-          handleItemSelection(context),
-      const SingleActivator(LogicalKeyboardKey.numpadEnter): () =>
-          handleItemSelection(context),
-    };
-  }
-
-  void _setAsFocusedItem(ContextMenuState menuState, FocusNode? focusNode) {
-    menuState.focusScopeNode.requestFocus(focusNode);
-    menuState.setFocusedEntry(this);
   }
 }
