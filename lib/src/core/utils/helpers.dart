@@ -1,8 +1,10 @@
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/context_menu_state.dart';
+import '../../widgets/context_menu_widget.dart';
 import '../../widgets/context_menu.dart';
 
-/// Shows a context menu popup.
+/// Shows the root context menu popup.
 Future<T?> showContextMenu<T>(
   BuildContext context, {
   required ContextMenu contextMenu,
@@ -17,12 +19,13 @@ Future<T?> showContextMenu<T>(
   bool allowSnapshotting = true,
   bool maintainState = false,
 }) async {
+  final menuState = ContextMenuState(menu: contextMenu);
   return await Navigator.push<T>(
     context,
     PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
-          children: [contextMenu],
+          children: [ContextMenuWidget(menuState: menuState)],
         );
       },
       settings: routeSettings ?? const RouteSettings(name: "context-menu"),

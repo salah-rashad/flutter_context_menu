@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/menu_divider.dart';
-import '../../components/menu_item.dart';
 import '../../components/menu_header.dart';
+import '../../components/menu_item.dart';
 import '../../widgets/context_menu_state.dart';
 import 'context_menu_entry.dart';
 
@@ -49,6 +49,11 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   }) : value = null;
 
   /// Indicates whether the menu item has subitems.
+  ///
+  /// Can be used to determine whether the item is a submenu.
+  ///
+  /// see:
+  /// - [MenuItem]
   bool get isSubmenuItem => items != null;
 
   /// Handles the selection of the context menu item.
@@ -56,10 +61,12 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   /// If the item has subitems, it toggles the submenu's visibility.
   /// Otherwise, it pops the current context menu and returns the [value].
   void handleItemSelection(BuildContext context) {
+    final menuState = context.read<ContextMenuState>();
+
     if (isSubmenuItem) {
-      final menuState = context.read<ContextMenuState>();
       _toggleSubmenu(context, menuState);
     } else {
+      menuState.setSelectedItem(this);
       Navigator.pop(context, value);
     }
     onSelected?.call();
@@ -68,10 +75,18 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   /// Toggles the visibility of the submenu associated with this menu item.
   void _toggleSubmenu(BuildContext context, ContextMenuState menuState) {
     if (menuState.isSubmenuOpen &&
-        menuState.focusedEntry == menuState.openedEntry) {
-      menuState.closeCurrentSubmenu();
+        menuState.focusedEntry == menuState.selectedItem) {
+      menuState.closeSubmenu();
     } else {
-      menuState.showSubmenu(item: this, context: context, items: items!);
+      menuState.showSubmenu(context: context, parent: this);
     }
   }
+
+  @override
+  Widget builder(
+      BuildContext context, ContextMenuState menuState, [FocusNode focusNode]);
+
+  @override
+  @mustCallSuper
+  List<Object?> get props => [value, items, onSelected];
 }

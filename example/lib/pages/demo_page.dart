@@ -1,25 +1,30 @@
-import 'package:example/entries/custom_context_menu_item.dart';
+import 'package:example/pages/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
-import '../widgets/context_menu_region.dart';
-
-part 'demo_page_2.dart';
-
 Map<String, ContextMenu> _contextMenus() => {
-      "Default (built-in)": ContextMenu(entries: _defaultContextMenuItems),
+      "Default (built-in)": ContextMenu(entries: defaultContextMenuItems),
       "Custom\n\nmax width: 200\npadding: 0": ContextMenu(
-        entries: _customContextMenuItems,
+        entries: customContextMenuItems,
         maxWidth: 200,
         padding: EdgeInsets.zero,
       ),
-      "Custom\n\nmax width: 150\npadding: horizontal(8)": ContextMenu(
-        entries: _customContextMenuItems,
-        maxWidth: 150,
+      "Custom with box decoration\n\npadding: horizontal(8)": ContextMenu(
+        entries: customContextMenuItems,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        boxDecoration: BoxDecoration(
+          color: Colors.blue.shade900,
+          borderRadius: BorderRadius.zero,
+          boxShadow: const [
+            BoxShadow(
+              offset: Offset(5, 5),
+              blurRadius: 0.5,
+            )
+          ],
+        ),
       ),
       "Default\n\nposition (x: 50, y: 30)\npadding: 0": ContextMenu(
-        entries: _defaultContextMenuItems,
+        entries: defaultContextMenuItems,
         padding: EdgeInsets.zero,
         position: const Offset(50, 30),
       )
@@ -36,21 +41,21 @@ class DemoPage extends StatelessWidget {
         title: const Text("Flutter Context Menu Demo"),
       ),
       body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200.0,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 16 / 9,
         ),
         itemCount: 4,
         itemBuilder: (context, index) {
           final colorScheme = Theme.of(context).colorScheme;
-          final color = index % 2 == 0
-              ? colorScheme.inverseSurface
-              : colorScheme.onBackground;
+          final color = Colors.primaries[index % Colors.primaries.length];
 
           final entry = _contextMenus().entries.toList()[index];
           return ContextMenuRegion(
-            color: color,
             contextMenu: entry.value,
-            child: Padding(
+            onItemSelected: (value) => handleItemSelection(context, value),
+            child: Container(
+              color: color,
               padding: const EdgeInsets.all(8.0),
               child: Center(
                 child: Text(
@@ -62,6 +67,14 @@ class DemoPage extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  void handleItemSelection(BuildContext context, dynamic value) {
+    if (value == null) return;
+    ScaffoldMessenger.maybeOf(context)?.clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("[ $value ] Selected")),
     );
   }
 }

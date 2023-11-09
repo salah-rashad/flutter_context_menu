@@ -35,9 +35,8 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   final String label;
   final IconData? icon;
   final BoxConstraints? constraints;
-  final FocusNode focusNode = FocusNode();
 
-  MenuItem({
+  const MenuItem({
     required this.label,
     this.icon,
     super.value,
@@ -45,7 +44,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     this.constraints,
   });
 
-  MenuItem.submenu({
+  const MenuItem.submenu({
     required this.label,
     required List<ContextMenuEntry> items,
     this.icon,
@@ -54,7 +53,8 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   }) : super.submenu(items: items);
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState) {
+  Widget builder(BuildContext context, ContextMenuState menuState,
+      [FocusNode? focusNode]) {
     bool isFocused = menuState.focusedEntry == this;
 
     final background = context.colorScheme.surface;
@@ -74,7 +74,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
         focusNode: focusNode,
         onFocusChange: (value) {
           if (value) {
-            _setAsFocusedItem(menuState);
+            _setAsFocusedItem(menuState, focusNode);
           }
         },
         child: ConstrainedBox(
@@ -89,7 +89,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
               canRequestFocus: false,
               onHover: (value) {
                 if (value) {
-                  _setAsFocusedItem(menuState);
+                  _setAsFocusedItem(menuState, focusNode);
                 }
               },
               child: DefaultTextStyle(
@@ -141,9 +141,11 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     return {
       const SingleActivator(LogicalKeyboardKey.arrowRight): () {
         final bool isSubmenuOpen = menuState.isSubmenuOpen;
-        final focusedItemIsNotTheOpenedItem =
-            menuState.focusedEntry != menuState.openedEntry;
-        if (isSubmenuItem && !isSubmenuOpen && focusedItemIsNotTheOpenedItem) {
+        final focusedItemIsNotTheSelectedItem =
+            menuState.focusedEntry != menuState.selectedItem;
+        if (isSubmenuItem &&
+            !isSubmenuOpen &&
+            focusedItemIsNotTheSelectedItem) {
           handleItemSelection(context);
         }
       },
@@ -161,8 +163,8 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     };
   }
 
-  void _setAsFocusedItem(ContextMenuState menuState) {
+  void _setAsFocusedItem(ContextMenuState menuState, FocusNode? focusNode) {
     menuState.focusScopeNode.requestFocus(focusNode);
-    menuState.focusedEntry = this;
+    menuState.setFocusedEntry(this);
   }
 }

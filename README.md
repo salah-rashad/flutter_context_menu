@@ -4,14 +4,11 @@
   </a>
   <h1>Flutter Context Menu</h1>
   <p>
-    A Flutter library that provides a flexible and customizable solution for creating and displaying context menus in your <b>mobile</b>, <b>web</b>, and <b>desktop</b> applications.
-    <br/><br/>
+    A Flutter library that provides a flexible and customizable solution for creating and displaying context menus in Flutter applications. It allows you to easily add context menus to your UI, providing users with a convenient way to access additional options and actions specific to the selected item or area.
+    <br/>
   </p>
-  <!-- <h3>
-    <a href="https://salah-rashad.github.io/flutter_context_menu_docs" target="_blank" style="color: white">
-      Explore the docs »
-    </a>
-  </h3> -->
+  <p>
+  </p>
   <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/example" target="_blank">
     View Example
   </a>
@@ -20,59 +17,90 @@
     Report Bug
   </a>
    · 
-  <a href="https://github.com/salah-rashad/flutter_context_menu/issues/new?labels=feature&assignees=salah-rashad" target="_blank">
+  <a href="https://github.com/salah-rashad/flutter_context_menu/issues/new?labels=enhancement&assignees=salah-rashad" target="_blank">
     Request Feature
   </a>
   <br/><br/>
+
+
   <a href="https://pub.dev/packages/flutter_context_menu" target="_blank">
     <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart"/> 
   </a>
-  <a href="https://github.com/salah-rashad/flutter_context_menu/blob/master/LICENSE" target="_blank">
+  <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE" target="_blank">
     <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge"/> 
+  </a>
+  <a href="https://github.com/salah-rashad/flutter_context_menu/stargazers" target="_blank">
+    <img src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge"/>
   </a>
   <br/><br/>
 </div>
 
-![preview](assets/images/preview.gif)
+![Preview](assets/images/preview.gif)
 
 ## Features
 
-- **`ContextMenu` Widget**: The package includes a highly customizable context menu widget that can be easily integrated into your Flutter application. It provides a seamless and intuitive user experience, enhancing the usability of your app.
-
+- **`ContextMenu`**: The package includes a highly customizable context menu system that can be easily integrated into your Flutter application. It provides a seamless and intuitive user experience, enhancing the usability of your app.
 - **Hierarchical Structure**: The context menu supports a hierarchical structure with submenu functionality. This enables you to create nested menus, providing a clear and organized representation of options and suboptions.
-
-- **Customization Options**: Customize the appearance and behavior of the context menu to match your app's design and requirements. Modify the style, positioning, animation, and interaction of the menu to create a cohesive user interface.
-
 - **Selection Handling**: The package includes built-in selection handling for context menu items. It allows you to define callback functions for individual menu items, enabling you to execute specific actions or logic when an item is selected.
+- **Customization Options**: Customize the appearance and behavior of the context menu to match your app's design and requirements. Modify the style, positioning, animation, and interaction of the menu to create a cohesive user interface.
+  
+- **Built-in Components**: The package includes built-in components, such as `MenuItem`, `MenuDivider`, and `MenuHeader`, that can be used in your context menu.
+
+- **Cross Platform Support**: The package is compatible with multiple platforms, including Android, iOS, Web, and Desktop.
 
 ## Getting Started
 
-To get started, install the package using the following command:
-```bash
-flutter pub add flutter_context_menu
-```
+### Installation
 
-or add the following dependency to your `pubspec.yaml` file:
+- #### Method 1 (Recommended):
 
-```yaml
-dependencies:
-    flutter_context_menu: ^0.1.2
-```
+  run this command in your terminal:
+
+  ```bash
+  flutter pub add flutter_context_menu
+  ```
+
+- #### Method 2:
+
+  add this line to your `pubspec.yaml` dependencies:
+
+  ```yaml
+  dependencies:
+      flutter_context_menu: ^0.1.3
+  ```
+
+  then, run this command in your terminal:
+
+  ```bash
+  flutter pub get
+  ```
 
 ## Usage
 
-1. To use the package in your project, simply add the following import statement to your app's `main.dart` file:
+1. First, import the package:
     ```dart
     import 'package:flutter_context_menu/flutter_context_menu.dart';
     ```
-2. Create a list of menu entries and pass it to the `ContextMenu` widget:
+    
+2. Then, initialize a `ContextMenu` instance:
+    
     ```dart
-    // Initialize a list of menu entries
+    // define your context menu entries
     final entries = <ContextMenuEntry>[
-      const MenuHeader(text: "Menu Header"),
+      const MenuHeader(text: "Context Menu"),
       MenuItem(
         label: 'Copy',
         icon: Icons.copy,
+        onSelected: () {
+          // implement copy
+        },
+      ),
+      MenuItem(
+        label: 'Paste',
+        icon: Icons.paste,
+        onSelected: () {
+          // implement paste
+        },
       ),
       const MenuDivider(),
       MenuItem.submenu(
@@ -98,28 +126,75 @@ dependencies:
         ],
       ),
     ];
-    ```
-    ```dart
-    // Initialize a context menu
-    final myContextMenu = ContextMenu(
+
+    // initialize a context menu
+    final contextMenu = ContextMenu(
       entries: entries,
       position: const Offset(300, 300),
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.all(8.0),
     );
     ```
 
-- finally, show the context menu:
-  ```dart
-  showContextMenu(context, contextMenu: myContextMenu);
-  // or 
-  myContextMenu.show(context);
-  ```
-  ```dart
-  // Retrieve the selected item's value
-  final selectedValue = await myContextMenu.show(context);
-  print(selectedValue);
-  ```
+3. Finally, to show the context menu, there are two ways:
+    - **Method 1**: Directly calling one of the show methods. 
+      > This will show the context menu at the manually specified position.
+      ```dart
+      showContextMenu(context, contextMenu: myContextMenu);
+      // or 
+      final selectedValue = await myContextMenu.show(context);
+      ```
+
+    - **Method 2**: Using the `ContextMenuRegion` widget to show the context menu when the user right-clicks or long-presses the region area.
+      > This will show the context menu where the user clicks when the `position` property is not specified in the `ContextMenu` constructor.
+      ```dart
+      ...
+
+      @override
+      Widget build(BuildContext context) {
+        return Column(
+          children: [
+            ContextMenuRegion(
+              contextMenu: contextMenu,
+              onItemSelected: (value) {
+                print(value);
+              },
+              child: Container(
+                color: Colors.indigo,
+                height: 300,
+                width: 300,
+                child: const Center(
+                  child: Text(
+                    'Right click or long press!',
+                  ),
+                ),
+              ),
+            )
+          ],
+        );
+      }
+      ```
+    
+## Customization
+
+> **Theme**: By default, the context menu and its items uses the `MaterialApp`'s theme data for styling. However, you can customize the appearance and behavior of the context menu by modifying the theme data. Or individually by specifying a `BoxDecoration` in the `boxDecoration` property of the `ContextMenu`.
+
+> **Custom Entries**: You can create your own context menu entries by subclassing the `ContextMenuEntry` class. This allows you to customize the appearance, behavior, and functionality of the context menu items.
+
+## Learn More
+
+- More info: Full documentation will be provided, inshallah 🙏
+- See: [Full Example](https://github.com/salah-rashad/flutter_context_menu/tree/main/example)
 
 ## Feedback and Contributions
 
-We welcome feedback, bug reports, and contributions from the Flutter community. Help us improve the package by providing suggestions, reporting issues, or submitting pull requests on [GitHub](https://github.com/salah-rashad/flutter_context_menu).
+If you have any suggestions or feedback, please [open an issue](https://github.com/salah-rashad/flutter_context_menu/issues/new) or [create a pull request](https://github.com/salah-rashad/flutter_context_menu/pulls). 
+
+If you like this package, please [star](https://github.com/salah-rashad/flutter_context_menu) it and follow me on [Twitter](https://twitter.com/SalahRAhmed) and [GitHub](https://github.com/salah-rashad).
+
+## License
+
+This project is licensed under the [BSD 3-Clause License](https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE).
+
+--------------------
+Made with ❤️ in Egypt 🇪🇬 by <a href="https://github.com/salah-rashad" target="_blank">Salah Rashad</a>
+ #FreePalestine 🇵🇸

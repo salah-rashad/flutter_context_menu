@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../core/models/context_menu_entry.dart';
 import '../widgets/context_menu_state.dart';
-import 'menu_item.dart';
 import 'menu_header.dart';
+import 'menu_item.dart';
 
 /// Represents a divider in a context menu.
 ///
@@ -49,4 +49,7 @@ final class MenuDivider extends ContextMenuEntry {
       color: color,
     );
   }
+
+  @override
+  List<Object?> get props => [height, thickness, indent, endIndent, color];
 }

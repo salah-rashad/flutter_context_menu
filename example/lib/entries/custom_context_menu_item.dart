@@ -3,25 +3,39 @@ import 'package:flutter_context_menu/flutter_context_menu.dart';
 
 final class CustomContextMenuItem extends ContextMenuItem<String> {
   final String label;
+  final String? subtitle;
+  final IconData? icon;
 
-  CustomContextMenuItem({
+  const CustomContextMenuItem({
     required this.label,
     super.value,
     super.onSelected,
+    this.subtitle,
+    this.icon,
   });
 
-  CustomContextMenuItem.submenu({
+  const CustomContextMenuItem.submenu({
     required this.label,
     required super.items,
+    this.subtitle,
+    this.icon,
   }) : super.submenu();
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState) {
+  Widget builder(BuildContext context, ContextMenuState menuState, [FocusNode? focusNode]) {
     return ListTile(
-      title: Text(label),
+      title: SizedBox(width: double.maxFinite, child: Text(label)),
+      subtitle: subtitle != null ? Text(subtitle!) : null,
       onTap: () => handleItemSelection(context),
       trailing: Icon(isSubmenuItem ? Icons.arrow_right : null),
+      leading: Icon(icon),
       dense: false,
+      selected: menuState.isOpened(this),
+      selectedColor: Colors.white,
+      selectedTileColor: Colors.blue,
     );
   }
+
+  @override
+  List<Object?> get props => [...super.props, label, subtitle, icon];
 }

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,18 +12,21 @@ import 'context_menu_item.dart';
 /// see:
 /// - [ContextMenuItem]
 ///
-abstract base class ContextMenuEntry {
+abstract base class ContextMenuEntry extends Equatable {
   const ContextMenuEntry();
 
   /// Builds the widget representation of the context menu entry.
+  ///
+  /// - [context] - The context of the widget.
+  /// - [menuState] - The state of the current context menu.
   Widget builder(BuildContext context, ContextMenuState menuState);
 
   /// Called when the mouse pointer enters the area of the context menu entry.
-  void onMouseEnter(PointerEnterEvent event) {}
+  void onMouseEnter(PointerEnterEvent event, ContextMenuState menuState) {}
 
   /// Called when the mouse pointer exits the area of the context menu entry.
-  void onMouseExit(PointerExitEvent event) {}
+  void onMouseExit(PointerExitEvent event, ContextMenuState menuState) {}
 
   /// Called when the mouse pointer hovers over the context menu entry.
-  void onMouseHover(PointerHoverEvent event) {}
+  void onMouseHover(PointerHoverEvent event, ContextMenuState menuState) {}
 }

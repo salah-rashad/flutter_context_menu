@@ -43,4 +43,7 @@ final class MenuHeader extends ContextMenuEntry {
       ),
     );
   }
+
+  @override
+  List<Object?> get props => [text, disableUppercase];
 }

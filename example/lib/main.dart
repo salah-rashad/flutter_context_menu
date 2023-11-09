@@ -14,20 +14,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Context Menu Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData.dark(useMaterial3: true),
       home: const DemoPage(),
     );
   }
 }
 
 final entries = <ContextMenuEntry>[
-  const MenuHeader(text: "Menu Header"),
+  const MenuHeader(text: "Context Menu"),
   MenuItem(
     label: 'Copy',
     icon: Icons.copy,
+    onSelected: () {
+      // implement copy
+    },
+  ),
+  MenuItem(
+    label: 'Paste',
+    icon: Icons.paste,
+    onSelected: () {
+      // implement paste
+    },
   ),
   const MenuDivider(),
   MenuItem.submenu(
@@ -54,8 +61,32 @@ final entries = <ContextMenuEntry>[
   ),
 ];
 
-final myContextMenu = ContextMenu(
+final contextMenu = ContextMenu(
   entries: entries,
   position: const Offset(300, 300),
-  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+  padding: const EdgeInsets.all(8.0),
 );
+
+@override
+Widget build(BuildContext context) {
+  return Column(
+    children: [
+      ContextMenuRegion(
+        contextMenu: contextMenu,
+        onItemSelected: (value) {
+          print(value);
+        },
+        child: Container(
+          color: Colors.indigo,
+          height: 300,
+          width: 300,
+          child: const Center(
+            child: Text(
+              'Right click or long press!',
+            ),
+          ),
+        ),
+      )
+    ],
+  );
+}
