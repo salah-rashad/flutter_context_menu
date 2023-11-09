@@ -26,8 +26,8 @@ screenshots:
     path: assets/images/preview.gif
 
 topics:
-  - context_menu
-  - options_menu
+  - context-menu
+  - options-menu
   - command
   - menu
   - editor
