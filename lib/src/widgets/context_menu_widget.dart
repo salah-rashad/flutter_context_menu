@@ -7,7 +7,7 @@ import 'menu_entry_widget.dart';
 /// Widget that displays the context menu.
 ///
 /// This widget is used internally.
-/// 
+///
 /// see:
 /// - [ContextMenuState]
 

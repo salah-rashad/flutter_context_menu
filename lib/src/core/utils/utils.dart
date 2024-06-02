@@ -101,7 +101,7 @@ import '../utils/extensions.dart';
     }
   }
 
-  return (pos:Offset(x, y), alignment: nextSpawnAlignment);
+  return (pos: Offset(x, y), alignment: nextSpawnAlignment);
 }
 
 bool hasSameFocusNodeId(String line1, String line2) {
