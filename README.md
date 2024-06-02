@@ -5,9 +5,6 @@
   <h1>Flutter Context Menu</h1>
   <p>
     A Flutter library that provides a flexible and customizable solution for creating and displaying context menus in Flutter applications. It allows you to easily add context menus to your UI, providing users with a convenient way to access additional options and actions specific to the selected item or area.
-    <br/>
-  </p>
-  <p>
   </p>
   <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/example" target="_blank">
     View Example
@@ -27,15 +24,31 @@
     <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart"/> 
   </a>
   <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge"/> 
+    <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge&color=purple"/> 
   </a>
   <a href="https://github.com/salah-rashad/flutter_context_menu/stargazers" target="_blank">
-    <img src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge&label=GitHub Stars&color=gold"/>
+  </a>
+
+  <br/>
+
+  <a href="https://pub.dev/packages/flutter_context_menu/score" target="_blank">
+    <img src="https://img.shields.io/pub/likes/flutter_context_menu.svg?style=for-the-badge&color=1e7b34&label=likes&labelColor=black"/>
+    <img src="https://img.shields.io/pub/points/flutter_context_menu?style=for-the-badge&color=0056b3&label=Points&labelColor=black"/>
+    <img src="https://img.shields.io/pub/popularity/flutter_context_menu.svg?style=for-the-badge&color=c05600&label=Popularity&labelColor=black"/>
+  </a>
+  <br/>
+  <a href="https://thebsd.github.io/StandWithPalestine/" target="_blank">
+    <img src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/StandWithPalestine.svg"/>
   </a>
   <br/><br/>
+  
 </div>
 
-![Preview](assets/images/preview.gif)
+<div align="center">
+  <img src="assets/images/preview.gif" alt="Preview"/>
+</div>
+
 
 ## Features
 
@@ -66,7 +79,7 @@
 
   ```yaml
   dependencies:
-      flutter_context_menu: ^0.1.3
+      flutter_context_menu: ^0.2.0
   ```
 
   then, run this command in your terminal:
@@ -128,7 +141,7 @@
     ];
 
     // initialize a context menu
-    final contextMenu = ContextMenu(
+    final menu = ContextMenu(
       entries: entries,
       position: const Offset(300, 300),
       padding: const EdgeInsets.all(8.0),
@@ -139,9 +152,10 @@
     - **Method 1**: Directly calling one of the show methods. 
       > This will show the context menu at the manually specified position.
       ```dart
-      showContextMenu(context, contextMenu: myContextMenu);
+      showContextMenu(context, contextMenu: menu);
       // or 
-      final selectedValue = await myContextMenu.show(context);
+      final selectedValue = await menu.show(context);
+      print(selectedValue);
       ```
 
     - **Method 2**: Using the `ContextMenuRegion` widget to show the context menu when the user right-clicks or long-presses the region area.
@@ -189,12 +203,17 @@
 
 If you have any suggestions or feedback, please [open an issue](https://github.com/salah-rashad/flutter_context_menu/issues/new) or [create a pull request](https://github.com/salah-rashad/flutter_context_menu/pulls). 
 
-If you like this package, please [star](https://github.com/salah-rashad/flutter_context_menu) it and follow me on [Twitter](https://twitter.com/SalahRAhmed) and [GitHub](https://github.com/salah-rashad).
+If you like this package, please [star](https://github.com/salah-rashad/flutter_context_menu) it and follow me on [X](https://x.com/SalahRAhmed) and [GitHub](https://github.com/salah-rashad).
 
 ## License
 
 This project is licensed under the [BSD 3-Clause License](https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE).
 
---------------------
-Made with ❤️ in Egypt 🇪🇬 by <a href="https://github.com/salah-rashad" target="_blank">Salah Rashad</a>
- #FreePalestine 🇵🇸
+
+<br/><br/>
+
+<div align="center"> 
+  Made with ❤️ in Egypt 🇪🇬
+  <br/>
+  <h3 align="center"> 🇵🇸 Stand With Palestine 🇵🇸 </h3>
+</div>
