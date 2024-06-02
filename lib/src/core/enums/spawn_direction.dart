@@ -1,4 +1,6 @@
-enum SpawnDirection {
-  start,
-  end,
-}
+// enum SpawnAlignment {
+//   topStart,
+//   topEnd,
+//   bottomStart,
+//   bottomEnd,
+// }

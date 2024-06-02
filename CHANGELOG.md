@@ -1,8 +1,7 @@
-## 0.1.3
+## 0.2.0
 
-* updated example project.
-* added `ContextMenuRegion` widget to show a context menu when a user right-clicks or long-presses on a widget.
-* improvements and fixes.
-* Globally applied focus node highlighting and keyboard shortcuts for menu items.
-* Added `shortcuts` property in the `ContextMenu` class for custom context menu shortcuts.
-* updated `README.md`.
+* Removed `provider` and `equatable` dependency as they are no longer needed.
+* Updated the package's dependencies to the latest versions.
+* Removed unnecessary platform specific folders.
+* The package is now fully dependent on InheritedWidget for state management.
+* Replaced the old `Overlay` widget with the new `OverlayPortal` widget.

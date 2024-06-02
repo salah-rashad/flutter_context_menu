@@ -5,23 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_context_menu",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_context_menu (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "flutter_context_menu (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
             "name": "example",
             "cwd": "example",
             "request": "launch",

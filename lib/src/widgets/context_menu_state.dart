@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-import '../core/enums/spawn_direction.dart';
 import '../core/models/context_menu.dart';
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
 import '../core/utils/extensions.dart';
 import '../core/utils/utils.dart';
+import 'context_menu_provider.dart';
 import 'context_menu_widget.dart';
 
 /// Manages the state of the context menu.
@@ -15,8 +15,7 @@ import 'context_menu_widget.dart';
 class ContextMenuState extends ChangeNotifier {
   final focusScopeNode = FocusScopeNode();
 
-  /// The overlay entry of the context menu.
-  OverlayEntry? _overlay;
+  final overlayController = OverlayPortalController(debugLabel: 'ContextMenu');
 
   /// The entry that is currently focused in the context menu.
   ContextMenuEntry? _focusedEntry;
@@ -27,14 +26,14 @@ class ContextMenuState extends ChangeNotifier {
   /// Whether the position of the context menu has been verified.
   bool _isPositionVerified = false;
 
-  /// Whether the context menu is a submenu or not.
-  bool _isSubmenuOpen = false;
+  // /// Whether the context menu is a submenu or not.
+  // bool _isSubmenuOpen = false;
 
   /// The direction in which the context menu should be spawned.
   /// Used internally by the [ContextMenuState]
   ///
-  /// Defaults to [SpawnDirection.end].
-  SpawnDirection _spawnDirection = SpawnDirection.end;
+  /// Defaults to [SpawnAlignment.topEnd].
+  AlignmentGeometry _spawnAlignment = AlignmentDirectional.topEnd;
 
   /// The rectangle representing the parent item, used for submenu positioning.
   final Rect? _parentItemRect;
@@ -45,6 +44,7 @@ class ContextMenuState extends ChangeNotifier {
   final ContextMenu menu;
   final ContextMenuItem? parentItem;
   final VoidCallback? selfClose;
+  WidgetBuilder submenuBuilder = (context) => const SizedBox.shrink();
 
   ContextMenuState({
     required this.menu,
@@ -57,9 +57,9 @@ class ContextMenuState extends ChangeNotifier {
     required this.menu,
     required this.selfClose,
     this.parentItem,
-    SpawnDirection? spawnDirection,
+    AlignmentGeometry? spawnAlignmen,
     Rect? parentItemRect,
-  })  : _spawnDirection = spawnDirection ?? SpawnDirection.end,
+  })  : _spawnAlignment = spawnAlignmen ?? AlignmentDirectional.topEnd,
         _parentItemRect = parentItemRect,
         _isSubmenu = true;
 
@@ -75,10 +75,21 @@ class ContextMenuState extends ChangeNotifier {
   ContextMenuEntry? get focusedEntry => _focusedEntry;
   ContextMenuItem? get selectedItem => _selectedItem;
   bool get isPositionVerified => _isPositionVerified;
-  bool get isSubmenuOpen => _isSubmenuOpen;
-  SpawnDirection get spawnDirection => _spawnDirection;
+  bool get isSubmenuOpen => overlayController.isShowing;
+  AlignmentGeometry get spawnAlignment => _spawnAlignment;
   Rect? get parentItemRect => _parentItemRect;
   bool get isSubmenu => _isSubmenu;
+
+  static ContextMenuState of(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider>()!
+            as ContextMenuProvider?;
+
+    if (provider == null) {
+      throw 'No ContextMenuProvider found in context';
+    }
+    return provider.notifier!;
+  }
 
   void setFocusedEntry(ContextMenuEntry? value) {
     if (value == _focusedEntry) return;
@@ -92,6 +103,11 @@ class ContextMenuState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSpawnAlignment(AlignmentGeometry value) {
+    _spawnAlignment = value;
+    notifyListeners();
+  }
+
   /// Determines whether the entry is focused.
   bool isFocused(ContextMenuEntry entry) => entry == focusedEntry;
 
@@ -100,7 +116,7 @@ class ContextMenuState extends ChangeNotifier {
 
   Offset _calculateSubmenuPosition(
     Rect parentRect,
-    SpawnDirection? spawnDirection,
+    AlignmentGeometry? spawnAlignmen,
   ) {
     double left = parentRect.left + parentRect.width;
     double top = parentRect.top;
@@ -109,31 +125,6 @@ class ContextMenuState extends ChangeNotifier {
     top -= menu.padding.top;
 
     return Offset(left, top);
-  }
-
-  OverlayEntry _createSubmenuOverlay(
-    List<ContextMenuEntry> entries,
-    Offset submenuPosition,
-    Rect? submenuParentRect,
-    ContextMenuItem subMenuParent,
-  ) {
-    return OverlayEntry(
-      builder: (context) {
-        final subMenuState = ContextMenuState.submenu(
-          menu: menu.copyWith(
-            entries: entries,
-            position: submenuPosition,
-          ),
-          spawnDirection: spawnDirection,
-          parentItemRect: submenuParentRect,
-          selfClose: closeSubmenu,
-          parentItem: subMenuParent,
-        );
-        return ContextMenuWidget(
-          menuState: subMenuState,
-        );
-      },
-    );
   }
 
   /// Shows the submenu at the specified position.
@@ -148,16 +139,24 @@ class ContextMenuState extends ChangeNotifier {
     if (submenuParentRect == null) return;
 
     final submenuPosition =
-        _calculateSubmenuPosition(submenuParentRect, spawnDirection);
+        _calculateSubmenuPosition(submenuParentRect, spawnAlignment);
 
-    _overlay = _createSubmenuOverlay(
-      items!,
-      submenuPosition,
-      submenuParentRect,
-      parent,
-    );
-    Overlay.of(context).insert(_overlay!);
-    _isSubmenuOpen = true;
+    submenuBuilder = (BuildContext context) {
+      final subMenuState = ContextMenuState.submenu(
+        menu: menu.copyWith(
+          entries: items,
+          position: submenuPosition,
+        ),
+        spawnAlignmen: spawnAlignment,
+        parentItemRect: submenuParentRect,
+        selfClose: closeSubmenu,
+        parentItem: parent,
+      );
+
+      return ContextMenuWidget(menuState: subMenuState);
+    };
+
+    overlayController.show();
     setSelectedItem(parent);
   }
 
@@ -168,12 +167,16 @@ class ContextMenuState extends ChangeNotifier {
     focusScopeNode.requestFocus();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Offset newPosition = calculateContextMenuPosition(context, this);
+      final boundaries = calculateContextMenuBoundaries(
+        context,
+        menu,
+        parentItemRect,
+        _spawnAlignment,
+        _isSubmenu,
+      );
 
-      _spawnDirection = newPosition.dx >= position.dx
-          ? SpawnDirection.end
-          : SpawnDirection.start;
-      menu.position = newPosition;
+      menu.position = boundaries.pos;
+      _spawnAlignment = boundaries.alignment;
 
       notifyListeners();
       _isPositionVerified = true;
@@ -183,11 +186,9 @@ class ContextMenuState extends ChangeNotifier {
 
   /// Closes the current submenu and removes the overlay.
   void closeSubmenu() {
-    if (!_isSubmenuOpen) return;
+    if (!isSubmenuOpen) return;
     _selectedItem = null;
-    _isSubmenuOpen = false;
-    _overlay?.remove();
-    _overlay = null;
+    overlayController.hide();
     notifyListeners();
   }
 

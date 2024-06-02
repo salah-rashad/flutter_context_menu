@@ -2,55 +2,106 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
-import '../../widgets/context_menu_state.dart';
-import '../enums/spawn_direction.dart';
+import '../models/context_menu.dart';
 import '../utils/extensions.dart';
 
 /// Calculates the position of the context menu based on the position of the
 /// menu and the position of the parent menu. To prevent the menu from
 /// extending beyond the screen boundaries.
-Offset calculateContextMenuPosition(
+({Offset pos, AlignmentGeometry alignment}) calculateContextMenuBoundaries(
   BuildContext context,
-  ContextMenuState menu,
+  ContextMenu menu,
+  Rect? parentRect,
+  AlignmentGeometry spawnAlignment,
+  bool isSubmenu,
 ) {
   final screenSize = MediaQuery.of(context).size;
+  final safeScreenRect = (Offset.zero & screenSize).deflate(8.0);
   final menuRect = context.getWidgetBounds()!;
+  AlignmentGeometry nextSpawnAlignment = spawnAlignment;
 
-  bool isWidthExcceed = menuRect.left + menuRect.width > screenSize.width;
-  bool isHeightExcceed = menuRect.top + menuRect.height > screenSize.height;
+  // final parentRect = menu.parentItemRect;
 
-  final parentRect = menu.parentItemRect;
-  // final relativeTo = menu.relativeTo;
+  double x = menuRect.left;
+  double y = menuRect.top;
 
-  if (menu.spawnDirection == SpawnDirection.start && parentRect != null) {
-    isWidthExcceed = parentRect.left - menuRect.width > 0.0;
+  bool isWidthExceed() => x + menuRect.width > screenSize.width || x < 0;
+
+  bool isHeightExceed() => y + menuRect.height > screenSize.height || y < 0;
+
+  Rect currentRect() => Offset(x, y) & menuRect.size;
+
+  if (isWidthExceed()) {
+    if (isSubmenu && parentRect != null) {
+      final toRightSide = parentRect.right + menu.padding.left;
+      final toLeftSide = parentRect.left - menuRect.width - menu.padding.right;
+      final maxRight = safeScreenRect.right - menuRect.width;
+      final maxLeft = safeScreenRect.left;
+
+      if (spawnAlignment == AlignmentDirectional.topEnd) {
+        if (currentRect().right > safeScreenRect.right) {
+          x = min(toRightSide, safeScreenRect.right);
+          nextSpawnAlignment = AlignmentDirectional.topStart;
+          if (isWidthExceed()) {
+            x = toLeftSide;
+            nextSpawnAlignment = AlignmentDirectional.topEnd;
+            if (isWidthExceed()) {
+              x = min(toRightSide, maxRight);
+              nextSpawnAlignment = AlignmentDirectional.topStart;
+            }
+          }
+        } else {
+          x = min(toRightSide, safeScreenRect.right);
+          nextSpawnAlignment = AlignmentDirectional.topEnd;
+          if (isWidthExceed()) {
+            x = toLeftSide;
+            nextSpawnAlignment = AlignmentDirectional.topStart;
+            if (isWidthExceed()) {
+              x = min(toRightSide, maxRight);
+              nextSpawnAlignment = AlignmentDirectional.topEnd;
+            }
+          }
+        }
+      } else {
+        if (currentRect().left < safeScreenRect.left) {
+          x = toRightSide;
+          nextSpawnAlignment = AlignmentDirectional.topEnd;
+          if (isWidthExceed()) {
+            x = toLeftSide;
+            nextSpawnAlignment = AlignmentDirectional.topStart;
+            if (isWidthExceed()) {
+              x = min(toRightSide, maxRight);
+              nextSpawnAlignment = AlignmentDirectional.topEnd;
+            }
+          }
+        } else {
+          x = toLeftSide;
+          nextSpawnAlignment = AlignmentDirectional.topEnd;
+          if (isWidthExceed()) {
+            x = toRightSide;
+            nextSpawnAlignment = AlignmentDirectional.topStart;
+            if (isWidthExceed()) {
+              x = max(toLeftSide, maxLeft);
+              nextSpawnAlignment = AlignmentDirectional.topEnd;
+            }
+          }
+        }
+      }
+    } else if (!isSubmenu) {
+      x = max(safeScreenRect.left, menuRect.left - menuRect.width);
+    }
   }
 
-  double left = menuRect.left;
-  double top = menuRect.top;
-
-  if ((isWidthExcceed || isHeightExcceed)) {
-    if (isWidthExcceed) {
-      if (menu.isSubmenu && parentRect != null) {
-        left = max(
-          0.0,
-          parentRect.left - menuRect.width - menu.padding.right,
-        );
-      } else if (!menu.isSubmenu) {
-        left = max(0, menuRect.left - menuRect.width);
-      }
-    }
-
-    if (isHeightExcceed) {
-      if (menu.isSubmenu && parentRect != null) {
-        top = max(0.0, screenSize.height - menuRect.height);
-      } else if (!menu.isSubmenu) {
-        top = max(0.0, menuRect.top - menuRect.height);
-      }
+  if (isHeightExceed()) {
+    if (isSubmenu && parentRect != null) {
+      y = max(safeScreenRect.top,
+          safeScreenRect.bottom - menuRect.height - menu.padding.top);
+    } else if (!isSubmenu) {
+      y = max(safeScreenRect.top, menuRect.top - menuRect.height);
     }
   }
 
-  return Offset(left, top);
+  return (pos:Offset(x, y), alignment: nextSpawnAlignment);
 }
 
 bool hasSameFocusNodeId(String line1, String line2) {
@@ -67,4 +118,11 @@ bool hasSameFocusNodeId(String line1, String line2) {
   } else {
     return false;
   }
+}
+
+Rect getScreenRect(BuildContext context) {
+  final size = MediaQueryData.fromView(
+          WidgetsBinding.instance.platformDispatcher.views.first)
+      .size;
+  return Offset.zero & size;
 }

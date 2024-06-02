@@ -43,11 +43,41 @@ const defaultContextMenuItems = <ContextMenuEntry>[
         icon: Icons.view_comfortable_rounded,
       ),
       MenuDivider(),
-      MenuItem(
-        label: "Show Mini Map",
-        value: "Show Mini Map",
-        icon: Icons.screen_search_desktop_rounded,
-      ),
+      MenuItem.submenu(
+          label: "Show Mini Map",
+          icon: Icons.screen_search_desktop_rounded,
+          items: [
+            MenuItem(
+              label: "Show",
+              value: "Show",
+            ),
+            MenuItem(
+              label: "Hide",
+              value: "Hide",
+            ),
+            MenuItem.submenu(label: "Position", items: [
+              MenuItem(
+                label: "Left",
+                value: "Left",
+              ),
+              MenuItem(
+                label: "Right",
+                value: "Right",
+              ),
+              MenuItem(
+                label: "Top",
+                value: "Top",
+              ),
+              MenuItem(
+                label: "Bottom",
+                value: "Bottom",
+              ),
+              MenuItem(
+                label: "Center",
+                value: "Center",
+              ),
+            ]),
+          ]),
     ],
   ),
 ];
@@ -109,12 +139,30 @@ const customContextMenuItems = <ContextMenuEntry>[
             subtitle: "Orange",
             icon: Icons.star_rounded,
           ),
-          CustomContextMenuItem(
-            label: "Potato",
-            value: "Potato",
-            subtitle: "Brown",
-            icon: Icons.star_rounded,
-          ),
+          CustomContextMenuItem.submenu(
+              label: "Potato",
+              subtitle: "Brown",
+              icon: Icons.star_rounded,
+              items: [
+                CustomContextMenuItem(
+                  label: "Sweet",
+                  value: "Sweet",
+                  subtitle: "Sweet",
+                  icon: Icons.star_rounded,
+                ),
+                CustomContextMenuItem(
+                  label: "Sour",
+                  value: "Sour",
+                  subtitle: "Sour",
+                  icon: Icons.star_rounded,
+                ),
+                CustomContextMenuItem(
+                  label: "Salty",
+                  value: "Salty",
+                  subtitle: "Salty",
+                  icon: Icons.star_rounded,
+                ),
+              ]),
           CustomContextMenuItem(
             label: "Cucumber",
             value: "Cucumber",

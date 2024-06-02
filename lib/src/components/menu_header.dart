@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../core/models/context_menu_entry.dart';
-import '../core/utils/extensions.dart';
 import '../widgets/context_menu_state.dart';
 import 'menu_divider.dart';
 import 'menu_item.dart';
@@ -36,14 +35,11 @@ final class MenuHeader extends ContextMenuEntry {
         alignment: AlignmentDirectional.centerStart,
         child: Text(
           disableUppercase ? text : text.toUpperCase(),
-          style: context.textTheme.labelMedium?.copyWith(
-            color: context.theme.disabledColor.withOpacity(0.3),
+          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+            color: Theme.of(context).disabledColor.withOpacity(0.3),
           ),
         ),
       ),
     );
   }
-
-  @override
-  List<Object?> get props => [text, disableUppercase];
 }

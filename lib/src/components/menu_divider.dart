@@ -49,7 +49,4 @@ final class MenuDivider extends ContextMenuEntry {
       color: color,
     );
   }
-
-  @override
-  List<Object?> get props => [height, thickness, indent, endIndent, color];
 }

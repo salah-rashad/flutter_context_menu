@@ -3,7 +3,7 @@ description: Create and display a customizable context menus in your app.
 homepage: https://github.com/salah-rashad/flutter_context_menu
 repository: https://github.com/salah-rashad/flutter_context_menu
 issue_tracker: https://github.com/salah-rashad/flutter_context_menu/issues
-version: 0.1.3
+version: 0.2.0
     
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -13,13 +13,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  provider: ^6.0.5
-  equatable: ^2.0.5
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
 
 screenshots:
   - description: context menu preview

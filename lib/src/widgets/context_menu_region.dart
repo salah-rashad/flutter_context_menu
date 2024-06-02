@@ -7,7 +7,7 @@ import '../core/utils/helpers.dart';
 class ContextMenuRegion extends StatelessWidget {
   final ContextMenu contextMenu;
   final Widget child;
-  final void Function(dynamic value)? onItemSelected;
+  final ValueChanged<dynamic>? onItemSelected;
 
   const ContextMenuRegion({
     super.key,

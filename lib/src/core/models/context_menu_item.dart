@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../components/menu_divider.dart';
-import '../../components/menu_header.dart';
-import '../../components/menu_item.dart';
 import '../../widgets/context_menu_state.dart';
 import '../../widgets/menu_entry_widget.dart';
 import 'context_menu_entry.dart';
@@ -67,13 +63,15 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   /// If the item has subitems, it toggles the submenu's visibility.
   /// Otherwise, it pops the current context menu and returns the [value].
   void handleItemSelection(BuildContext context) {
-    final menuState = context.read<ContextMenuState>();
+    final menuState = ContextMenuState.of(context);
 
     if (isSubmenuItem) {
       _toggleSubmenu(context, menuState);
     } else {
       menuState.setSelectedItem(this);
-      Navigator.pop(context, value);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context, value);
+      }
     }
     onSelected?.call();
   }
@@ -91,8 +89,4 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   @override
   Widget builder(BuildContext context, ContextMenuState menuState,
       [FocusNode focusNode]);
-
-  @override
-  @mustCallSuper
-  List<Object?> get props => [value, items, onSelected];
 }

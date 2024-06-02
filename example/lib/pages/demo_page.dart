@@ -53,7 +53,7 @@ class DemoPage extends StatelessWidget {
           final entry = _contextMenus().entries.toList()[index];
           return ContextMenuRegion(
             contextMenu: entry.value,
-            onItemSelected: (value) => handleItemSelection(context, value),
+            onItemSelected: (value) => onItemSelected(context, value),
             child: Container(
               color: color,
               padding: const EdgeInsets.all(8.0),
@@ -70,7 +70,7 @@ class DemoPage extends StatelessWidget {
     );
   }
 
-  void handleItemSelection(BuildContext context, dynamic value) {
+  void onItemSelected(BuildContext context, dynamic value) {
     if (value == null) return;
     ScaffoldMessenger.maybeOf(context)?.clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(

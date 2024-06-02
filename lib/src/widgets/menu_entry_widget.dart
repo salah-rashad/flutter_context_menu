@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
@@ -32,7 +31,7 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final menuState = context.read<ContextMenuState>();
+    final menuState = ContextMenuState.of(context);
 
     return MouseRegion(
       onEnter: (event) => _onMouseEnter(context, event, menuState),
@@ -42,10 +41,12 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
         builder: (_) {
           if (entry is ContextMenuItem) {
             final item = entry as ContextMenuItem;
-            final shortcuts = defaultMenuShortcuts(context, item, menuState);
-            shortcuts.addAll(menuState.shortcuts);
+
             return CallbackShortcuts(
-              bindings: shortcuts,
+              bindings: {
+                ...defaultMenuShortcuts(context, item, menuState),
+                ...menuState.shortcuts,
+              },
               child: Focus(
                 focusNode: item.isFocusMaintained ? null : focusNode,
                 onFocusChange: (value) {
