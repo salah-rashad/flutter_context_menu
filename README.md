@@ -45,10 +45,7 @@
   
 </div>
 
-<div align="center">
-  <img src="assets/images/preview.gif" alt="Preview"/>
-</div>
-
+![Preview](assets/images/preview.gif)
 
 ## Features
 
