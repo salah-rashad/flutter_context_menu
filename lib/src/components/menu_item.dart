@@ -24,6 +24,7 @@ import 'menu_header.dart';
 ///   submenu. If not, it pops the current context menu and returns the
 ///   associated value.
 /// - [constraints] - The constraints of the context menu item.
+/// - [color] - The text an icon foreground color
 ///
 /// see:
 /// - [ContextMenuEntry]
@@ -34,6 +35,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   final String label;
   final IconData? icon;
   final BoxConstraints? constraints;
+  final Color? color;
 
   const MenuItem({
     required this.label,
@@ -41,6 +43,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     super.value,
     super.onSelected,
     this.constraints,
+    this.color,
   });
 
   const MenuItem.submenu({
@@ -49,6 +52,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     this.icon,
     super.onSelected,
     this.constraints,
+    this.color,
   }) : super.submenu(items: items);
 
   @override
@@ -58,10 +62,10 @@ final class MenuItem<T> extends ContextMenuItem<T> {
 
     final background = context.colorScheme.surface;
     final normalTextColor = Color.alphaBlend(
-      context.colorScheme.onSurface.withOpacity(0.7),
+      (color ?? context.colorScheme.onSurface).withValues(alpha: 0.7),
       background,
     );
-    final focusedTextColor = context.colorScheme.onSurface;
+    final focusedTextColor = color ?? context.colorScheme.onSurface;
     final foregroundColor = isFocused ? focusedTextColor : normalTextColor;
     final textStyle = TextStyle(color: foregroundColor, height: 1.0);
 
