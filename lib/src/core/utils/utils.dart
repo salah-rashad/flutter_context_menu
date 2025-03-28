@@ -104,6 +104,19 @@ import '../utils/extensions.dart';
   return (pos: Offset(x, y), alignment: nextSpawnAlignment);
 }
 
+Offset calculateSubmenuPosition(
+  Rect parentRect,
+  EdgeInsets menuPadding,
+) {
+  double left = parentRect.left + parentRect.width;
+  double top = parentRect.top;
+
+  left += menuPadding.right;
+  top -= menuPadding.top;
+
+  return Offset(left, top);
+}
+
 bool hasSameFocusNodeId(String line1, String line2) {
   RegExp focusNodeRegex = RegExp(r"FocusNode#(\d+)");
 

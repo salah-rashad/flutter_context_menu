@@ -17,7 +17,7 @@ Map<String, ContextMenu> _contextMenus() => {
           borderRadius: BorderRadius.zero,
           boxShadow: const [
             BoxShadow(
-              offset: Offset(5, 5),
+              offset: Offset(-5, 5),
               blurRadius: 0.5,
             )
           ],
@@ -47,8 +47,13 @@ class DemoPage extends StatelessWidget {
         ),
         itemCount: 4,
         itemBuilder: (context, index) {
-          final colorScheme = Theme.of(context).colorScheme;
-          final color = Colors.primaries[index % Colors.primaries.length];
+          final colors = [
+            const Color(0xFF17202a),
+            const Color(0xFF1c2833),
+            const Color(0xFF212f3d),
+            const Color(0xFF273746),
+          ];
+          final color = colors[index % colors.length];
 
           final entry = _contextMenus().entries.toList()[index];
           return ContextMenuRegion(
@@ -60,9 +65,10 @@ class DemoPage extends StatelessWidget {
               child: Center(
                 child: Text(
                   entry.key,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: colorScheme.onSurface,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),

@@ -40,9 +40,6 @@ class ContextMenuState extends ChangeNotifier {
   /// The rectangle representing the parent item, used for submenu positioning.
   final Rect? _parentItemRect;
 
-  /// The key of the parent menu. Used internally.
-  final GlobalKey? _parentMenuKey;
-
   /// Whether the context menu is a submenu or not.
   final bool _isSubmenu;
 
@@ -55,7 +52,6 @@ class ContextMenuState extends ChangeNotifier {
     required this.menu,
     this.parentItem,
   })  : _parentItemRect = null,
-        _parentMenuKey = null,
         _isSubmenu = false,
         selfClose = null;
 
@@ -68,7 +64,6 @@ class ContextMenuState extends ChangeNotifier {
     GlobalKey? parentMenuKey,
   })  : _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topEnd,
         _parentItemRect = parentItemRect,
-        _parentMenuKey = parentMenuKey,
         _isSubmenu = true;
 
   List<ContextMenuEntry> get entries => menu.entries;
@@ -103,13 +98,19 @@ class ContextMenuState extends ChangeNotifier {
 
   static ContextMenuState of(BuildContext context) {
     final provider =
-        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider>()!
-            as ContextMenuProvider?;
+        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider>();
 
     if (provider == null) {
       throw 'No ContextMenuProvider found in context';
     }
     return provider.notifier!;
+  }
+
+  static ContextMenuState? maybeOf(BuildContext context) {
+    final provider =
+        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider>();
+
+    return provider?.notifier;
   }
 
   void setFocusedEntry(ContextMenuEntry? value) {
@@ -135,19 +136,6 @@ class ContextMenuState extends ChangeNotifier {
   /// Determines whether the entry is opened as a submenu.
   bool isOpened(ContextMenuItem item) => item == selectedItem;
 
-  Offset _calculateSubmenuPosition(
-    Rect parentRect,
-    AlignmentGeometry? spawnAnchor,
-  ) {
-    double left = parentRect.left + parentRect.width;
-    double top = parentRect.top;
-
-    left += menu.padding.right;
-    top -= menu.padding.top;
-
-    return Offset(left, top);
-  }
-
   /// Shows the submenu at the specified position.
   void showSubmenu({
     required BuildContext context,
@@ -160,7 +148,7 @@ class ContextMenuState extends ChangeNotifier {
     if (submenuParentRect == null) return;
 
     final submenuPosition =
-        _calculateSubmenuPosition(submenuParentRect, spawnAnchor);
+        calculateSubmenuPosition(submenuParentRect, menu.padding);
 
     submenuBuilder = (BuildContext context) {
       final subMenuState = ContextMenuState.submenu(
@@ -179,6 +167,14 @@ class ContextMenuState extends ChangeNotifier {
 
     overlayController.show();
     setSelectedItem(parent);
+  }
+
+  /// Closes the current submenu and removes the overlay.
+  void closeSubmenu() {
+    if (!isSubmenuOpen) return;
+    _selectedItem = null;
+    overlayController.hide();
+    notifyListeners();
   }
 
   /// Verifies the position of the context menu and updates it if necessary.
@@ -203,14 +199,6 @@ class ContextMenuState extends ChangeNotifier {
       _isPositionVerified = true;
       focusScopeNode.nextFocus();
     });
-  }
-
-  /// Closes the current submenu and removes the overlay.
-  void closeSubmenu() {
-    if (!isSubmenuOpen) return;
-    _selectedItem = null;
-    overlayController.hide();
-    notifyListeners();
   }
 
   /// Closes the context menu and removes the overlay.

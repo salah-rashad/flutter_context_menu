@@ -76,7 +76,7 @@
 
   ```yaml
   dependencies:
-      flutter_context_menu: ^0.2.0
+      flutter_context_menu:
   ```
 
   then, run this command in your terminal:

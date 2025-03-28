@@ -13,7 +13,7 @@ class ContextMenu {
   /// The entries of the context menu.
   List<ContextMenuEntry> entries;
 
-  /// The padding of the context menu.
+  /// The padding around the entries   of the context menu.
   ///
   /// Defaults to [EdgeInsets.all(4.0)]
   EdgeInsets padding;

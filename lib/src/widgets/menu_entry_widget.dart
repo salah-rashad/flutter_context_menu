@@ -43,10 +43,8 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
             final item = entry as ContextMenuItem;
 
             return CallbackShortcuts(
-              bindings: {
-                ...defaultMenuShortcuts(context, item, menuState),
-                ...menuState.shortcuts,
-              },
+              bindings: defaultMenuShortcuts(context, item, menuState)
+                ..addAll(menuState.shortcuts),
               child: Focus(
                 canRequestFocus: item.enabled,
                 focusNode: item.isFocusMaintained ? null : focusNode,

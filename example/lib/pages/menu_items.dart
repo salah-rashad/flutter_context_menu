@@ -7,6 +7,7 @@ const defaultContextMenuItems = <ContextMenuEntry>[
   MenuItem.submenu(
     label: "New",
     icon: Icons.add_rounded,
+    color: Colors.green,
     items: [
       MenuItem(
         label: "Node",
@@ -53,6 +54,7 @@ const defaultContextMenuItems = <ContextMenuEntry>[
               value: "Show",
             ),
             MenuItem(
+              enabled: false,
               label: "Hide",
               value: "Hide",
             ),
