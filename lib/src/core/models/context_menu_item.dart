@@ -30,7 +30,7 @@ import 'context_menu_entry.dart';
 /// - [MenuHeader]
 /// - [MenuDivider]
 ///
-abstract base class ContextMenuItem<T> extends ContextMenuEntry {
+abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   final T? value;
   final List<ContextMenuEntry>? items;
   final VoidCallback? onSelected;
@@ -59,7 +59,9 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   /// Indicates whether the menu item is using the focus node in a child widget.
   ///
   /// Used internally by the [MenuEntryWidget]
-  bool get isFocusMaintained => false;
+  ///
+  /// This is helpful when user want to manually handle focus in the [builder].
+  bool get autoHandleFocus => true;
 
   /// Handles the selection of the context menu item.
   ///

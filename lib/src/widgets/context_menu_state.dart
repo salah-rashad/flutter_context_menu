@@ -181,8 +181,6 @@ class ContextMenuState extends ChangeNotifier {
   void verifyPosition(BuildContext context) {
     if (isPositionVerified) return;
 
-    focusScopeNode.requestFocus();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final boundaries = calculateContextMenuBoundaries(
         context,
@@ -197,7 +195,7 @@ class ContextMenuState extends ChangeNotifier {
 
       notifyListeners();
       _isPositionVerified = true;
-      focusScopeNode.nextFocus();
+      focusScopeNode.requestFocus();
     });
   }
 

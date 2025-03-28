@@ -93,7 +93,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: !enabled ? null : () => handleItemSelection(context),
-          canRequestFocus: enabled,
+          canRequestFocus: false,
           child: DefaultTextStyle(
             style: textStyle,
             child: Row(

@@ -106,6 +106,14 @@
         },
       ),
       MenuItem(
+        enabled: false, // disable this item
+        label: 'Cut',
+        icon: Icons.cut,
+        onSelected: () {
+          // implement cut
+        },
+      ),
+      MenuItem(
         label: 'Paste',
         icon: Icons.paste,
         onSelected: () {

@@ -3,14 +3,14 @@ import 'package:flutter/widgets.dart';
 
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
-import '../core/utils/default_menu_shortcuts.dart';
+import '../core/utils/shortcuts/menu_item_shortcuts.dart';
 import 'context_menu_state.dart';
 
 /// A widget that represents a single item in a context menu.
 ///
 /// This widget is used internally by the `ContextMenu` contextMenu.
 class MenuEntryWidget<T> extends StatefulWidget {
-  final ContextMenuEntry entry;
+  final ContextMenuEntry<T> entry;
   const MenuEntryWidget({super.key, required this.entry});
 
   @override
@@ -25,8 +25,13 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
   @override
   void initState() {
     focusNode = FocusNode();
-
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,11 +48,10 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
             final item = entry as ContextMenuItem;
 
             return CallbackShortcuts(
-              bindings: defaultMenuShortcuts(context, item, menuState)
-                ..addAll(menuState.shortcuts),
+              bindings: defaultMenuItemShortcuts(context, item, menuState),
               child: Focus(
-                canRequestFocus: item.enabled,
-                focusNode: item.isFocusMaintained ? null : focusNode,
+                canRequestFocus: item.enabled ? item.autoHandleFocus : false,
+                focusNode: item.autoHandleFocus ? focusNode : null,
                 onFocusChange: (value) {
                   if (value) {
                     _ensureFocused(item, menuState, focusNode);

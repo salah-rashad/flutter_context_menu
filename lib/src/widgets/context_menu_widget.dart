@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/utils/shortcuts/menu_shortcuts.dart';
 import 'context_menu_provider.dart';
 import 'context_menu_state.dart';
 import 'menu_entry_widget.dart';
@@ -34,12 +35,16 @@ class ContextMenuWidget extends StatelessWidget {
             child: OverlayPortal(
               controller: state.overlayController,
               overlayChildBuilder: state.submenuBuilder,
-              child: FocusScope(
-                autofocus: true,
-                node: state.focusScopeNode,
-                child: Opacity(
-                  opacity: state.isPositionVerified ? 1.0 : 0.0,
-                  child: _buildMenuView(context, state),
+              child: CallbackShortcuts(
+                bindings: defaultMenuShortcuts(context, state)
+                  ..addAll(state.shortcuts),
+                child: FocusScope(
+                  autofocus: true,
+                  node: state.focusScopeNode,
+                  child: Opacity(
+                    opacity: state.isPositionVerified ? 1.0 : 0.0,
+                    child: _buildMenuView(context, state),
+                  ),
                 ),
               ),
             ),

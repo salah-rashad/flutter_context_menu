@@ -21,7 +21,7 @@ import 'menu_item.dart';
 /// - [MenuHeader]
 /// - [MenuItem]
 ///
-final class MenuDivider extends ContextMenuEntry {
+final class MenuDivider extends ContextMenuEntry<Never> {
   final double? height;
   final double? thickness;
   final double? indent;

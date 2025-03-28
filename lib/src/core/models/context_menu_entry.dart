@@ -10,7 +10,8 @@ import '../../widgets/context_menu_state.dart';
 /// see:
 /// - [ContextMenuItem]
 ///
-abstract base class ContextMenuEntry {
+@immutable
+abstract base class ContextMenuEntry<T> {
   const ContextMenuEntry();
 
   /// Builds the widget representation of the context menu entry.

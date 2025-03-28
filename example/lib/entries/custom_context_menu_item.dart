@@ -22,7 +22,7 @@ final class CustomContextMenuItem extends ContextMenuItem<String> {
   }) : super.submenu();
 
   @override
-  bool get isFocusMaintained => true;
+  bool get autoHandleFocus => false;
 
   @override
   Widget builder(BuildContext context, ContextMenuState menuState,

@@ -18,7 +18,7 @@ import 'menu_item.dart';
 /// - [MenuDivider]
 /// - [MenuItem]
 ///
-final class MenuHeader extends ContextMenuEntry {
+final class MenuHeader extends ContextMenuEntry<Never> {
   final String text;
   final bool disableUppercase;
 

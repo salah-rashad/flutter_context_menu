@@ -7,7 +7,7 @@ import '../models/context_menu.dart';
 /// Shows the root context menu popup.
 Future<T?> showContextMenu<T>(
   BuildContext context, {
-  required ContextMenu contextMenu,
+  required ContextMenu<T> contextMenu,
   RouteSettings? routeSettings,
   bool? opaque,
   bool? barrierDismissible,

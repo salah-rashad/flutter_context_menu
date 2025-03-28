@@ -83,7 +83,15 @@ class DemoPage extends StatelessWidget {
     if (value == null) return;
     ScaffoldMessenger.maybeOf(context)?.clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("[ $value ] Selected")),
+      SnackBar(
+        content: Text(
+          "[ $value ] Selected",
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
     );
   }
 }

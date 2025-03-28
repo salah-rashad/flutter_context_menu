@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../utils/default_menu_shortcuts.dart';
 import '../utils/helpers.dart';
 import 'context_menu_entry.dart';
 
 /// Represents a context menu data model.
-class ContextMenu {
+class ContextMenu<T> {
   /// The position of the context menu.
   Offset? position;
 
   /// The entries of the context menu.
-  List<ContextMenuEntry> entries;
+  List<ContextMenuEntry<T>> entries;
 
   /// The padding around the entries   of the context menu.
   ///
@@ -56,8 +55,8 @@ class ContextMenu {
   /// A shortcut method to show the context menu.
   ///
   /// For a more customized context menu, use [showContextMenu]
-  Future<T?> show<T>(BuildContext context) {
-    return showContextMenu(context, contextMenu: this);
+  Future<T?> show(BuildContext context) {
+    return showContextMenu<T>(context, contextMenu: this);
   }
 
   ContextMenu copyWith({

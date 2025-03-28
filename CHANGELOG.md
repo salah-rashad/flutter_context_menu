@@ -1,3 +1,13 @@
+## 0.2.2
+
+* Update `README.md`.
+* Update default shortcuts.
+* Add generic types to base classes and widgets (closes #3).
+* Updated `ContextMenuRegion` for simplified gesture handling. (closes #4)
+* Updated `ContextMenuRegion` to be more customizable with builder. (closes #6)
+* Fix menu to not auto focus on first item. (closes #11).
+* Fix focus bugs.
+
 ## 0.2.1
 
 * Add `color` variable to the context menu item, allowing the item text and icon colors to be customized.
