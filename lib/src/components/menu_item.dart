@@ -24,6 +24,7 @@ import 'menu_header.dart';
 ///   submenu. If not, it pops the current context menu and returns the
 ///   associated value.
 /// - [constraints] - The constraints of the context menu item.
+/// - [enabled] - Whether the context menu item is selectable or not.
 /// - [color] - The text an icon foreground color
 ///
 /// see:
@@ -42,6 +43,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     this.icon,
     super.value,
     super.onSelected,
+    super.enabled,
     this.constraints,
     this.color,
   });
@@ -51,6 +53,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     required List<ContextMenuEntry> items,
     this.icon,
     super.onSelected,
+    super.enabled,
     this.constraints,
     this.color,
   }) : super.submenu(items: items);
@@ -61,12 +64,19 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     bool isFocused = menuState.focusedEntry == this;
 
     final background = context.colorScheme.surface;
+    final focusedBackground = context.colorScheme.surfaceContainer;
     final normalTextColor = Color.alphaBlend(
       (color ?? context.colorScheme.onSurface).withValues(alpha: 0.7),
       background,
     );
     final focusedTextColor = color ?? context.colorScheme.onSurface;
-    final foregroundColor = isFocused ? focusedTextColor : normalTextColor;
+    final disabledTextColor =
+        context.colorScheme.onSurface.withValues(alpha: 0.2);
+    final foregroundColor = !enabled
+        ? disabledTextColor
+        : isFocused
+            ? focusedTextColor
+            : normalTextColor;
     final textStyle = TextStyle(color: foregroundColor, height: 1.0);
 
     // ~~~~~~~~~~ //
@@ -74,12 +84,16 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     return ConstrainedBox(
       constraints: constraints ?? const BoxConstraints.expand(height: 32.0),
       child: Material(
-        color: isFocused ? context.theme.focusColor.withAlpha(20) : background,
+        color: !enabled
+            ? Colors.transparent
+            : isFocused
+                ? focusedBackground
+                : background,
         borderRadius: BorderRadius.circular(4.0),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () => handleItemSelection(context),
-          canRequestFocus: false,
+          onTap: !enabled ? null : () => handleItemSelection(context),
+          canRequestFocus: enabled,
           child: DefaultTextStyle(
             style: textStyle,
             child: Row(

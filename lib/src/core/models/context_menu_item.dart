@@ -34,15 +34,18 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   final T? value;
   final List<ContextMenuEntry>? items;
   final VoidCallback? onSelected;
+  final bool enabled;
 
   const ContextMenuItem({
     this.value,
     this.onSelected,
+    this.enabled = true,
   }) : items = null;
 
   const ContextMenuItem.submenu({
     required this.items,
     this.onSelected,
+    this.enabled = true,
   }) : value = null;
 
   /// Indicates whether the menu item has subitems.
@@ -63,6 +66,7 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry {
   /// If the item has subitems, it toggles the submenu's visibility.
   /// Otherwise, it pops the current context menu and returns the [value].
   void handleItemSelection(BuildContext context) {
+    if (!enabled) return;
     final menuState = ContextMenuState.of(context);
 
     if (isSubmenuItem) {

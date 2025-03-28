@@ -48,6 +48,7 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
                 ...menuState.shortcuts,
               },
               child: Focus(
+                canRequestFocus: item.enabled,
                 focusNode: item.isFocusMaintained ? null : focusNode,
                 onFocusChange: (value) {
                   if (value) {

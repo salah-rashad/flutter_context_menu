@@ -17,6 +17,7 @@ const defaultContextMenuItems = <ContextMenuEntry>[
         value: "Item",
       ),
       MenuItem(
+        enabled: false,
         label: "Group",
         value: "Group",
       ),

@@ -60,7 +60,10 @@ class DemoPage extends StatelessWidget {
               child: Center(
                 child: Text(
                   entry.key,
-                  style: TextStyle(color: colorScheme.surface),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: colorScheme.onSurface,
+                  ),
                 ),
               ),
             ),

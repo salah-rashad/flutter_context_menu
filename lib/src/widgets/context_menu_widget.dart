@@ -28,6 +28,7 @@ class ContextMenuWidget extends StatelessWidget {
           state.verifyPosition(context);
 
           return Positioned(
+            key: state.key,
             left: state.position.dx,
             top: state.position.dy,
             child: OverlayPortal(
@@ -59,7 +60,7 @@ class ContextMenuWidget extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).shadowColor.withOpacity(0.5),
+          color: Theme.of(context).shadowColor.withValues(alpha: 0.5),
           offset: const Offset(0.0, 2.0),
           blurRadius: 10,
           spreadRadius: -1,
@@ -76,7 +77,7 @@ class ContextMenuWidget extends StatelessWidget {
       duration: const Duration(milliseconds: 60),
       builder: (context, value, child) {
         return Transform.scale(
-          alignment: state.spawnAlignment,
+          alignment: state.spawnAnchor,
           scale: value,
           child: Container(
             padding: state.padding,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
 import '../core/models/context_menu.dart';
@@ -13,6 +14,7 @@ import 'context_menu_widget.dart';
 /// This class is used to manage the state of the context menu. It provides methods to
 /// show and hide the context menu, and to update the position of the context menu.
 class ContextMenuState extends ChangeNotifier {
+  final GlobalKey key = GlobalKey();
   final focusScopeNode = FocusScopeNode();
 
   final overlayController = OverlayPortalController(debugLabel: 'ContextMenu');
@@ -33,10 +35,13 @@ class ContextMenuState extends ChangeNotifier {
   /// Used internally by the [ContextMenuState]
   ///
   /// Defaults to [SpawnAlignment.topEnd].
-  AlignmentGeometry _spawnAlignment = AlignmentDirectional.topEnd;
+  AlignmentGeometry _spawnAnchor = AlignmentDirectional.topEnd;
 
   /// The rectangle representing the parent item, used for submenu positioning.
   final Rect? _parentItemRect;
+
+  /// The key of the parent menu. Used internally.
+  final GlobalKey? _parentMenuKey;
 
   /// Whether the context menu is a submenu or not.
   final bool _isSubmenu;
@@ -50,6 +55,7 @@ class ContextMenuState extends ChangeNotifier {
     required this.menu,
     this.parentItem,
   })  : _parentItemRect = null,
+        _parentMenuKey = null,
         _isSubmenu = false,
         selfClose = null;
 
@@ -57,27 +63,42 @@ class ContextMenuState extends ChangeNotifier {
     required this.menu,
     required this.selfClose,
     this.parentItem,
-    AlignmentGeometry? spawnAlignmen,
+    AlignmentGeometry? spawnAnchor,
     Rect? parentItemRect,
-  })  : _spawnAlignment = spawnAlignmen ?? AlignmentDirectional.topEnd,
+    GlobalKey? parentMenuKey,
+  })  : _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topEnd,
         _parentItemRect = parentItemRect,
+        _parentMenuKey = parentMenuKey,
         _isSubmenu = true;
 
   List<ContextMenuEntry> get entries => menu.entries;
+
   Offset get position => menu.position ?? Offset.zero;
+
   double get maxWidth => menu.maxWidth;
+
   BorderRadiusGeometry? get borderRadius => menu.borderRadius;
+
   EdgeInsets get padding => menu.padding;
+
   Clip get clipBehavior => menu.clipBehavior;
+
   BoxDecoration? get boxDecoration => menu.boxDecoration;
+
   Map<ShortcutActivator, VoidCallback> get shortcuts => menu.shortcuts;
 
   ContextMenuEntry? get focusedEntry => _focusedEntry;
+
   ContextMenuItem? get selectedItem => _selectedItem;
+
   bool get isPositionVerified => _isPositionVerified;
+
   bool get isSubmenuOpen => overlayController.isShowing;
-  AlignmentGeometry get spawnAlignment => _spawnAlignment;
+
+  AlignmentGeometry get spawnAnchor => _spawnAnchor;
+
   Rect? get parentItemRect => _parentItemRect;
+
   bool get isSubmenu => _isSubmenu;
 
   static ContextMenuState of(BuildContext context) {
@@ -103,8 +124,8 @@ class ContextMenuState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setSpawnAlignment(AlignmentGeometry value) {
-    _spawnAlignment = value;
+  void setSpawnAnchor(AlignmentGeometry value) {
+    _spawnAnchor = value;
     notifyListeners();
   }
 
@@ -116,7 +137,7 @@ class ContextMenuState extends ChangeNotifier {
 
   Offset _calculateSubmenuPosition(
     Rect parentRect,
-    AlignmentGeometry? spawnAlignmen,
+    AlignmentGeometry? spawnAnchor,
   ) {
     double left = parentRect.left + parentRect.width;
     double top = parentRect.top;
@@ -139,7 +160,7 @@ class ContextMenuState extends ChangeNotifier {
     if (submenuParentRect == null) return;
 
     final submenuPosition =
-        _calculateSubmenuPosition(submenuParentRect, spawnAlignment);
+        _calculateSubmenuPosition(submenuParentRect, spawnAnchor);
 
     submenuBuilder = (BuildContext context) {
       final subMenuState = ContextMenuState.submenu(
@@ -147,7 +168,7 @@ class ContextMenuState extends ChangeNotifier {
           entries: items,
           position: submenuPosition,
         ),
-        spawnAlignmen: spawnAlignment,
+        spawnAnchor: spawnAnchor,
         parentItemRect: submenuParentRect,
         selfClose: closeSubmenu,
         parentItem: parent,
@@ -171,12 +192,12 @@ class ContextMenuState extends ChangeNotifier {
         context,
         menu,
         parentItemRect,
-        _spawnAlignment,
+        _spawnAnchor,
         _isSubmenu,
       );
 
       menu.position = boundaries.pos;
-      _spawnAlignment = boundaries.alignment;
+      _spawnAnchor = boundaries.alignment;
 
       notifyListeners();
       _isPositionVerified = true;
