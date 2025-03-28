@@ -21,21 +21,21 @@
 
 
   <a href="https://pub.dev/packages/flutter_context_menu" target="_blank">
-    <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart"/> 
+    <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart&labelColor=black"/> 
   </a>
   <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge&color=purple"/> 
+    <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge&color=purple&labelColor=black"/> 
   </a>
   <a href="https://github.com/salah-rashad/flutter_context_menu/stargazers" target="_blank">
-    <img src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge&label=GitHub Stars&color=gold"/>
+    <img src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge&label=GitHub Stars&color=gold&labelColor=black"/>
   </a>
 
   <br/>
 
   <a href="https://pub.dev/packages/flutter_context_menu/score" target="_blank">
-    <img src="https://img.shields.io/pub/likes/flutter_context_menu.svg?style=for-the-badge&color=1e7b34&label=likes&labelColor=black"/>
-    <img src="https://img.shields.io/pub/points/flutter_context_menu?style=for-the-badge&color=0056b3&label=Points&labelColor=black"/>
-    <img src="https://img.shields.io/pub/popularity/flutter_context_menu.svg?style=for-the-badge&color=c05600&label=Popularity&labelColor=black"/>
+    <img src="https://img.shields.io/pub/likes/flutter_context_menu.svg?style=for-the-badge&label=likes&labelColor=black"/>
+    <img src="https://img.shields.io/pub/points/flutter_context_menu?style=for-the-badge&label=Points&labelColor=black&color=229954"/>
+    <img src="https://img.shields.io/pub/dm/flutter_context_menu.svg?style=for-the-badge&label=Downloads&labelColor=black&color=34495e"/>
   </a>
   <br/>
   <a href="https://thebsd.github.io/StandWithPalestine/" target="_blank">
