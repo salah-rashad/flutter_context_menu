@@ -19,7 +19,11 @@
   </a>
   <br/><br/>
 
-
+  <a href="https://github.com/salah-rashad/flutter_context_menu/actions/workflows/analyze.yml" target="_blank">
+    <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/salah-rashad/flutter_context_menu/analyze.yml?style=for-the-badge&logo=github&label=Analyze&labelColor=black">
+  </a>
+  <br/>
+  
   <a href="https://pub.dev/packages/flutter_context_menu" target="_blank">
     <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart&labelColor=black"/> 
   </a>
