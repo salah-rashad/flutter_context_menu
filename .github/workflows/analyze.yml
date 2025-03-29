@@ -1,4 +1,4 @@
-name: Verify Formatting and Analyze
+name: Analyze
 
 on:
   push:
