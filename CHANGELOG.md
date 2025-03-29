@@ -1,3 +1,9 @@
+## 0.2.3
+
+* Fix context menu is not showing in web (closes #7).
+* Add keyboard shortcuts to navigate through the context menu items using the arrow keys (closes #12).
+* Fix bug when using `setPathUrlStrategy()` in web (closes #17).
+
 ## 0.2.2
 
 * Update `README.md`.

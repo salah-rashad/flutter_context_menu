@@ -14,5 +14,13 @@ Map<ShortcutActivator, VoidCallback> defaultMenuShortcuts(
         menuState.selfClose?.call();
       }
     },
+    // navigates to the next item
+    const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+      menuState.focusScopeNode.nextFocus();
+    },
+    // navigates to the previous item
+    const SingleActivator(LogicalKeyboardKey.arrowUp): () {
+      menuState.focusScopeNode.previousFocus();
+    },
   };
 }

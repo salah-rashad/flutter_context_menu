@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../core/models/context_menu.dart';
 import '../core/utils/helpers.dart';
+import '../core/utils/menu_route_options.dart';
 
 /// A function that builds the context menu widget.
 ///
@@ -19,7 +21,7 @@ typedef ContextMenuRegionBuilder<T> = Widget Function(
 );
 
 /// A widget that shows a context menu when the user long presses or right clicks on the widget.
-class ContextMenuRegion<T> extends StatelessWidget {
+class ContextMenuRegion<T> extends StatefulWidget {
   const ContextMenuRegion({
     super.key,
     required this.contextMenu,
@@ -27,6 +29,7 @@ class ContextMenuRegion<T> extends StatelessWidget {
     this.onItemSelected,
     this.builder,
     this.child,
+    this.routeOptions,
   });
 
   final ContextMenu<T> contextMenu;
@@ -39,21 +42,39 @@ class ContextMenuRegion<T> extends StatelessWidget {
   final ValueChanged<T>? onItemSelected;
   final ContextMenuRegionBuilder<T>? builder;
   final Widget? child;
+  final MenuRouteOptions? routeOptions;
+
+  @override
+  State<ContextMenuRegion<T>> createState() => _ContextMenuRegionState<T>();
+}
+
+class _ContextMenuRegionState<T> extends State<ContextMenuRegion<T>> {
+  @override
+  void initState() {
+    BrowserContextMenu.disableContextMenu();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    BrowserContextMenu.enableContextMenu();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     Offset pointerPosition = Offset.zero;
 
-    final childBuilder = builder?.call(
+    final childBuilder = widget.builder?.call(
           context,
-          contextMenu,
+          widget.contextMenu,
           pointerPosition,
           () => _showMenu(context, pointerPosition),
-          child,
+          widget.child,
         ) ??
-        child;
+        widget.child;
 
-    if (enableGestures) {
+    if (widget.enableGestures) {
       return GestureDetector(
         onLongPressStart: (details) {
           pointerPosition = details.globalPosition;
@@ -71,9 +92,13 @@ class ContextMenuRegion<T> extends StatelessWidget {
   }
 
   void _showMenu(BuildContext context, Offset position) async {
-    final menu =
-        contextMenu.copyWith(position: contextMenu.position ?? position);
-    final value = await showContextMenu(context, contextMenu: menu);
-    onItemSelected?.call(value);
+    final menu = widget.contextMenu
+        .copyWith(position: widget.contextMenu.position ?? position);
+    final value = await showContextMenu(
+      context,
+      contextMenu: menu,
+      routeOptions: widget.routeOptions,
+    );
+    widget.onItemSelected?.call(value);
   }
 }

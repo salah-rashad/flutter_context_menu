@@ -60,7 +60,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.2"
+    version: "0.2.3"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -71,6 +71,11 @@ packages:
     version: "4.0.0"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"

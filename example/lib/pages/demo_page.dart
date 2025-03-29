@@ -54,17 +54,22 @@ class DemoPage extends StatelessWidget {
             const Color(0xFF273746),
           ];
           final color = colors[index % colors.length];
-
           final entry = _contextMenus().entries.toList()[index];
+          final text = entry.key;
+          final menu = entry.value;
+
           return ContextMenuRegion(
-            contextMenu: entry.value,
+            contextMenu: menu,
             onItemSelected: (value) => onItemSelected(context, value),
+            routeOptions: const MenuRouteOptions(
+              routeSettings: RouteSettings(name: "/menu"),
+            ),
             child: Container(
               color: color,
               padding: const EdgeInsets.all(8.0),
               child: Center(
                 child: Text(
-                  entry.key,
+                  text,
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
