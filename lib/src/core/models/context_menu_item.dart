@@ -94,5 +94,6 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
 
   @override
   Widget builder(BuildContext context, ContextMenuState menuState,
-      Color? surface, Color? surfaceContainer, [FocusNode focusNode]);
+      Color? surface, Color? surfaceContainer,
+      [FocusNode focusNode]);
 }

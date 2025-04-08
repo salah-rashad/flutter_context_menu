@@ -22,8 +22,12 @@ Future<T?> showContextMenu<T>(
     PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
-          children: [ContextMenuWidget(menuState: menuState,
-              surface: surface, surfaceContainer: surfaceContainer)],
+          children: [
+            ContextMenuWidget(
+                menuState: menuState,
+                surface: surface,
+                surfaceContainer: surfaceContainer)
+          ],
         );
       },
       fullscreenDialog: true,

@@ -47,7 +47,8 @@ class ContextMenuWidget extends StatelessWidget {
                   node: state.focusScopeNode,
                   child: Opacity(
                     opacity: state.isPositionVerified ? 1.0 : 0.0,
-                    child: _buildMenuView(context, state, surface, surfaceContainer),
+                    child: _buildMenuView(
+                        context, state, surface, surfaceContainer),
                   ),
                 ),
               ),
@@ -102,7 +103,10 @@ class ContextMenuWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     for (final item in state.entries)
-                      MenuEntryWidget(entry: item, surface: surface, surfaceContainer: surfaceContainer)
+                      MenuEntryWidget(
+                          entry: item,
+                          surface: surface,
+                          surfaceContainer: surfaceContainer)
                   ],
                 ),
               ),

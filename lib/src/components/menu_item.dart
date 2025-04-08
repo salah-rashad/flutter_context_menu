@@ -60,11 +60,13 @@ final class MenuItem<T> extends ContextMenuItem<T> {
 
   @override
   Widget builder(BuildContext context, ContextMenuState menuState,
-      Color? surface, Color? surfaceContainer, [FocusNode? focusNode]) {
+      Color? surface, Color? surfaceContainer,
+      [FocusNode? focusNode]) {
     bool isFocused = menuState.focusedEntry == this;
 
     final background = surface ?? context.colorScheme.surface;
-    final focusedBackground = surfaceContainer ?? context.colorScheme.surfaceContainer;
+    final focusedBackground =
+        surfaceContainer ?? context.colorScheme.surfaceContainer;
     final normalTextColor = Color.alphaBlend(
       (color ?? context.colorScheme.onSurface).withValues(alpha: 0.7),
       background,

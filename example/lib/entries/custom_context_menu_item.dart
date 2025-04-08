@@ -26,7 +26,8 @@ final class CustomContextMenuItem extends ContextMenuItem<String> {
 
   @override
   Widget builder(BuildContext context, ContextMenuState menuState,
-      Color? surface, Color? surfaceContainer, [FocusNode? focusNode]) {
+      Color? surface, Color? surfaceContainer,
+      [FocusNode? focusNode]) {
     return ListTile(
       focusNode: focusNode, // important for highlighting item on focus
       title: SizedBox(width: double.maxFinite, child: Text(label)),

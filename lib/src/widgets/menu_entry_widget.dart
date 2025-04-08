@@ -64,11 +64,13 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
                     _ensureFocused(item, menuState, focusNode);
                   }
                 },
-                child: item.builder(context, menuState, widget.surface, widget.surfaceContainer, focusNode),
+                child: item.builder(context, menuState, widget.surface,
+                    widget.surfaceContainer, focusNode),
               ),
             );
           } else {
-            return entry.builder(context, menuState, widget.surface, widget.surfaceContainer);
+            return entry.builder(
+                context, menuState, widget.surface, widget.surfaceContainer);
           }
         },
       ),
