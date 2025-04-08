@@ -11,7 +11,14 @@ import 'context_menu_state.dart';
 /// This widget is used internally by the `ContextMenu` contextMenu.
 class MenuEntryWidget<T> extends StatefulWidget {
   final ContextMenuEntry<T> entry;
-  const MenuEntryWidget({super.key, required this.entry});
+  final Color? surface;
+  final Color? surfaceContainer;
+  const MenuEntryWidget({
+    required this.entry,
+    this.surface,
+    this.surfaceContainer,
+    super.key,
+  });
 
   @override
   State<MenuEntryWidget<T>> createState() => _MenuEntryWidgetState<T>();
@@ -57,11 +64,11 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
                     _ensureFocused(item, menuState, focusNode);
                   }
                 },
-                child: item.builder(context, menuState, focusNode),
+                child: item.builder(context, menuState, widget.surface, widget.surfaceContainer, focusNode),
               ),
             );
           } else {
-            return entry.builder(context, menuState);
+            return entry.builder(context, menuState, widget.surface, widget.surfaceContainer);
           }
         },
       ),

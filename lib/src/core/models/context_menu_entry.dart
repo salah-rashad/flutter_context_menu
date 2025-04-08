@@ -18,7 +18,8 @@ abstract base class ContextMenuEntry<T> {
   ///
   /// - [context] - The context of the widget.
   /// - [menuState] - The state of the current context menu.
-  Widget builder(BuildContext context, ContextMenuState menuState);
+  Widget builder(BuildContext context, ContextMenuState menuState,
+      Color? surface, Color? surfaceContainer);
 
   /// Called when the mouse pointer enters the area of the context menu entry.
   void onMouseEnter(PointerEnterEvent event, ContextMenuState menuState) {}

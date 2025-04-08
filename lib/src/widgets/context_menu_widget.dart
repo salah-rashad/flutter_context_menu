@@ -14,10 +14,12 @@ import 'menu_entry_widget.dart';
 
 class ContextMenuWidget extends StatelessWidget {
   final ContextMenuState menuState;
-  final Color? surfaceColor;
+  final Color? surface;
+  final Color? surfaceContainer;
   const ContextMenuWidget({
     required this.menuState,
-    this.surfaceColor,
+    this.surface,
+    this.surfaceContainer,
     super.key,
   });
 
@@ -45,7 +47,7 @@ class ContextMenuWidget extends StatelessWidget {
                   node: state.focusScopeNode,
                   child: Opacity(
                     opacity: state.isPositionVerified ? 1.0 : 0.0,
-                    child: _buildMenuView(context, state, surfaceColor),
+                    child: _buildMenuView(context, state, surface, surfaceContainer),
                   ),
                 ),
               ),
@@ -57,14 +59,15 @@ class ContextMenuWidget extends StatelessWidget {
   }
 
   /// Builds the context menu view.
-  Widget _buildMenuView(BuildContext context, ContextMenuState state, Color? surfaceColor) {
+  Widget _buildMenuView(BuildContext context, ContextMenuState state,
+      Color? surface, Color? surfaceContainer) {
     // final parentItem = state.parentItem;
     // if (parentItem?.isSubmenuItem == true) {
     //   print(parentItem?.debugLabel);
     // }
 
     var boxDecoration = BoxDecoration(
-      color: surfaceColor ?? Theme.of(context).colorScheme.surface,
+      color: surface ?? Theme.of(context).colorScheme.surface,
       boxShadow: [
         BoxShadow(
           color: Theme.of(context).shadowColor.withValues(alpha: 0.5),
@@ -99,7 +102,7 @@ class ContextMenuWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     for (final item in state.entries)
-                      MenuEntryWidget(entry: item)
+                      MenuEntryWidget(entry: item, surface: surface, surfaceContainer: surfaceContainer)
                   ],
                 ),
               ),

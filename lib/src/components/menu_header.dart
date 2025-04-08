@@ -28,7 +28,8 @@ final class MenuHeader extends ContextMenuEntry<Never> {
   });
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState) {
+  Widget builder(BuildContext context, ContextMenuState menuState,
+      Color? surface, Color? surfaceContainer) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Align(

@@ -40,7 +40,8 @@ final class MenuDivider extends ContextMenuEntry<Never> {
         assert(endIndent == null || endIndent >= 0.0);
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState) {
+  Widget builder(BuildContext context, ContextMenuState menuState,
+      Color? surface, Color? surfaceContainer) {
     return Divider(
       height: height ?? 8.0,
       thickness: thickness ?? 0.0,
