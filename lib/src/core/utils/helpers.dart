@@ -9,6 +9,7 @@ import 'menu_route_options.dart';
 Future<T?> showContextMenu<T>(
   BuildContext context, {
   required ContextMenu<T> contextMenu,
+  Color? surfaceColor,
   MenuRouteOptions? routeOptions,
 }) async {
   final menuState = ContextMenuState(menu: contextMenu);
@@ -20,7 +21,7 @@ Future<T?> showContextMenu<T>(
     PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
-          children: [ContextMenuWidget(menuState: menuState)],
+          children: [ContextMenuWidget(menuState: menuState, surfaceColor: surfaceColor)],
         );
       },
       fullscreenDialog: true,
