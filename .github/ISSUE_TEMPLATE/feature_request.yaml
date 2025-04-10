@@ -9,7 +9,6 @@ body:
     attributes:
       value: |
         > [!TIP]
-        > #### 💡 Tips for a Great Feature Request:
         > - Use a **clear and descriptive title**, e.g., `[Feature]: Add animation support for menu opening`.
         > - Focus on the **problem**, not just the solution — this helps us think of other potential improvements.
         > - Include **code samples**, **mockups**, or **GIFs** if possible.
