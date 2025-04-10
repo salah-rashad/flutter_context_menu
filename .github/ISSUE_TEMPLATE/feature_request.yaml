@@ -1,0 +1,69 @@
+name: 💡 Feature Request
+description: Suggest a new feature or improvement for the package
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees:
+  - salah-rashad
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! Please provide as much detail as possible to help us understand your request.
+
+  - type: input
+    id: use-case-title
+    attributes:
+      label: Feature Title
+      description: Give your feature a short and clear title.
+      placeholder: e.g., Support for custom animation when menu opens
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the issue or limitation you’re facing that this feature would solve.
+      placeholder: |
+        I'm trying to achieve [X], but currently the package doesn't support it because...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe how you'd like the feature to work or behave.
+      placeholder: |
+        It would be helpful if the widget supported...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you tried any workarounds or alternative approaches?
+      placeholder: |
+        I tried manually doing X, but it’s not ideal because...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Context
+      description: Add any other information, mockups, or references that help explain your request.
+      placeholder: |
+        Screenshots, links to similar APIs, or code examples can go here.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: existing-requests
+    attributes:
+      label: Checklist
+      description: Before submitting, please confirm the following
+      options:
+        - label: I have checked the [existing issues](https://github.com/salah-rashad/flutter_context_menu/issues) and this feature has not been requested yet.
+          required: true
