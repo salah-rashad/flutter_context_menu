@@ -1,5 +1,5 @@
 name: 🐞 Bug Report
-description: Report a bug in the flutter_context_menu package
+description: Report a bug
 title: "[Bug]: "
 labels: ["bug"]
 assignees:
@@ -14,18 +14,23 @@ body:
     id: package-version
     attributes:
       label: Package Version
-      description: What version of `flutter_context_menu` are you using?
+      description: What version of the package are you using?
       placeholder: e.g., 1.2.3
     validations:
       required: true
 
-  - type: input
-    id: flutter-version
+  - type: textarea
+    id: flutter-doctor
     attributes:
-      label: Flutter Version
-      description: Run `flutter --version` and paste the output here.
+      label: Output of `flutter doctor -v`
+      description: Run `flutter doctor -v` in your terminal and paste the full output here.
       placeholder: |
-        Flutter 3.x.x • channel stable • ...
+        ```bash
+        [✓] Flutter (Channel stable, 3.x.x, ...)
+        [✓] Android toolchain - ...
+        ...
+        ```
+      render: shell
     validations:
       required: true
 
