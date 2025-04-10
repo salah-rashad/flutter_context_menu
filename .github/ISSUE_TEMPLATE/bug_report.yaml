@@ -10,30 +10,6 @@ body:
       value: |
         Thanks for taking the time to report a bug! Please fill out the form below as completely as possible.
 
-  - type: input
-    id: package-version
-    attributes:
-      label: Package Version
-      description: What version of the package are you using?
-      placeholder: e.g., 1.2.3
-    validations:
-      required: true
-
-  - type: textarea
-    id: flutter-doctor
-    attributes:
-      label: Output of `flutter doctor -v`
-      description: Run `flutter doctor -v` in your terminal and paste the full output here.
-      placeholder: |
-        ```bash
-        [✓] Flutter (Channel stable, 3.x.x, ...)
-        [✓] Android toolchain - ...
-        ...
-        ```
-      render: shell
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
@@ -71,6 +47,28 @@ body:
       label: Actual Behavior
       description: What actually happened?
       placeholder: It crashes when...
+    validations:
+      required: true
+
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: What version of the package are you using?
+      placeholder: e.g., 1.2.3
+    validations:
+      required: true
+
+  - type: textarea
+    id: flutter-doctor
+    attributes:
+      label: Output of `flutter doctor -v`
+      description: Run `flutter doctor -v` in your terminal and paste the full output here.
+      placeholder: |
+        [✓] Flutter (Channel stable, 3.x.x, ...)
+        [✓] Android toolchain - ...
+        ...
+      render: shell
     validations:
       required: true
 
