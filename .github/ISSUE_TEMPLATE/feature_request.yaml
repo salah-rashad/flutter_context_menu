@@ -10,7 +10,7 @@ body:
       value: |
         Give your feature a short and clear title. |
         e.g., Support for custom animation when menu opens |
-        -----
+        _________________
         Thanks for suggesting a feature! Please provide as much detail as possible to help us understand your request.
 
   - type: textarea
