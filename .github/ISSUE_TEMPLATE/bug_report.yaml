@@ -1,0 +1,101 @@
+name: 🐞 Bug Report
+description: Report a bug in the flutter_context_menu package
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - salah-rashad
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the form below as completely as possible.
+
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: What version of `flutter_context_menu` are you using?
+      placeholder: e.g., 1.2.3
+    validations:
+      required: true
+
+  - type: input
+    id: flutter-version
+    attributes:
+      label: Flutter Version
+      description: Run `flutter --version` and paste the output here.
+      placeholder: |
+        Flutter 3.x.x • channel stable • ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what went wrong...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Please list the steps to reproduce the issue.
+      placeholder: |
+        1. Add flutter_context_menu to your app
+        2. Use the widget like this...
+        3. Tap on...
+        4. See the error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+      placeholder: The menu should...
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: It crashes when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or Screenshots
+      description: Paste any relevant logs, error messages, or attach screenshots if applicable.
+      placeholder: |
+        ```bash
+        [ERROR:flutter/lib/ui/ui_dart_state.cc(209)] Unhandled Exception: ...
+        ```
+      render: shell
+
+  - type: input
+    id: platform
+    attributes:
+      label: Affected Platform(s)
+      description: Which platforms are affected?
+      placeholder: Android, iOS, Web, etc.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: existing-issues
+    attributes:
+      label: Checklist
+      description: Before submitting, please confirm the following
+      options:
+        - label: I have checked the [existing issues](https://github.com/salah-rashad/flutter_context_menu/issues) and this bug has not been reported yet.
+          required: true
+        - label: I have tried the latest version and the bug is still present.
+          required: true
