@@ -59,11 +59,3 @@ body:
         Paste terminal output here...
     validations:
       required: false
-
-  - type: markdown
-    attributes:
-      value: |
-        ---
-        ### 💡 Tip:
-        If you're not sure whether it's a bug or usage issue, feel free to open a question first.
-        We'll guide you from there 🙌
