@@ -8,9 +8,15 @@ body:
   - type: markdown
     attributes:
       value: |
-        > Thanks for suggesting a feature! Please provide as much detail as possible to help us understand your request.
-        > Give your feature a short and clear title.
-        > e.g., Support for custom animation when menu opens        
+        ---
+        #### 💡 Tips for a Great Feature Request:
+        - Use a **clear and descriptive title**, e.g., `[Feature]: Add animation support for menu opening`.
+        - Focus on the **problem**, not just the solution — this helps us think of other potential improvements.
+        - Include **code samples**, **mockups**, or **GIFs** if possible.
+        - Check [existing issues](https://github.com/salah-rashad/flutter_context_menu/issues) to avoid duplicates.
+
+        We appreciate your time and feedback — thank you! 🙏
+
 
   - type: textarea
     id: problem
