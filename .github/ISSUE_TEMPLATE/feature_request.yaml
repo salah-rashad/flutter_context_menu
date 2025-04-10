@@ -8,16 +8,10 @@ body:
   - type: markdown
     attributes:
       value: |
+        Give your feature a short and clear title. |
+        e.g., Support for custom animation when menu opens |
+        -----
         Thanks for suggesting a feature! Please provide as much detail as possible to help us understand your request.
-
-  - type: input
-    id: use-case-title
-    attributes:
-      label: Feature Title
-      description: Give your feature a short and clear title.
-      placeholder: e.g., Support for custom animation when menu opens
-    validations:
-      required: true
 
   - type: textarea
     id: problem
