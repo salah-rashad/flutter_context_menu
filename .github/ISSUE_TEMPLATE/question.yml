@@ -39,10 +39,6 @@ body:
       placeholder: |
         Widget build(BuildContext context) {
           return ContextMenuRegion(
-            contextMenu: contextMenu,
-            onItemSelected: (value) {
-              print(value);
-            },
             ...
           );
         }
