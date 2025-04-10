@@ -1,0 +1,69 @@
+name: ❓ Question / Help
+description: Ask a question or get help using the package
+title: "[Question]: "
+labels: ["question"]
+assignees:
+  - salah-rashad
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reaching out! Please describe your question clearly so we can assist you better.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What do you need help with?
+      description: Ask your question here. Include any context that will help us understand the issue.
+      placeholder: |
+        I'm trying to use the context menu in [X] way, but I'm not sure if it's supported...
+    validations:
+      required: true
+
+  - type: textarea
+    id: usage
+    attributes:
+      label: What have you tried?
+      description: Share any code snippets or documentation you've already looked at.
+      placeholder: |
+        I checked the README and tried using it like this: ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: code-snippet
+    attributes:
+      label: Relevant code or usage
+      description: Paste any relevant code snippet or widget tree to help understand the context.
+      render: dart
+      placeholder: |
+        Widget build(BuildContext context) {
+          return ContextMenuRegion(
+            contextMenu: contextMenu,
+            onItemSelected: (value) {
+              print(value);
+            },
+            ...
+          );
+        }
+    validations:
+      required: false
+
+  - type: textarea
+    id: flutter-doctor
+    attributes:
+      label: Output of `flutter doctor -v`
+      description: Paste your `flutter doctor -v` output here to help diagnose platform-specific issues.
+      render: shell
+      placeholder: |
+        Paste terminal output here...
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ### 💡 Tip:
+        If you're not sure whether it's a bug or usage issue, feel free to open a question first.
+        We'll guide you from there 🙌
