@@ -8,7 +8,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to report a bug! Please fill out the form below as completely as possible.
+        > [!TIP]
+        > Thanks for taking the time to report a bug! Please fill out the form below as completely as possible.
+        > If you're not sure whether it's a bug or usage issue, feel free to [open a question](https://github.com/salah-rashad/flutter_context_menu/issues/new?template=question.yml) first.
+        > We'll guide you from there 🙌
 
   - type: textarea
     id: description
