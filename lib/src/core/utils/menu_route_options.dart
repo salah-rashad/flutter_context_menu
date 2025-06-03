@@ -28,7 +28,9 @@ class MenuRouteOptions {
   });
 }
 
-Widget _defaultTransitionsBuilder(
-    context, animation, secondaryAnimation, child) {
+Widget _defaultTransitionsBuilder(BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,) {
   return child;
 }

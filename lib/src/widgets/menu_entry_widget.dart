@@ -95,7 +95,7 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
     widget.entry.onMouseEnter(event, menuState);
   }
 
-  _onMouseHover(PointerHoverEvent event, ContextMenuState menuState) {
+  void _onMouseHover(PointerHoverEvent event, ContextMenuState menuState) {
     if (menuState.isFocused(entry)) {
       _ensureFocused(entry, menuState, focusNode);
     }
