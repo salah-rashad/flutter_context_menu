@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -51,13 +52,17 @@ class ContextMenuRegion<T> extends StatefulWidget {
 class _ContextMenuRegionState<T> extends State<ContextMenuRegion<T>> {
   @override
   void initState() {
-    BrowserContextMenu.disableContextMenu();
+    if (kIsWeb) {
+      BrowserContextMenu.disableContextMenu();
+    }
     super.initState();
   }
 
   @override
   void dispose() {
-    BrowserContextMenu.enableContextMenu();
+    if (kIsWeb) {
+      BrowserContextMenu.enableContextMenu();
+    }
     super.dispose();
   }
 
