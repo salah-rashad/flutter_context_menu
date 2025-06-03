@@ -1,3 +1,7 @@
+## 0.2.4
+
+* **FIX**: enable/disable context menu based on web platform.
+
 ## 0.2.3
 
 * Fix context menu is not showing in web (closes #7).
