@@ -25,6 +25,9 @@ class ContextMenu<T> {
   /// Defaults to 350.0
   double maxWidth;
 
+  /// The maximum height of the context menu.
+  double? maxHeight;
+
   /// The clip behavior of the context menu.
   ///
   /// Defaults to [Clip.antiAlias]
@@ -44,6 +47,7 @@ class ContextMenu<T> {
     EdgeInsets? padding,
     this.borderRadius,
     double? maxWidth,
+    this.maxHeight,
     Clip? clipBehavior,
     this.boxDecoration,
     Map<ShortcutActivator, VoidCallback>? shortcuts,
@@ -65,6 +69,7 @@ class ContextMenu<T> {
     EdgeInsets? padding,
     BorderRadiusGeometry? borderRadius,
     double? maxWidth,
+    double? maxHeight,
     Clip? clipBehavior,
     BoxDecoration? boxDecoration,
   }) {
@@ -74,6 +79,7 @@ class ContextMenu<T> {
       padding: padding ?? this.padding,
       borderRadius: borderRadius ?? this.borderRadius,
       maxWidth: maxWidth ?? this.maxWidth,
+      maxHeight: maxHeight ?? this.maxHeight,
       clipBehavior: clipBehavior ?? this.clipBehavior,
       boxDecoration: boxDecoration ?? this.boxDecoration,
     );
