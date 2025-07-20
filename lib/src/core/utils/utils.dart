@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import '../models/context_menu.dart';
 import '../utils/extensions.dart';
 
+const double kContextMenuSafeArea = 8.0;
+
 /// Calculates the position of the context menu based on the position of the
 /// menu and the position of the parent menu. To prevent the menu from
 /// extending beyond the screen boundaries.
@@ -16,7 +18,8 @@ import '../utils/extensions.dart';
   bool isSubmenu,
 ) {
   final screenSize = MediaQuery.of(context).size;
-  final safeScreenRect = (Offset.zero & screenSize).deflate(8.0);
+  final safeScreenRect =
+      (Offset.zero & screenSize).deflate(kContextMenuSafeArea);
   final menuRect = context.getWidgetBounds()!;
   AlignmentGeometry nextSpawnAlignment = spawnAlignment;
 
