@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/utils/shortcuts/menu_shortcuts.dart';
+import '../core/utils/utils.dart';
 import 'context_menu_provider.dart';
 import 'context_menu_state.dart';
 import 'menu_entry_widget.dart';
@@ -14,6 +15,7 @@ import 'menu_entry_widget.dart';
 
 class ContextMenuWidget extends StatelessWidget {
   final ContextMenuState menuState;
+
   const ContextMenuWidget({
     super.key,
     required this.menuState,
@@ -88,7 +90,8 @@ class ContextMenuWidget extends StatelessWidget {
             padding: state.padding,
             constraints: BoxConstraints(
               maxWidth: state.maxWidth,
-              maxHeight: state.maxHeight ?? double.infinity,
+              maxHeight: MediaQuery.of(context).size.height -
+                  (kContextMenuSafeArea * 2),
             ),
             clipBehavior: state.clipBehavior,
             decoration: state.boxDecoration ?? boxDecoration,

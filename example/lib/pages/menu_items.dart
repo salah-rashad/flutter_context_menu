@@ -177,3 +177,35 @@ const customContextMenuItems = <ContextMenuEntry>[
     ],
   ),
 ];
+
+List<ContextMenuEntry> getLongContextMenuItems(BuildContext context) {
+  final screenSize = MediaQuery.of(context).size;
+  const itemHeight = 32.0;
+  final itemsCount = (screenSize.height / itemHeight).floor() * 1.5;
+  final items = <ContextMenuEntry>[];
+
+  for (int i = 1; i <= itemsCount; i++) {
+    items.add(MenuItem(
+      label: "Item $i",
+      value: "Item $i",
+      icon: i % 2 == 0 ? Icons.star_rounded : Icons.circle,
+      color: i % 3 == 0 ? Colors.blue : null,
+      enabled: i % 5 != 0,
+    ));
+  }
+  items.add(const MenuDivider());
+  items.add(MenuItem.submenu(
+    label: "More Options",
+    icon: Icons.more_horiz,
+    items: [
+      for (int j = 1; j <= 10; j++)
+        MenuItem(
+          label: "Option $j",
+          value: "Option $j",
+          icon: Icons.settings,
+        ),
+    ],
+  ));
+
+  return items;
+}

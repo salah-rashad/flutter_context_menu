@@ -2,7 +2,7 @@ import 'package:example/pages/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
-Map<String, ContextMenu> _contextMenus() => {
+Map<String, ContextMenu> _contextMenus(BuildContext context) => {
       "Default (built-in)": ContextMenu(entries: defaultContextMenuItems),
       "Custom\n\nmax width: 200\npadding: 0": ContextMenu(
         entries: customContextMenuItems,
@@ -27,7 +27,10 @@ Map<String, ContextMenu> _contextMenus() => {
         entries: defaultContextMenuItems,
         padding: EdgeInsets.zero,
         position: const Offset(50, 30),
-      )
+      ),
+      "Long Menu": ContextMenu(
+        entries: getLongContextMenuItems(context),
+      ),
     };
 
 class DemoPage extends StatelessWidget {
@@ -35,6 +38,8 @@ class DemoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final menus = _contextMenus(context);
+
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -45,16 +50,17 @@ class DemoPage extends StatelessWidget {
           crossAxisCount: 2,
           childAspectRatio: 16 / 9,
         ),
-        itemCount: 4,
+        itemCount: menus.length,
         itemBuilder: (context, index) {
           final colors = [
             const Color(0xFF17202a),
             const Color(0xFF1c2833),
             const Color(0xFF212f3d),
             const Color(0xFF273746),
+            const Color(0xFF2c3e50),
           ];
           final color = colors[index % colors.length];
-          final entry = _contextMenus().entries.toList()[index];
+          final entry = menus.entries.toList()[index];
           final text = entry.key;
           final menu = entry.value;
 
