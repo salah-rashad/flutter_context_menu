@@ -2,6 +2,8 @@
 
 ### Added / Changed
 
+- **feat**: A `requestFocus` parameter has been added to `MenuRouteOptions` and is utilized in the
+  `showMenu` helper function.
 - Updated `ContextMenuWidget`, `MenuHeader`, and `MenuItem` to use `Color.withValues()`.
 - Minor improvements compatible with Flutter 3.27+.
 
