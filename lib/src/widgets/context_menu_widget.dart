@@ -67,7 +67,7 @@ class ContextMenuWidget extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).shadowColor.withOpacity(0.5),
+          color: Theme.of(context).shadowColor.withValues(alpha: 0.5),
           offset: const Offset(0.0, 2.0),
           blurRadius: 10,
           spreadRadius: -1,

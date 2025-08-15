@@ -1,3 +1,22 @@
+## 0.3.0
+
+### Added / Changed
+
+- **feat**: A `requestFocus` parameter has been added to `MenuRouteOptions` and is utilized in the
+  `showMenu` helper function.
+- Updated `ContextMenuWidget`, `MenuHeader`, and `MenuItem` to use `Color.withValues()`.
+- Minor improvements compatible with Flutter 3.27+.
+
+### Breaking Changes
+
+- Requires Flutter **3.27+** and Dart **3.6+**.
+- Pubspec environment: `sdk: ^3.6.0`
+- Not compatible with older Flutter versions (<3.27). Use `0.2.6` instead.
+
+### Notes
+
+- This release introduces a new API and may require changes in dependent code.
+
 ## 0.2.6
 
 ### Fixed

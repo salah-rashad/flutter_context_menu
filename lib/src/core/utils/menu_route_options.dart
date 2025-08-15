@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 
 class MenuRouteOptions {
   final RouteSettings? routeSettings;
+  final bool? requestFocus;
   final RouteTransitionsBuilder transitionsBuilder;
   final Duration transitionDuration;
   final Duration reverseTransitionDuration;
@@ -14,6 +15,7 @@ class MenuRouteOptions {
 
   const MenuRouteOptions({
     this.routeSettings,
+    this.requestFocus,
     this.transitionsBuilder = _defaultTransitionsBuilder,
     this.transitionDuration = Duration.zero,
     this.reverseTransitionDuration = Duration.zero,
