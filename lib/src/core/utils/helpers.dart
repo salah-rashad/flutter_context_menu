@@ -34,7 +34,6 @@ Future<T?> showContextMenu<T>(
       transitionsBuilder: routeOptions.transitionsBuilder,
       allowSnapshotting: routeOptions.allowSnapshotting,
       maintainState: routeOptions.maintainState,
-      requestFocus: routeOptions.requestFocus,
     ),
   );
 }
