@@ -90,8 +90,9 @@ class ContextMenuWidget extends StatelessWidget {
             padding: state.padding,
             constraints: BoxConstraints(
               maxWidth: state.maxWidth,
-              maxHeight: MediaQuery.of(context).size.height -
-                  (kContextMenuSafeArea * 2),
+              maxHeight: state.maxHeight ??
+                  MediaQuery.of(context).size.height -
+                      (kContextMenuSafeArea * 2),
             ),
             clipBehavior: state.clipBehavior,
             decoration: state.boxDecoration ?? boxDecoration,
