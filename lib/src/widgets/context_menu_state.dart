@@ -35,7 +35,7 @@ class ContextMenuState extends ChangeNotifier {
   /// Used internally by the [ContextMenuState]
   ///
   /// Defaults to [SpawnAlignment.topEnd].
-  AlignmentGeometry _spawnAnchor = AlignmentDirectional.topEnd;
+  AlignmentGeometry _spawnAnchor = AlignmentDirectional.center;
 
   /// The rectangle representing the parent item, used for submenu positioning.
   final Rect? _parentItemRect;
