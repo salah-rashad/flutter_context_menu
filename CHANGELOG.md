@@ -1,3 +1,16 @@
+## 0.2.6
+
+### Fixed
+
+* Replaced `Color.withValues()` with `color.withOpacity()` for compatibility with Flutter 3.0–3.26.
+* Ensured `ContextMenuWidget`, `MenuHeader`, and `MenuItem` work on older Flutter versions.
+
+### Notes
+
+* This release is intended for users on Flutter versions **below 3.27**.
+* No new features introduced; only compatibility fixes.
+* Pubspec environment: `sdk: '>=3.0.0 <3.6.0'`
+
 ## 0.2.5
 
 * **Refactor**: Improve/Fix submenu positioning logic.

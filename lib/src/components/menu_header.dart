@@ -36,7 +36,7 @@ final class MenuHeader extends ContextMenuEntry<Never> {
         child: Text(
           disableUppercase ? text : text.toUpperCase(),
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Theme.of(context).disabledColor.withValues(alpha: 0.3),
+                color: Theme.of(context).disabledColor.withOpacity(0.3),
               ),
         ),
       ),
