@@ -10,13 +10,17 @@ Future<T?> showContextMenu<T>(
   BuildContext context, {
   required ContextMenu<T> contextMenu,
   MenuRouteOptions? routeOptions,
+  bool useRootNavigator = true,
 }) async {
   final menuState = ContextMenuState(menu: contextMenu);
   routeOptions ??= const MenuRouteOptions(
     barrierDismissible: true,
   );
-  return await Navigator.push<T>(
-    context,
+
+  // Use root navigator to make sure the context menu is always on top, and to
+  // fix the issue where the context menu may be opened for each navigator, and
+  // to make sure the context menu is opened once.
+  return await Navigator.of(context, rootNavigator: useRootNavigator).push<T>(
     PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
