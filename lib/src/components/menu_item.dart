@@ -66,11 +66,12 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     final background = context.colorScheme.surface;
     final focusedBackground = context.colorScheme.surfaceContainer;
     final normalTextColor = Color.alphaBlend(
-      (color ?? context.colorScheme.onSurface).withOpacity(0.7),
+      (color ?? context.colorScheme.onSurface).withValues(alpha: 0.7),
       background,
     );
     final focusedTextColor = color ?? context.colorScheme.onSurface;
-    final disabledTextColor = context.colorScheme.onSurface.withOpacity(0.2);
+    final disabledTextColor =
+        context.colorScheme.onSurface.withValues(alpha: 0.2);
     final foregroundColor = !enabled
         ? disabledTextColor
         : isFocused
