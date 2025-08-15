@@ -1,3 +1,9 @@
+## 0.2.5
+
+* **Refactor**: Improve/Fix submenu positioning logic.
+* **FEAT**: Handle long menus properly with scrolling and add example for long menu.
+* **FEAT**: Allow customization of context menu max height.
+
 ## 0.2.4
 
 * **FIX**: enable/disable context menu based on web platform.
@@ -5,7 +11,8 @@
 ## 0.2.3
 
 * Fix context menu is not showing in web (closes #7).
-* Add keyboard shortcuts to navigate through the context menu items using the arrow keys (closes #12).
+* Add keyboard shortcuts to navigate through the context menu items using the arrow keys (closes
+  #12).
 * Fix bug when using `setPathUrlStrategy()` in web (closes #17).
 
 ## 0.2.2
@@ -20,7 +27,8 @@
 
 ## 0.2.1
 
-* Add `color` variable to the context menu item, allowing the item text and icon colors to be customized.
+* Add `color` variable to the context menu item, allowing the item text and icon colors to be
+  customized.
 * Add `enabled` variable to the context menu item, allowing the item to be disabled if needed.
 * Add `maybeOf(BuildContext)` to the context menu state.
 * Move `calculateSubmenuPosition` to the utils file (`lib/src/core/utils.dart`).
@@ -39,7 +47,8 @@
 ## 0.1.3
 
 * updated example project.
-* added `ContextMenuRegion` widget to show a context menu when a user right-clicks or long-presses on a widget.
+* added `ContextMenuRegion` widget to show a context menu when a user right-clicks or long-presses
+  on a widget.
 * improvements and fixes.
 * updated `README.md`.
 
