@@ -16,7 +16,7 @@ const double kContextMenuSafeArea = 8.0;
   AlignmentGeometry spawnAlignment,
   bool isSubmenu,
 ) {
-  final screenSize = MediaQuery.of(context).size;
+  final screenSize = context.mediaQuery.size;
   final safe = (Offset.zero & screenSize).deflate(kContextMenuSafeArea);
   final menuRect = context.getWidgetBounds()!;
   final textDir = Directionality.maybeOf(context) ?? TextDirection.ltr;

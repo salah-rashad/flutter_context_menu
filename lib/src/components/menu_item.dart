@@ -7,6 +7,8 @@ import '../widgets/context_menu_state.dart';
 import 'menu_divider.dart';
 import 'menu_header.dart';
 
+const double kMenuItemHeight = 32.0;
+
 /// Represents a selectable item in a context menu.
 ///
 /// This class is used to define individual items that can be displayed within
@@ -82,7 +84,8 @@ final class MenuItem<T> extends ContextMenuItem<T> {
     // ~~~~~~~~~~ //
 
     return ConstrainedBox(
-      constraints: constraints ?? const BoxConstraints.expand(height: 32.0),
+      constraints:
+          constraints ?? const BoxConstraints.expand(height: kMenuItemHeight),
       child: Material(
         color: !enabled
             ? Colors.transparent
@@ -99,7 +102,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
             child: Row(
               children: [
                 SizedBox.square(
-                  dimension: 32.0,
+                  dimension: kMenuItemHeight,
                   child: Icon(
                     icon,
                     size: 16.0,
@@ -116,7 +119,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
                 ),
                 const SizedBox(width: 8.0),
                 SizedBox.square(
-                  dimension: 32.0,
+                  dimension: kMenuItemHeight,
                   child: Align(
                     alignment: AlignmentDirectional.centerStart,
                     child: Icon(

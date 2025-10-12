@@ -42,8 +42,7 @@ class ContextMenuWidgetView extends StatelessWidget {
             constraints: BoxConstraints(
               maxWidth: menu.maxWidth,
               maxHeight: menu.maxHeight ??
-                  MediaQuery.of(context).size.height -
-                      (kContextMenuSafeArea * 2),
+                  context.mediaQuery.size.height - (kContextMenuSafeArea * 2),
             ),
             clipBehavior: menu.clipBehavior,
             decoration: menu.boxDecoration ?? boxDecoration,

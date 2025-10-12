@@ -180,8 +180,7 @@ const customContextMenuItems = <ContextMenuEntry>[
 
 List<ContextMenuEntry> getLongContextMenuItems(BuildContext context) {
   final screenSize = MediaQuery.of(context).size;
-  const itemHeight = 32.0;
-  final itemsCount = (screenSize.height / itemHeight).floor() * 1.5;
+  final itemsCount = (screenSize.height / kMenuItemHeight).floor() * 1.5;
   final items = <ContextMenuEntry>[];
 
   for (int i = 1; i <= itemsCount; i++) {
