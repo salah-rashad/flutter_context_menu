@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../flutter_context_menu.dart';
+import '../core/utils/extensions.dart';
 import '../core/utils/utils.dart';
 import 'menu_entry_widget.dart';
 
@@ -13,11 +14,11 @@ class ContextMenuWidgetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var boxDecoration = BoxDecoration(
-      color: Theme.of(context).colorScheme.surface,
+    final boxDecoration = BoxDecoration(
+      color: context.colorScheme.surface,
       boxShadow: [
         BoxShadow(
-          color: Theme.of(context).shadowColor.withValues(alpha: 0.5),
+          color: context.theme.shadowColor.withValues(alpha: 0.5),
           offset: const Offset(0.0, 2.0),
           blurRadius: 10,
           spreadRadius: -1,
