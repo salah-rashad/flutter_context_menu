@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -29,6 +30,5 @@ abstract base class ContextMenuEntry<T> {
   /// Called when the mouse pointer hovers over the context menu entry.
   void onMouseHover(PointerHoverEvent event, ContextMenuState menuState) {}
 
-  String get debugLabel =>
-      '$runtimeType ${hashCode.toString().substring(0, 5)}';
+  String get debugLabel => describeIdentity(this);
 }
