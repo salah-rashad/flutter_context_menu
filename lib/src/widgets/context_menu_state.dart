@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
 import '../core/models/context_menu.dart';
@@ -28,14 +27,14 @@ class ContextMenuState extends ChangeNotifier {
   /// Whether the position of the context menu has been verified.
   bool _isPositionVerified = false;
 
-  // /// Whether the context menu is a submenu or not.
-  // bool _isSubmenuOpen = false;
-
-  /// The direction in which the context menu should be spawned.
+  /// The spawn anchor where the context menu should be spawned from.
+  ///
   /// Used internally by the [ContextMenuState]
   ///
-  /// Defaults to [SpawnAlignment.topEnd].
-  AlignmentGeometry _spawnAnchor = AlignmentDirectional.center;
+  /// Defaults to:
+  /// - [AlignmentDirectional.center] for top level context menus and
+  /// - [AlignmentDirectional.topStart] for submenus.
+  AlignmentGeometry _spawnAnchor;
 
   /// The rectangle representing the parent item, used for submenu positioning.
   final Rect? _parentItemRect;
@@ -53,7 +52,8 @@ class ContextMenuState extends ChangeNotifier {
     this.parentItem,
   })  : _parentItemRect = null,
         _isSubmenu = false,
-        selfClose = null;
+        selfClose = null,
+        _spawnAnchor = AlignmentDirectional.center;
 
   ContextMenuState.submenu({
     required this.menu,
@@ -61,8 +61,7 @@ class ContextMenuState extends ChangeNotifier {
     this.parentItem,
     AlignmentGeometry? spawnAnchor,
     Rect? parentItemRect,
-    GlobalKey? parentMenuKey,
-  })  : _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topEnd,
+  })  : _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topStart,
         _parentItemRect = parentItemRect,
         _isSubmenu = true;
 

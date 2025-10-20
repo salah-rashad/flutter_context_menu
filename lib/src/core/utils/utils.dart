@@ -125,16 +125,9 @@ Offset calculateSubmenuPosition(Rect parentRect, EdgeInsets menuPadding) {
   );
 }
 
-bool hasSameFocusNodeId(String line1, String line2) {
-  final regex = RegExp(r'FocusNode#(\d+)');
-  final id1 = regex.firstMatch(line1)?.group(1);
-  final id2 = regex.firstMatch(line2)?.group(1);
-  return id1 != null && id1 == id2;
-}
-
-Rect getScreenRect(BuildContext context) {
-  final size = MediaQueryData.fromView(
-    WidgetsBinding.instance.platformDispatcher.views.first,
-  ).size;
-  return Offset.zero & size;
-}
+// bool hasSameFocusNodeId(String line1, String line2) {
+//   final regex = RegExp(r'FocusNode#(\d+)');
+//   final id1 = regex.firstMatch(line1)?.group(1);
+//   final id2 = regex.firstMatch(line2)?.group(1);
+//   return id1 != null && id1 == id2;
+// }
