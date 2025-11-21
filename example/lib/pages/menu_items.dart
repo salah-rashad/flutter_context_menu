@@ -119,13 +119,13 @@ final defaultContextMenuItems = <ContextMenuEntry>[
   MenuItem(
     label: "Cut",
     value: "Cut",
-    icon: Icon(Icons.cut_rounded),
+    icon: const Icon(Icons.cut_rounded),
     shortcut: Text(_cutShortcut.toKeyString()),
   ),
   MenuItem(
     label: "Select All",
     value: "Select All",
-    icon: Icon(Icons.select_all_rounded),
+    icon: const Icon(Icons.select_all_rounded),
     shortcut: Text(_selectAllShortcut.toKeyString()),
   ),
   MenuItem(
@@ -139,20 +139,20 @@ final defaultContextMenuItems = <ContextMenuEntry>[
   MenuItem(
     label: "Undo",
     value: "Undo",
-    icon: Icon(Icons.undo_rounded),
+    icon: const Icon(Icons.undo_rounded),
     shortcut: Text(_undoShortcut.toKeyString()),
   ),
   MenuItem(
     label: "Redo",
     value: "Redo",
-    icon: Icon(Icons.redo_rounded),
+    icon: const Icon(Icons.redo_rounded),
     shortcut: Text(_redoShortcut.toKeyString()),
   ),
   const MenuDivider(),
   MenuItem(
     label: "Exit",
     value: "Exit",
-    icon: Icon(Icons.exit_to_app_rounded),
+    icon: const Icon(Icons.exit_to_app_rounded),
     shortcut: Text(_exitShortcut.toKeyString()),
   ),
 ];
