@@ -8,6 +8,7 @@ import 'menu_divider.dart';
 import 'menu_header.dart';
 
 const double kMenuItemHeight = 32.0;
+const double kMenuItemIconSize = 32.0;
 
 /// Represents a selectable item in a context menu.
 ///
@@ -16,7 +17,9 @@ const double kMenuItemHeight = 32.0;
 ///
 /// #### Parameters:
 /// - [label] - The title of the context menu item
-/// - [icon] - The icon of the context menu item.
+/// - [icon] - The leading icon of the context menu item.
+/// - [shortcut] - The shortcut of the context menu item.
+/// - [trailing] - The trailing icon of the context menu item.
 /// - [constraints] - The height of the context menu item.
 /// - [focusNode] - The focus node of the context menu item.
 /// - [value] - The value associated with the context menu item.
@@ -27,7 +30,7 @@ const double kMenuItemHeight = 32.0;
 ///   associated value.
 /// - [constraints] - The constraints of the context menu item.
 /// - [enabled] - Whether the context menu item is selectable or not.
-/// - [color] - The text an icon foreground color
+/// - [textColor] - The text an icon foreground color
 ///
 /// see:
 /// - [ContextMenuEntry]
@@ -35,29 +38,35 @@ const double kMenuItemHeight = 32.0;
 /// - [MenuDivider]
 ///
 final class MenuItem<T> extends ContextMenuItem<T> {
+  final Widget? icon;
   final String label;
-  final IconData? icon;
+  final Widget? shortcut;
+  final Widget? trailing;
   final BoxConstraints? constraints;
-  final Color? color;
+  final Color? textColor;
 
   const MenuItem({
-    required this.label,
     this.icon,
+    required this.label,
+    this.shortcut,
+    this.trailing,
     super.value,
     super.onSelected,
     super.enabled,
     this.constraints,
-    this.color,
+    this.textColor,
   });
 
   const MenuItem.submenu({
-    required this.label,
     required List<ContextMenuEntry> items,
     this.icon,
+    required this.label,
+    this.shortcut,
+    this.trailing,
     super.onSelected,
     super.enabled,
     this.constraints,
-    this.color,
+    this.textColor,
   }) : super.submenu(items: items);
 
   @override
@@ -67,11 +76,12 @@ final class MenuItem<T> extends ContextMenuItem<T> {
 
     final background = context.colorScheme.surface;
     final focusedBackground = context.colorScheme.surfaceContainer;
-    final normalTextColor = Color.alphaBlend(
-      (color ?? context.colorScheme.onSurface).withValues(alpha: 0.7),
+    final adjustedTextColor = Color.alphaBlend(
+      context.colorScheme.onSurface.withValues(alpha: 0.7),
       background,
     );
-    final focusedTextColor = color ?? context.colorScheme.onSurface;
+    final normalTextColor = textColor ?? adjustedTextColor;
+    final focusedTextColor = textColor ?? context.colorScheme.onSurface;
     final disabledTextColor =
         context.colorScheme.onSurface.withValues(alpha: 0.2);
     final foregroundColor = !enabled
@@ -80,6 +90,10 @@ final class MenuItem<T> extends ContextMenuItem<T> {
             ? focusedTextColor
             : normalTextColor;
     final textStyle = TextStyle(color: foregroundColor, height: 1.0);
+    final leadingIconThemeData =
+        IconThemeData(size: 16.0, color: normalTextColor);
+    final trailingIconThemeData =
+        IconThemeData(size: 16.0, color: normalTextColor);
 
     // ~~~~~~~~~~ //
 
@@ -97,40 +111,50 @@ final class MenuItem<T> extends ContextMenuItem<T> {
         child: InkWell(
           onTap: !enabled ? null : () => handleItemSelection(context),
           canRequestFocus: false,
-          child: DefaultTextStyle(
-            style: textStyle,
-            child: Row(
-              children: [
-                SizedBox.square(
-                  dimension: kMenuItemHeight,
-                  child: Icon(
-                    icon,
-                    size: 16.0,
-                    color: foregroundColor,
-                  ),
+          child: Row(
+            children: [
+              SizedBox.square(
+                dimension: kMenuItemIconSize,
+                child: icon != null
+                    ? IconTheme(
+                        data: leadingIconThemeData,
+                        child: icon!,
+                      )
+                    : null,
+              ),
+              const SizedBox(width: 8.0),
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textStyle,
                 ),
-                const SizedBox(width: 4.0),
-                Expanded(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              ),
+              if (shortcut != null)
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 32.0),
+                  child: DefaultTextStyle(
+                      style: textStyle.apply(
+                        color: adjustedTextColor.withValues(alpha: 0.6),
+                      ),
+                      child: shortcut!),
                 ),
-                const SizedBox(width: 8.0),
-                SizedBox.square(
-                  dimension: kMenuItemHeight,
-                  child: Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Icon(
-                      isSubmenuItem ? Icons.arrow_right : null,
-                      size: 16.0,
-                      color: foregroundColor,
+              const SizedBox(width: 8.0),
+              trailing ??
+                  SizedBox.square(
+                    dimension: kMenuItemIconSize,
+                    child: Align(
+                      alignment: AlignmentDirectional.center,
+                      child: IconTheme(
+                        data: trailingIconThemeData,
+                        child: Icon(
+                          isSubmenuItem ? Icons.arrow_right : null,
+                        ),
+                      ),
                     ),
-                  ),
-                )
-              ],
-            ),
+                  )
+            ],
           ),
         ),
       ),
