@@ -63,9 +63,9 @@ class ContextMenu<T> {
     return showContextMenu<T>(context, contextMenu: this);
   }
 
-  ContextMenu copyWith({
+  ContextMenu<T> copyWith({
     Offset? position,
-    List<ContextMenuEntry>? entries,
+    List<ContextMenuEntry<T>>? entries,
     EdgeInsets? padding,
     BorderRadiusGeometry? borderRadius,
     double? maxWidth,
@@ -73,7 +73,7 @@ class ContextMenu<T> {
     Clip? clipBehavior,
     BoxDecoration? boxDecoration,
   }) {
-    return ContextMenu(
+    return ContextMenu<T>(
       position: position ?? this.position,
       entries: entries ?? this.entries,
       padding: padding ?? this.padding,

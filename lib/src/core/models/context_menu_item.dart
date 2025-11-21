@@ -33,7 +33,7 @@ import 'context_menu_entry.dart';
 abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   final T? value;
   final List<ContextMenuEntry>? items;
-  final VoidCallback? onSelected;
+  final ValueChanged<T?>? onSelected;
   final bool enabled;
 
   const ContextMenuItem({
@@ -79,7 +79,7 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
         Navigator.pop(context, value);
       }
     }
-    onSelected?.call();
+    onSelected?.call(value);
   }
 
   /// Toggles the visibility of the submenu associated with this menu item.

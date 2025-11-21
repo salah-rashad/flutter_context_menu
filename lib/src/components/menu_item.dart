@@ -58,7 +58,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   });
 
   const MenuItem.submenu({
-    required List<ContextMenuEntry> items,
+    required List<ContextMenuEntry<T>> items,
     this.icon,
     required this.label,
     this.shortcut,

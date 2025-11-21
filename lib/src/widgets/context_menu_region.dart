@@ -40,7 +40,7 @@ class ContextMenuRegion<T> extends StatefulWidget {
   /// This is helpful when you want to use a custom gesture recognizer for the widget.
   final bool enableGestures;
 
-  final ValueChanged<T>? onItemSelected;
+  final ValueChanged<T?>? onItemSelected;
   final ContextMenuRegionBuilder<T>? builder;
   final Widget? child;
   final MenuRouteOptions? routeOptions;
@@ -99,7 +99,7 @@ class _ContextMenuRegionState<T> extends State<ContextMenuRegion<T>> {
   void _showMenu(BuildContext context, Offset position) async {
     final menu = widget.contextMenu
         .copyWith(position: widget.contextMenu.position ?? position);
-    final value = await showContextMenu(
+    final value = await showContextMenu<T>(
       context,
       contextMenu: menu,
       routeOptions: widget.routeOptions,
