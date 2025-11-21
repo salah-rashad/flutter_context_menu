@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
 import '../entries/custom_context_menu_item.dart';
 
-const defaultContextMenuItems = <ContextMenuEntry>[
-  MenuItem.submenu(
+const _openShortcut = SingleActivator(LogicalKeyboardKey.keyO, control: true);
+const _copyShortcut = SingleActivator(LogicalKeyboardKey.keyC, control: true);
+const _pasteShortcut = SingleActivator(LogicalKeyboardKey.keyV, control: true);
+const _cutShortcut = SingleActivator(LogicalKeyboardKey.keyX, control: true);
+const _selectAllShortcut =
+    SingleActivator(LogicalKeyboardKey.keyA, control: true);
+const _deleteShortcut = SingleActivator(LogicalKeyboardKey.delete);
+const _undoShortcut = SingleActivator(LogicalKeyboardKey.keyZ, control: true);
+const _redoShortcut =
+    SingleActivator(LogicalKeyboardKey.keyZ, control: true, shift: true);
+const _exitShortcut = SingleActivator(LogicalKeyboardKey.f4, alt: true);
+const _viewCompactShortcut = SingleActivator(LogicalKeyboardKey.numpadSubtract,
+    control: true, alt: true);
+const _viewComfortableShortcut =
+    SingleActivator(LogicalKeyboardKey.numpadAdd, control: true, alt: true);
+
+final defaultContextMenuItems = <ContextMenuEntry>[
+  const MenuItem.submenu(
     label: "New",
-    icon: Icons.add_rounded,
-    color: Colors.green,
+    icon: Icon(Icons.add_rounded),
+    textColor: Colors.green,
     items: [
       MenuItem(
         label: "Node",
@@ -27,27 +44,30 @@ const defaultContextMenuItems = <ContextMenuEntry>[
   MenuItem(
     label: "Open...",
     value: "Open...",
-    icon: Icons.file_open_rounded,
+    icon: const Icon(Icons.folder_outlined),
+    shortcut: Text(_openShortcut.toKeyString()),
   ),
   MenuItem.submenu(
     label: "View",
-    icon: Icons.view_comfy_alt_rounded,
+    icon: const Icon(Icons.view_comfy_alt_rounded),
     items: [
-      MenuHeader(text: "Visibility"),
+      const MenuHeader(text: "Visibility"),
       MenuItem(
         label: "Comapct",
         value: "Comapct",
-        icon: Icons.view_compact_rounded,
+        icon: const Icon(Icons.view_compact_rounded),
+        shortcut: Text(_viewCompactShortcut.toKeyString()),
       ),
       MenuItem(
         label: "Comfortable",
         value: "Comfortable",
-        icon: Icons.view_comfortable_rounded,
+        icon: const Icon(Icons.view_comfortable_rounded),
+        shortcut: Text(_viewComfortableShortcut.toKeyString()),
       ),
-      MenuDivider(),
-      MenuItem.submenu(
-          label: "Show Mini Map",
-          icon: Icons.screen_search_desktop_rounded,
+      const MenuDivider(),
+      const MenuItem.submenu(
+          label: "Mini Map",
+          icon: Icon(Icons.screen_search_desktop_rounded),
           items: [
             MenuItem(
               label: "Show",
@@ -82,6 +102,58 @@ const defaultContextMenuItems = <ContextMenuEntry>[
             ]),
           ]),
     ],
+  ),
+  const MenuHeader(text: "Edit"),
+  MenuItem(
+    label: "Copy",
+    value: "Copy",
+    icon: const Icon(Icons.copy_rounded),
+    shortcut: Text(_copyShortcut.toKeyString()),
+  ),
+  MenuItem(
+    label: "Paste",
+    value: "Paste",
+    icon: const Icon(Icons.paste_rounded),
+    shortcut: Text(_pasteShortcut.toKeyString()),
+  ),
+  MenuItem(
+    label: "Cut",
+    value: "Cut",
+    icon: Icon(Icons.cut_rounded),
+    shortcut: Text(_cutShortcut.toKeyString()),
+  ),
+  MenuItem(
+    label: "Select All",
+    value: "Select All",
+    icon: Icon(Icons.select_all_rounded),
+    shortcut: Text(_selectAllShortcut.toKeyString()),
+  ),
+  MenuItem(
+    label: "Delete",
+    value: "Delete",
+    icon: const Icon(Icons.delete_rounded),
+    shortcut: Text(_deleteShortcut.toKeyString()),
+  ),
+  const MenuDivider(),
+  const MenuHeader(text: "History"),
+  MenuItem(
+    label: "Undo",
+    value: "Undo",
+    icon: Icon(Icons.undo_rounded),
+    shortcut: Text(_undoShortcut.toKeyString()),
+  ),
+  MenuItem(
+    label: "Redo",
+    value: "Redo",
+    icon: Icon(Icons.redo_rounded),
+    shortcut: Text(_redoShortcut.toKeyString()),
+  ),
+  const MenuDivider(),
+  MenuItem(
+    label: "Exit",
+    value: "Exit",
+    icon: Icon(Icons.exit_to_app_rounded),
+    shortcut: Text(_exitShortcut.toKeyString()),
   ),
 ];
 
@@ -187,21 +259,21 @@ List<ContextMenuEntry> getLongContextMenuItems(BuildContext context) {
     items.add(MenuItem(
       label: "Item $i",
       value: "Item $i",
-      icon: i % 2 == 0 ? Icons.star_rounded : Icons.circle,
-      color: i % 3 == 0 ? Colors.blue : null,
+      icon: Icon(i % 2 == 0 ? Icons.star_rounded : Icons.circle),
+      textColor: i % 3 == 0 ? Colors.blue : null,
       enabled: i % 5 != 0,
     ));
   }
   items.add(const MenuDivider());
   items.add(MenuItem.submenu(
     label: "More Options",
-    icon: Icons.more_horiz,
+    icon: const Icon(Icons.more_horiz),
     items: [
       for (int j = 1; j <= 10; j++)
         MenuItem(
           label: "Option $j",
           value: "Option $j",
-          icon: Icons.settings,
+          icon: const Icon(Icons.settings),
         ),
     ],
   ));
