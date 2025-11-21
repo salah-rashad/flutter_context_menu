@@ -39,7 +39,7 @@ const double kMenuItemIconSize = 32.0;
 ///
 final class MenuItem<T> extends ContextMenuItem<T> {
   final Widget? icon;
-  final String label;
+  final Widget label;
   final Widget? shortcut;
   final Widget? trailing;
   final BoxConstraints? constraints;
@@ -124,21 +124,22 @@ final class MenuItem<T> extends ContextMenuItem<T> {
               ),
               const SizedBox(width: 8.0),
               Expanded(
-                child: Text(
-                  label,
+                child: DefaultTextStyle(
+                  style: textStyle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: textStyle,
+                  child: label,
                 ),
               ),
               if (shortcut != null)
                 Padding(
                   padding: const EdgeInsetsDirectional.only(start: 32.0),
                   child: DefaultTextStyle(
-                      style: textStyle.apply(
-                        color: adjustedTextColor.withValues(alpha: 0.6),
-                      ),
-                      child: shortcut!),
+                    style: textStyle.apply(
+                      color: adjustedTextColor.withValues(alpha: 0.6),
+                    ),
+                    child: shortcut!,
+                  ),
                 ),
               const SizedBox(width: 8.0),
               trailing ??
