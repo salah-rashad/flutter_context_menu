@@ -39,7 +39,7 @@ const double kMenuItemIconSize = 32.0;
 ///
 final class MenuItem<T> extends ContextMenuItem<T> {
   final Widget? icon;
-  final String label;
+  final Widget label;
   final SingleActivator? shortcut;
   final Widget? trailing;
   final BoxConstraints? constraints;
@@ -127,11 +127,11 @@ final class MenuItem<T> extends ContextMenuItem<T> {
               ),
               const SizedBox(width: 8.0),
               Expanded(
-                child: Text(
-                  label,
+                child: DefaultTextStyle(
+                  style: textStyle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: textStyle,
+                  child: label,
                 ),
               ),
               if (shortcut != null)
