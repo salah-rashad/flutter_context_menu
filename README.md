@@ -23,44 +23,54 @@
     <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/salah-rashad/flutter_context_menu/analyze.yml?style=for-the-badge&logo=github&label=Analyze&labelColor=black">
   </a>
   <br/>
-  
+
   <a href="https://pub.dev/packages/flutter_context_menu" target="_blank">
-    <img src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart&labelColor=black"/> 
+    <img alt="Pub Version" src="https://img.shields.io/pub/v/flutter_context_menu.svg?style=for-the-badge&label=pub&logo=dart&labelColor=black"/> 
   </a>
   <a href="https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge&color=purple&labelColor=black"/> 
+    <img alt="License" src="https://img.shields.io/github/license/salah-rashad/flutter_context_menu.svg?style=for-the-badge&color=purple&labelColor=black"/> 
   </a>
   <a href="https://github.com/salah-rashad/flutter_context_menu/stargazers" target="_blank">
-    <img src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge&label=GitHub Stars&color=gold&labelColor=black"/>
+    <img alt="GitHub Stars" src="https://img.shields.io/github/stars/salah-rashad/flutter_context_menu.svg?style=for-the-badge&label=GitHub Stars&color=gold&labelColor=black"/>
   </a>
 
   <br/>
 
   <a href="https://pub.dev/packages/flutter_context_menu/score" target="_blank">
-    <img src="https://img.shields.io/pub/likes/flutter_context_menu.svg?style=for-the-badge&label=likes&labelColor=black"/>
-    <img src="https://img.shields.io/pub/points/flutter_context_menu?style=for-the-badge&label=Points&labelColor=black&color=229954"/>
-    <img src="https://img.shields.io/pub/dm/flutter_context_menu.svg?style=for-the-badge&label=Downloads&labelColor=black&color=34495e"/>
+    <img alt="Pub Likes" src="https://img.shields.io/pub/likes/flutter_context_menu.svg?style=for-the-badge&label=likes&labelColor=black"/>
+    <img alt="Pub Points" src="https://img.shields.io/pub/points/flutter_context_menu?style=for-the-badge&label=Points&labelColor=black&color=229954"/>
+    <img alt="Pub Downloads" src="https://img.shields.io/pub/dm/flutter_context_menu.svg?style=for-the-badge&label=Downloads&labelColor=black&color=34495e"/>
   </a>
   <br/>
   <a href="https://thebsd.github.io/StandWithPalestine/" target="_blank">
-    <img src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/StandWithPalestine.svg"/>
+    <img alt="Stand With Palestine" src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/StandWithPalestine.svg"/>
   </a>
   <br/><br/>
-  
+
 </div>
 
 ![Preview](assets/images/preview.gif)
 
 ## Features
 
-- **`ContextMenu`**: The package includes a highly customizable context menu system that can be easily integrated into your Flutter application. It provides a seamless and intuitive user experience, enhancing the usability of your app.
-- **Hierarchical Structure**: The context menu supports a hierarchical structure with submenu functionality. This enables you to create nested menus, providing a clear and organized representation of options and suboptions.
-- **Selection Handling**: The package includes built-in selection handling for context menu items. It allows you to define callback functions for individual menu items, enabling you to execute specific actions or logic when an item is selected.
-- **Customization Options**: Customize the appearance and behavior of the context menu to match your app's design and requirements. Modify the style, positioning, animation, and interaction of the menu to create a cohesive user interface.
-  
-- **Built-in Components**: The package includes built-in components, such as `MenuItem`, `MenuDivider`, and `MenuHeader`, that can be used in your context menu.
+- **`ContextMenu`**: The package includes a highly customizable context menu system that can be
+  easily integrated into your Flutter application. It provides a seamless and intuitive user
+  experience, enhancing the usability of your app.
+- **Hierarchical Structure**: The context menu supports a hierarchical structure with submenu
+  functionality. This enables you to create nested menus, providing a clear and organized
+  representation of options and suboptions.
+- **Selection Handling**: The package includes built-in selection handling for context menu items.
+  It allows you to define callback functions for individual menu items, enabling you to execute
+  specific actions or logic when an item is selected.
+- **Customization Options**: Customize the appearance and behavior of the context menu to match your
+  app's design and requirements. Modify the style, positioning, animation, and interaction of the
+  menu to create a cohesive user interface.
 
-- **Cross Platform Support**: The package is compatible with multiple platforms, including Android, iOS, Web, and Desktop.
+- **Built-in Components**: The package includes built-in components, such as `MenuItem`,
+  `MenuDivider`, and `MenuHeader`, that can be used in your context menu.
+
+- **Cross Platform Support**: The package is compatible with multiple platforms, including Android,
+  iOS, Web, and Desktop.
 
 ## Getting Started
 
@@ -95,53 +105,53 @@
     ```dart
     import 'package:flutter_context_menu/flutter_context_menu.dart';
     ```
-    
+
 2. Then, initialize a `ContextMenu` instance:
-    
+
     ```dart
     // define your context menu entries
     final entries = <ContextMenuEntry>[
       const MenuHeader(text: "Context Menu"),
       MenuItem(
-        label: 'Copy',
-        icon: Icons.copy,
-        onSelected: () {
+        label: const Text('Copy'),
+        icon: const Icon(Icons.copy),
+        onSelected: (value) {
           // implement copy
         },
       ),
       MenuItem(
         enabled: false, // disable this item
-        label: 'Cut',
-        icon: Icons.cut,
-        onSelected: () {
+        label: const Text('Cut'),
+        icon: const Icon(Icons.cut),
+        onSelected: (value) {
           // implement cut
         },
       ),
       MenuItem(
-        label: 'Paste',
-        icon: Icons.paste,
-        onSelected: () {
+        label: const Text('Paste'),
+        icon: const Icon(Icons.paste),
+        onSelected: (value) {
           // implement paste
         },
       ),
       const MenuDivider(),
       MenuItem.submenu(
-        label: 'Edit',
-        icon: Icons.edit,
+        label: const Text('Edit'),
+        icon: const Icon(Icons.edit),
         items: [
           MenuItem(
-            label: 'Undo',
+            label: const Text('Undo'),
             value: "Undo",
-            icon: Icons.undo,
-            onSelected: () {
+            icon: const Icon(Icons.undo),
+            onSelected: (value) {
               // implement undo
             },
           ),
           MenuItem(
-            label: 'Redo',
+            label: const Text('Redo'),
             value: 'Redo',
-            icon: Icons.redo,
-            onSelected: () {
+            icon: const Icon(Icons.redo),
+            onSelected: (value) {
               // implement redo
             },
           ),
@@ -158,20 +168,22 @@
     ```
 
 3. Finally, to show the context menu, there are two ways:
-    - **Method 1**: Directly calling one of the show methods. 
+    - **Method 1**: Directly calling one of the show methods.
       > This will show the context menu at the manually specified position.
       ```dart
-      showContextMenu(context, contextMenu: menu);
-      // or 
-      final selectedValue = await menu.show(context);
-      print(selectedValue);
+      void showMenu() async {
+        showContextMenu(context, contextMenu: menu);
+        // or 
+        final selectedValue = await menu.show(context);
+        print(selectedValue);
+      }
       ```
 
-    - **Method 2**: Using the `ContextMenuRegion` widget to show the context menu when the user right-clicks or long-presses the region area.
-      > This will show the context menu where the user clicks when the `position` property is not specified in the `ContextMenu` constructor.
+    - **Method 2**: Using the `ContextMenuRegion` widget to show the context menu when the user
+      right-clicks or long-presses the region area.
+      > This will show the context menu where the user clicks when the `position` property is not
+      specified in the `ContextMenu` constructor.
       ```dart
-      ...
-
       @override
       Widget build(BuildContext context) {
         return Column(
@@ -196,12 +208,17 @@
         );
       }
       ```
-    
+
 ## Customization
 
-> **Theme**: By default, the context menu and its items uses the `MaterialApp`'s theme data for styling. However, you can customize the appearance and behavior of the context menu by modifying the theme data. Or individually by specifying a `BoxDecoration` in the `boxDecoration` property of the `ContextMenu`.
+> **Theme**: By default, the context menu and its items uses the `MaterialApp`'s theme data for
+> styling. However, you can customize the appearance and behavior of the context menu by modifying
+> the theme data. Or individually by specifying a `BoxDecoration` in the `boxDecoration` property of
+> the `ContextMenu`.
 
-> **Custom Entries**: You can create your own context menu entries by subclassing the `ContextMenuEntry` class. This allows you to customize the appearance, behavior, and functionality of the context menu items.
+> **Custom Entries**: You can create your own context menu entries by subclassing the
+> `ContextMenuEntry` class. This allows you to customize the appearance, behavior, and functionality
+> of the context menu items.
 
 ## Learn More
 
@@ -210,14 +227,17 @@
 
 ## Feedback and Contributions
 
-If you have any suggestions or feedback, please [open an issue](https://github.com/salah-rashad/flutter_context_menu/issues/new) or [create a pull request](https://github.com/salah-rashad/flutter_context_menu/pulls). 
+If you have any suggestions or feedback,
+please [open an issue](https://github.com/salah-rashad/flutter_context_menu/issues/new)
+or [create a pull request](https://github.com/salah-rashad/flutter_context_menu/pulls).
 
-If you like this package, please [star](https://github.com/salah-rashad/flutter_context_menu) it and follow me on [X](https://x.com/SalahRAhmed) and [GitHub](https://github.com/salah-rashad).
+If you like this package, please [star](https://github.com/salah-rashad/flutter_context_menu) it and
+follow me on [X](https://x.com/SalahRAhmed) and [GitHub](https://github.com/salah-rashad).
 
 ## License
 
-This project is licensed under the [BSD 3-Clause License](https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE).
-
+This project is licensed under
+the [BSD 3-Clause License](https://github.com/salah-rashad/flutter_context_menu/tree/main/LICENSE).
 
 <br/><br/>
 
