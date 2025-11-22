@@ -1,3 +1,48 @@
+## v0.4.0
+
+### **Added**
+
+* Support for **keyboard shortcuts** and **trailing widgets** in `MenuItem`, enabling richer and
+  more flexible menu actions. (closes #33)
+* Added `SingleActivatorExtensions` for human-readable shortcut strings (e.g., `"Ctrl+O"`).
+* Added a new `onItemSelected` callback to `ContextMenuRegion` and `showContextMenu` for immediate
+  selection handling.
+
+### **Changed**
+
+* Renamed `enableGestures` → `enableDefaultGestures` for clarity.
+* Renamed `MenuItem.color` → `textColor` for clearer meaning.
+* Updated default `spawnAnchor` for menus and submenus to improve positioning.
+* Refactored `icon` parameter on `MenuItem` from `IconData?` to `Widget?` to increase flexibility.
+* Refactored `label` parameter on `MenuItem` from `String` to `Widget` to increase flexibility.
+* Updated example project to showcase new features.
+
+### **Improved**
+
+* **Full generics upgrade**: `ContextMenu<T>`, `ContextMenuItem<T>`, `ContextMenuEntry<T>`, and all
+  related classes are now strongly typed.
+* `ContextMenu.copyWith` now correctly returns `ContextMenu<T>`.
+* Submenus now use `List<ContextMenuEntry<T>>` for strong typing.
+* `ContextMenuItem.onSelected` now exposes the selected value (`ValueChanged<T?>`).
+* General API consistency improved across widgets and utilities.
+* Significantly improved debugging output:
+
+    * `debugLabel` now includes inherited labels.
+    * `describeIdentity` used for consistent element identification.
+* Extracted `ContextMenuWidgetView` for cleaner separation of concerns.
+* Introduced `kMenuItemHeight` constant for uniform layout behavior in `MenuItem`.
+* Introduced `kMenuItemIconSize` constant for icon size in `MenuItem`.
+* Added `mediaQuery` extension on `BuildContext` to simplify `MediaQuery` access.
+
+### **Fixed**
+
+* `showContextMenu` now uses the **root navigator** by default, ensuring the menu displays above
+  nested navigators and preventing multiple instances. (Fixes #21)
+
+### **Removed**
+
+* Removed unused code such as `hasSameFocusNodeId`, `getScreenRect`, and `parentMenuKey`.
+
 ## 0.3.0
 
 ### Added / Changed
