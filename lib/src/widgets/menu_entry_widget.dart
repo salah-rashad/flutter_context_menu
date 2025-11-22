@@ -9,15 +9,16 @@ import 'context_menu_state.dart';
 /// A widget that represents a single item in a context menu.
 ///
 /// This widget is used internally by the `ContextMenu` contextMenu.
-class MenuEntryWidget<T> extends StatefulWidget {
-  final ContextMenuEntry<T> entry;
+class MenuEntryWidget extends StatefulWidget {
+  final ContextMenuEntry entry;
+
   const MenuEntryWidget({super.key, required this.entry});
 
   @override
-  State<MenuEntryWidget<T>> createState() => _MenuEntryWidgetState<T>();
+  State<MenuEntryWidget> createState() => _MenuEntryWidgetState();
 }
 
-class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
+class _MenuEntryWidgetState extends State<MenuEntryWidget> {
   late final FocusNode focusNode;
 
   ContextMenuEntry get entry => widget.entry;

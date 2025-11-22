@@ -40,7 +40,7 @@ const double kMenuItemIconSize = 32.0;
 final class MenuItem<T> extends ContextMenuItem<T> {
   final Widget? icon;
   final String label;
-  final Widget? shortcut;
+  final SingleActivator? shortcut;
   final Widget? trailing;
   final BoxConstraints? constraints;
   final Color? textColor;
@@ -138,7 +138,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
                       style: textStyle.apply(
                         color: adjustedTextColor.withValues(alpha: 0.6),
                       ),
-                      child: shortcut!),
+                      child: Text(shortcut!.toKeyString())),
                 ),
               const SizedBox(width: 8.0),
               trailing ??

@@ -12,8 +12,8 @@ import 'context_menu_widget_view.dart';
 /// see:
 /// - [ContextMenuState]
 
-class ContextMenuWidget extends StatelessWidget {
-  final ContextMenuState menuState;
+class ContextMenuWidget<T> extends StatelessWidget {
+  final ContextMenuState<T> menuState;
 
   const ContextMenuWidget({
     super.key,
@@ -22,7 +22,7 @@ class ContextMenuWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ContextMenuProvider(
+    return ContextMenuProvider<T>(
       state: menuState,
       child: Builder(
         builder: (context) {

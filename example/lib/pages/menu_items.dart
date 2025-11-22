@@ -20,8 +20,8 @@ const _viewCompactShortcut = SingleActivator(LogicalKeyboardKey.numpadSubtract,
 const _viewComfortableShortcut =
     SingleActivator(LogicalKeyboardKey.numpadAdd, control: true, alt: true);
 
-final defaultContextMenuItems = <ContextMenuEntry>[
-  const MenuItem.submenu(
+const defaultContextMenuItems = <ContextMenuEntry<String>>[
+  MenuItem.submenu(
     label: "New",
     icon: Icon(Icons.add_rounded),
     textColor: Colors.green,
@@ -44,28 +44,28 @@ final defaultContextMenuItems = <ContextMenuEntry>[
   MenuItem(
     label: "Open...",
     value: "Open...",
-    icon: const Icon(Icons.folder_outlined),
-    shortcut: Text(_openShortcut.toKeyString()),
+    icon: Icon(Icons.folder_outlined),
+    shortcut: _openShortcut,
   ),
   MenuItem.submenu(
     label: "View",
-    icon: const Icon(Icons.view_comfy_alt_rounded),
+    icon: Icon(Icons.view_comfy_alt_rounded),
     items: [
-      const MenuHeader(text: "Visibility"),
+      MenuHeader(text: "Visibility"),
       MenuItem(
         label: "Comapct",
         value: "Comapct",
-        icon: const Icon(Icons.view_compact_rounded),
-        shortcut: Text(_viewCompactShortcut.toKeyString()),
+        icon: Icon(Icons.view_compact_rounded),
+        shortcut: _viewCompactShortcut,
       ),
       MenuItem(
         label: "Comfortable",
         value: "Comfortable",
-        icon: const Icon(Icons.view_comfortable_rounded),
-        shortcut: Text(_viewComfortableShortcut.toKeyString()),
+        icon: Icon(Icons.view_comfortable_rounded),
+        shortcut: _viewComfortableShortcut,
       ),
-      const MenuDivider(),
-      const MenuItem.submenu(
+      MenuDivider(),
+      MenuItem.submenu(
           label: "Mini Map",
           icon: Icon(Icons.screen_search_desktop_rounded),
           items: [
@@ -103,61 +103,61 @@ final defaultContextMenuItems = <ContextMenuEntry>[
           ]),
     ],
   ),
-  const MenuHeader(text: "Edit"),
+  MenuHeader(text: "Edit"),
   MenuItem(
     label: "Copy",
     value: "Copy",
-    icon: const Icon(Icons.copy_rounded),
-    shortcut: Text(_copyShortcut.toKeyString()),
+    icon: Icon(Icons.copy_rounded),
+    shortcut: _copyShortcut,
   ),
   MenuItem(
     label: "Paste",
     value: "Paste",
-    icon: const Icon(Icons.paste_rounded),
-    shortcut: Text(_pasteShortcut.toKeyString()),
+    icon: Icon(Icons.paste_rounded),
+    shortcut: _pasteShortcut,
   ),
   MenuItem(
     label: "Cut",
     value: "Cut",
-    icon: const Icon(Icons.cut_rounded),
-    shortcut: Text(_cutShortcut.toKeyString()),
+    icon: Icon(Icons.cut_rounded),
+    shortcut: _cutShortcut,
   ),
   MenuItem(
     label: "Select All",
     value: "Select All",
-    icon: const Icon(Icons.select_all_rounded),
-    shortcut: Text(_selectAllShortcut.toKeyString()),
+    icon: Icon(Icons.select_all_rounded),
+    shortcut: _selectAllShortcut,
   ),
   MenuItem(
     label: "Delete",
     value: "Delete",
-    icon: const Icon(Icons.delete_rounded),
-    shortcut: Text(_deleteShortcut.toKeyString()),
+    icon: Icon(Icons.delete_rounded),
+    shortcut: _deleteShortcut,
   ),
-  const MenuDivider(),
-  const MenuHeader(text: "History"),
+  MenuDivider(),
+  MenuHeader(text: "History"),
   MenuItem(
     label: "Undo",
     value: "Undo",
-    icon: const Icon(Icons.undo_rounded),
-    shortcut: Text(_undoShortcut.toKeyString()),
+    icon: Icon(Icons.undo_rounded),
+    shortcut: _undoShortcut,
   ),
   MenuItem(
     label: "Redo",
     value: "Redo",
-    icon: const Icon(Icons.redo_rounded),
-    shortcut: Text(_redoShortcut.toKeyString()),
+    icon: Icon(Icons.redo_rounded),
+    shortcut: _redoShortcut,
   ),
-  const MenuDivider(),
+  MenuDivider(),
   MenuItem(
     label: "Exit",
     value: "Exit",
-    icon: const Icon(Icons.exit_to_app_rounded),
-    shortcut: Text(_exitShortcut.toKeyString()),
+    icon: Icon(Icons.exit_to_app_rounded),
+    shortcut: _exitShortcut,
   ),
 ];
 
-const customContextMenuItems = <ContextMenuEntry>[
+const customContextMenuItems = <ContextMenuEntry<String>>[
   CustomContextMenuItem(
     label: "SPIRO SPATHIS",
     value: "SPIRO SPATHIS",
@@ -253,7 +253,7 @@ const customContextMenuItems = <ContextMenuEntry>[
 List<ContextMenuEntry> getLongContextMenuItems(BuildContext context) {
   final screenSize = MediaQuery.of(context).size;
   final itemsCount = (screenSize.height / kMenuItemHeight).floor() * 1.5;
-  final items = <ContextMenuEntry>[];
+  final items = <ContextMenuEntry<String>>[];
 
   for (int i = 1; i <= itemsCount; i++) {
     items.add(MenuItem(

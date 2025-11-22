@@ -17,7 +17,7 @@ typedef ContextMenuRegionBuilder<T> = Widget Function(
   BuildContext context,
   ContextMenu<T> contextMenu,
   Offset pointerPosition,
-  void Function() showMenu,
+  void Function(Offset position) showMenu,
   Widget? child,
 );
 
@@ -26,7 +26,7 @@ class ContextMenuRegion<T> extends StatefulWidget {
   const ContextMenuRegion({
     super.key,
     required this.contextMenu,
-    this.enableGestures = true,
+    this.enableDefaultGestures = true,
     this.onItemSelected,
     this.builder,
     this.child,
@@ -37,8 +37,8 @@ class ContextMenuRegion<T> extends StatefulWidget {
 
   /// Whether to enable built-in gestures on the widget.
   ///
-  /// This is helpful when you want to use a custom gesture recognizer for the widget.
-  final bool enableGestures;
+  /// This is helpful when you want to use a custom gesture recognizer in [builder].
+  final bool enableDefaultGestures;
 
   final ValueChanged<T?>? onItemSelected;
   final ContextMenuRegionBuilder<T>? builder;
@@ -74,12 +74,12 @@ class _ContextMenuRegionState<T> extends State<ContextMenuRegion<T>> {
           context,
           widget.contextMenu,
           pointerPosition,
-          () => _showMenu(context, pointerPosition),
+          (pos) => _showMenu(context, pos),
           widget.child,
         ) ??
         widget.child;
 
-    if (widget.enableGestures) {
+    if (widget.enableDefaultGestures) {
       return GestureDetector(
         onLongPressStart: (details) {
           pointerPosition = details.globalPosition;
@@ -96,14 +96,14 @@ class _ContextMenuRegionState<T> extends State<ContextMenuRegion<T>> {
     }
   }
 
-  void _showMenu(BuildContext context, Offset position) async {
+  void _showMenu(BuildContext context, Offset position) {
     final menu = widget.contextMenu
         .copyWith(position: widget.contextMenu.position ?? position);
-    final value = await showContextMenu<T>(
+    showContextMenu<T>(
       context,
       contextMenu: menu,
       routeOptions: widget.routeOptions,
+      onItemSelected: widget.onItemSelected,
     );
-    widget.onItemSelected?.call(value);
   }
 }

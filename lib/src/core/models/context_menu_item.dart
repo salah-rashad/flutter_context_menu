@@ -32,7 +32,7 @@ import 'context_menu_entry.dart';
 ///
 abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   final T? value;
-  final List<ContextMenuEntry>? items;
+  final List<ContextMenuEntry<T>>? items;
   final ValueChanged<T?>? onSelected;
   final bool enabled;
 
@@ -80,6 +80,7 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
       }
     }
     onSelected?.call(value);
+    menuState.onItemSelected?.call(value);
   }
 
   /// Toggles the visibility of the submenu associated with this menu item.

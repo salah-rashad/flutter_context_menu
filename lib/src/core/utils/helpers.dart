@@ -11,8 +11,10 @@ Future<T?> showContextMenu<T>(
   required ContextMenu<T> contextMenu,
   MenuRouteOptions? routeOptions,
   bool useRootNavigator = true,
+  ValueChanged<T?>? onItemSelected,
 }) async {
-  final menuState = ContextMenuState(menu: contextMenu);
+  final menuState =
+      ContextMenuState<T>(menu: contextMenu, onItemSelected: onItemSelected);
   routeOptions ??= const MenuRouteOptions(
     barrierDismissible: true,
   );
@@ -24,7 +26,7 @@ Future<T?> showContextMenu<T>(
     PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) {
         return Stack(
-          children: [ContextMenuWidget(menuState: menuState)],
+          children: [ContextMenuWidget<T>(menuState: menuState)],
         );
       },
       fullscreenDialog: true,

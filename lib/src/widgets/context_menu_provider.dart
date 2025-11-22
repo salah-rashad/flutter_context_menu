@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 
 import 'context_menu_state.dart';
 
-class ContextMenuProvider extends InheritedNotifier<ContextMenuState> {
+class ContextMenuProvider<T> extends InheritedNotifier<ContextMenuState<T>> {
   const ContextMenuProvider({
     super.key,
     required super.child,
-    required ContextMenuState state,
+    required ContextMenuState<T> state,
   }) : super(notifier: state);
 }

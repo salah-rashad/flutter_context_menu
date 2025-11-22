@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
-final class CustomContextMenuItem extends ContextMenuItem<String> {
+final class CustomContextMenuItem<T> extends ContextMenuItem<T> {
   final String label;
   final String? subtitle;
   final IconData? icon;
@@ -25,6 +25,9 @@ final class CustomContextMenuItem extends ContextMenuItem<String> {
   bool get autoHandleFocus => false;
 
   @override
+  String get debugLabel => "[${hashCode.toString().substring(0, 5)}] $label";
+
+  @override
   Widget builder(BuildContext context, ContextMenuState menuState,
       [FocusNode? focusNode]) {
     return ListTile(
@@ -40,7 +43,4 @@ final class CustomContextMenuItem extends ContextMenuItem<String> {
       selectedTileColor: Colors.blue,
     );
   }
-
-  @override
-  String get debugLabel => "[${hashCode.toString().substring(0, 5)}] $label";
 }
