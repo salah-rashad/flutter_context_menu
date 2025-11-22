@@ -70,6 +70,9 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   }) : super.submenu(items: items);
 
   @override
+  String get debugLabel => "${super.debugLabel} - $label";
+
+  @override
   Widget builder(BuildContext context, ContextMenuState menuState,
       [FocusNode? focusNode]) {
     bool isFocused = menuState.focusedEntry == this;
@@ -160,7 +163,4 @@ final class MenuItem<T> extends ContextMenuItem<T> {
       ),
     );
   }
-
-  @override
-  String get debugLabel => "[${hashCode.toString().substring(0, 5)}] $label";
 }
