@@ -17,7 +17,7 @@ jobs:
     
       # Clones the current project on the machine
       - name: Checkout current repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Installs flutter and related dependency on this machine
       - name: Setup Flutter
