@@ -79,7 +79,8 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
     PointerEnterEvent event,
     ContextMenuState menuState,
   ) {
-    if (widget.entry is ContextMenuItem) {
+    final entry = widget.entry;
+    if (entry is ContextMenuItem && entry.enabled) {
       final item = widget.entry as ContextMenuItem;
       final isSubmenuItem = item.isSubmenuItem;
       final isOpenedSubmenu = menuState.isOpened(item);
