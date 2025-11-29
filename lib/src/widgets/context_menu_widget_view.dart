@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../flutter_context_menu.dart';
-import '../core/utils/extensions.dart';
+import '../core/utils/extensions/build_context_ext.dart';
 import '../core/utils/utils.dart';
 import 'menu_entry_widget.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../core/models/context_menu.dart';
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
-import '../core/utils/extensions.dart';
+import '../core/utils/extensions/build_context_ext.dart';
 import '../core/utils/utils.dart';
 import 'context_menu_provider.dart';
 import 'context_menu_widget.dart';
