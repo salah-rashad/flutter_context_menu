@@ -58,9 +58,9 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   });
 
   const MenuItem.submenu({
-    required List<ContextMenuEntry<T>> items,
     this.icon,
     required this.label,
+    required List<ContextMenuEntry<T>> items,
     this.shortcut,
     this.trailing,
     super.onSelected,
@@ -114,6 +114,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
         child: InkWell(
           onTap: !enabled ? null : () => handleItemSelection(context),
           canRequestFocus: false,
+          hoverColor: Colors.transparent,
           child: Row(
             children: [
               SizedBox.square(

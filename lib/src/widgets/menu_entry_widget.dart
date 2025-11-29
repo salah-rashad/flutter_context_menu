@@ -41,7 +41,7 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
 
     return MouseRegion(
       onEnter: (event) => _onMouseEnter(context, event, menuState),
-      onExit: (event) => widget.entry.onMouseExit(event, menuState),
+      onExit: (event) => _onMouseExit(event, menuState),
       onHover: (event) => _onMouseHover(event, menuState),
       child: Builder(
         builder: (_) {
@@ -94,14 +94,30 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
 
       menuState.setFocusedEntry(item);
     }
-    widget.entry.onMouseEnter(event, menuState);
+    entry.onMouseEnter(event, menuState);
+  }
+
+  void _onMouseExit(PointerExitEvent event, ContextMenuState menuState) {
+    final entry = widget.entry;
+    if (entry is ContextMenuItem && entry.enabled) {
+      final item = widget.entry as ContextMenuItem;
+      final isOpenedSubmenu = menuState.isOpened(item);
+      final isFocused = menuState.isFocused(item);
+
+      if (isFocused && !isOpenedSubmenu) {
+        menuState.setFocusedEntry(null);
+        focusNode.unfocus();
+      }
+    }
+
+    entry.onMouseExit(event, menuState);
   }
 
   void _onMouseHover(PointerHoverEvent event, ContextMenuState menuState) {
     if (menuState.isFocused(entry)) {
       _ensureFocused(entry, menuState, focusNode);
     }
-    widget.entry.onMouseHover(event, menuState);
+    entry.onMouseHover(event, menuState);
   }
 
   void _ensureFocused(
