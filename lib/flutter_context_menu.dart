@@ -5,6 +5,7 @@ export 'src/core/enums/spawn_direction.dart';
 export 'src/core/models/context_menu.dart';
 export 'src/core/models/context_menu_entry.dart';
 export 'src/core/models/context_menu_item.dart';
+export 'src/core/style/menu_item_style.dart';
 export 'src/core/utils/extensions/single_activator_ext.dart';
 export 'src/core/utils/helpers.dart';
 export 'src/core/utils/menu_route_options.dart';

@@ -20,142 +20,170 @@ const _viewCompactShortcut = SingleActivator(LogicalKeyboardKey.numpadSubtract,
 const _viewComfortableShortcut =
     SingleActivator(LogicalKeyboardKey.numpadAdd, control: true, alt: true);
 
-const defaultContextMenuItems = <ContextMenuEntry<String>>[
-  MenuItem.submenu(
-    label: Text("New"),
-    icon: Icon(Icons.add_rounded),
-    textColor: Colors.green,
-    items: [
-      MenuItem(
-        label: Text("Node"),
-        value: "Node",
+List<ContextMenuEntry<String>> defaultContextMenuItems() => [
+      const MenuItem.submenu(
+        label: Text("New"),
+        icon: Icon(Icons.add_rounded),
+        style: MenuItemStyle(
+          fgColor: Colors.green,
+        ),
+        items: [
+          MenuItem(
+            label: Text("Node"),
+            value: "Node",
+          ),
+          MenuItem(
+            label: Text("Item"),
+            value: "Item",
+          ),
+          MenuItem(
+            enabled: false,
+            label: Text("Group"),
+            value: "Group",
+          ),
+        ],
       ),
-      MenuItem(
-        label: Text("Item"),
-        value: "Item",
+      const MenuItem(
+        label: Text("Open..."),
+        value: "Open...",
+        icon: Icon(Icons.folder_outlined),
+        shortcut: _openShortcut,
       ),
-      MenuItem(
+      const MenuItem.submenu(
+        label: Text("View"),
+        icon: Icon(Icons.view_comfy_alt_rounded),
+        items: [
+          MenuHeader(text: "Visibility"),
+          MenuItem(
+            label: Text("Comapct"),
+            value: "Comapct",
+            icon: Icon(Icons.view_compact_rounded),
+            shortcut: _viewCompactShortcut,
+          ),
+          MenuItem(
+            label: Text("Comfortable"),
+            value: "Comfortable",
+            icon: Icon(Icons.view_comfortable_rounded),
+            shortcut: _viewComfortableShortcut,
+          ),
+          MenuDivider(),
+          MenuItem.submenu(
+              label: Text("Mini Map"),
+              icon: Icon(Icons.screen_search_desktop_rounded),
+              items: [
+                MenuItem(
+                  label: Text("Show"),
+                  value: "Show",
+                ),
+                MenuItem(
+                  enabled: false,
+                  label: Text("Hide"),
+                  value: "Hide",
+                ),
+                MenuItem.submenu(label: Text("Position"), items: [
+                  MenuItem(
+                    label: Text("Left"),
+                    value: "Left",
+                  ),
+                  MenuItem(
+                    label: Text("Right"),
+                    value: "Right",
+                  ),
+                  MenuItem(
+                    label: Text("Top"),
+                    value: "Top",
+                  ),
+                  MenuItem(
+                    label: Text("Bottom"),
+                    value: "Bottom",
+                  ),
+                  MenuItem(
+                    label: Text("Center"),
+                    value: "Center",
+                  ),
+                ]),
+              ]),
+        ],
+      ),
+      const MenuHeader(text: "Edit"),
+      const MenuItem(
+        label: Text("Copy"),
+        value: "Copy",
+        icon: Icon(Icons.copy_rounded),
+        shortcut: _copyShortcut,
+        style: MenuItemStyle(
+          shortcutTextColor: Colors.blue,
+        ),
+      ),
+      const MenuItem(
+        label: Text("Cut"),
+        value: "Cut",
+        icon: Icon(Icons.cut_rounded),
+        shortcut: _cutShortcut,
+      ),
+      const MenuItem(
         enabled: false,
-        label: Text("Group"),
-        value: "Group",
+        label: Text("Paste"),
+        value: "Paste",
+        icon: Icon(Icons.paste_rounded),
+        shortcut: _pasteShortcut,
       ),
-    ],
-  ),
-  MenuItem(
-    label: Text("Open..."),
-    value: "Open...",
-    icon: Icon(Icons.folder_outlined),
-    shortcut: _openShortcut,
-  ),
-  MenuItem.submenu(
-    label: Text("View"),
-    icon: Icon(Icons.view_comfy_alt_rounded),
-    items: [
-      MenuHeader(text: "Visibility"),
+      const MenuItem(
+        label: Text("Select All"),
+        value: "Select All",
+        icon: Icon(Icons.select_all_rounded),
+        shortcut: _selectAllShortcut,
+      ),
+      const MenuItem(
+        label: Text("Delete"),
+        value: "Delete",
+        icon: Icon(Icons.delete_rounded),
+        style: MenuItemStyle(
+          fgColor: Colors.red,
+        ),
+        shortcut: _deleteShortcut,
+      ),
+      const MenuItem.submenu(
+        enabled: false,
+        label: Text("More"),
+        items: [
+          MenuItem(
+            label: Text("Item 1"),
+            value: "Item 1",
+          ),
+          MenuItem(
+            label: Text("Item 2"),
+            value: "Item 2",
+          ),
+        ],
+      ),
+      const MenuDivider(),
+      const MenuHeader(text: "History"),
+      const MenuItem(
+        label: Text("Undo"),
+        value: "Undo",
+        icon: Icon(Icons.undo_rounded),
+        shortcut: _undoShortcut,
+      ),
+      const MenuItem(
+        label: Text("Redo"),
+        value: "Redo",
+        icon: Icon(Icons.redo_rounded),
+        shortcut: _redoShortcut,
+      ),
+      const MenuDivider(),
       MenuItem(
-        label: Text("Comapct"),
-        value: "Comapct",
-        icon: Icon(Icons.view_compact_rounded),
-        shortcut: _viewCompactShortcut,
+        label: const Text("Exit"),
+        value: "Exit",
+        icon: const Icon(Icons.exit_to_app_rounded),
+        shortcut: _exitShortcut,
+        style: MenuItemStyle(
+          // foreground: Colors.black,
+          fgFocusedColor: Colors.white,
+          bgColor: Colors.redAccent.withValues(alpha: 0.2),
+        ),
       ),
-      MenuItem(
-        label: Text("Comfortable"),
-        value: "Comfortable",
-        icon: Icon(Icons.view_comfortable_rounded),
-        shortcut: _viewComfortableShortcut,
-      ),
-      MenuDivider(),
-      MenuItem.submenu(
-          label: Text("Mini Map"),
-          icon: Icon(Icons.screen_search_desktop_rounded),
-          items: [
-            MenuItem(
-              label: Text("Show"),
-              value: "Show",
-            ),
-            MenuItem(
-              enabled: false,
-              label: Text("Hide"),
-              value: "Hide",
-            ),
-            MenuItem.submenu(label: Text("Position"), items: [
-              MenuItem(
-                label: Text("Left"),
-                value: "Left",
-              ),
-              MenuItem(
-                label: Text("Right"),
-                value: "Right",
-              ),
-              MenuItem(
-                label: Text("Top"),
-                value: "Top",
-              ),
-              MenuItem(
-                label: Text("Bottom"),
-                value: "Bottom",
-              ),
-              MenuItem(
-                label: Text("Center"),
-                value: "Center",
-              ),
-            ]),
-          ]),
-    ],
-  ),
-  MenuHeader(text: "Edit"),
-  MenuItem(
-    label: Text("Copy"),
-    value: "Copy",
-    icon: Icon(Icons.copy_rounded),
-    shortcut: _copyShortcut,
-  ),
-  MenuItem(
-    label: Text("Paste"),
-    value: "Paste",
-    icon: Icon(Icons.paste_rounded),
-    shortcut: _pasteShortcut,
-  ),
-  MenuItem(
-    label: Text("Cut"),
-    value: "Cut",
-    icon: Icon(Icons.cut_rounded),
-    shortcut: _cutShortcut,
-  ),
-  MenuItem(
-    label: Text("Select All"),
-    value: "Select All",
-    icon: Icon(Icons.select_all_rounded),
-    shortcut: _selectAllShortcut,
-  ),
-  MenuItem(
-    label: Text("Delete"),
-    value: "Delete",
-    icon: Icon(Icons.delete_rounded),
-    shortcut: _deleteShortcut,
-  ),
-  MenuDivider(),
-  MenuHeader(text: "History"),
-  MenuItem(
-    label: Text("Undo"),
-    value: "Undo",
-    icon: Icon(Icons.undo_rounded),
-    shortcut: _undoShortcut,
-  ),
-  MenuItem(
-    label: Text("Redo"),
-    value: "Redo",
-    icon: Icon(Icons.redo_rounded),
-    shortcut: _redoShortcut,
-  ),
-  MenuDivider(),
-  MenuItem(
-    label: Text("Exit"),
-    value: "Exit",
-    icon: Icon(Icons.exit_to_app_rounded),
-    shortcut: _exitShortcut,
-  ),
-];
+    ];
 
 const customContextMenuItems = <ContextMenuEntry<String>>[
   CustomContextMenuItem(
@@ -260,7 +288,7 @@ List<ContextMenuEntry> getLongContextMenuItems(BuildContext context) {
       label: Text("Item $i"),
       value: "Item $i",
       icon: Icon(i % 2 == 0 ? Icons.star_rounded : Icons.circle),
-      textColor: i % 3 == 0 ? Colors.blue : null,
+      style: MenuItemStyle(fgColor: i % 3 == 0 ? Colors.blue : null),
       enabled: i % 5 != 0,
     ));
   }
