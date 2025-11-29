@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
-import '../core/utils/extensions.dart';
+import '../core/utils/extensions/build_context_ext.dart';
+import '../core/utils/extensions/single_activator_ext.dart';
 import '../widgets/context_menu_state.dart';
 import 'menu_divider.dart';
 import 'menu_header.dart';
