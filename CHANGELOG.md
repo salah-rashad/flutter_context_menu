@@ -1,3 +1,24 @@
+## v0.4.1
+
+### Fixed
+
+- **Hover Behavior**: Fixed hover state management in menu items to prevent items from remaining
+  highlighted after mouse exit (Fixes #45)
+- **Submenu Interaction**: Disabled submenus no longer open on hover when they are disabled (Fixes
+  #44)
+
+### Improved
+
+- **Code Organization**:
+    - Moved `BuildContextExtensions` to dedicated `build_context_ext.dart`
+    - Moved `SingleActivatorExtensions` to `single_activator_ext.dart`
+    - Improved overall code modularity and maintainability
+
+### Refactoring
+
+- Reordered `items` parameter in `MenuItem.submenu` constructor for better code organization
+- Updated all relevant imports to match the new file structure
+
 ## v0.4.0
 
 ### **Added**
