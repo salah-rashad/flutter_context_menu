@@ -73,3 +73,9 @@ Arrow keys navigate between entries (via `FocusScopeNode`), Space/Enter selects,
 ### Custom Entries
 
 Create custom menu entries by subclassing `ContextMenuEntry<T>` and implementing the `builder` method.
+
+## Active Technologies
+- Dart ^3.6.0, Flutter >=3.27.0 + Flutter SDK only (zero runtime dependencies — constitution principle I) (001-theme-support)
+
+## Recent Changes
+- 001-theme-support: Added Dart ^3.6.0, Flutter >=3.27.0 + Flutter SDK only (zero runtime dependencies — constitution principle I)
