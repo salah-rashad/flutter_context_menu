@@ -36,7 +36,15 @@ class ContextMenu<T> {
   /// The decoration of the context menu.
   BoxDecoration? boxDecoration;
 
-  /// The text direction of the context menu.
+  /// The text direction used when laying out the context menu and its submenus.
+  ///
+  /// If this is `null`, the text direction is automatically inherited from the
+  /// nearest [Directionality] widget in the widget tree (for example, from
+  /// [MaterialApp] or [WidgetsApp]).
+  ///
+  /// This property controls the overall layout direction (LTR or RTL) of the
+  /// menu and its submenus, which is important for right-to-left language
+  /// support.
   TextDirection? textDirection;
 
   /// A map of shortcuts to be bound to the context menu and the nested context menus.
