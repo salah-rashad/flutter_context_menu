@@ -1,21 +1,20 @@
 <!--
   Sync Impact Report
   ===================
-  Version change: (none — template) → 1.0.0
-  Modified principles: N/A (first ratification)
-  Added sections:
-    - Core Principles (I–V) derived from plan.md Constitution Check
-    - Technology Constraints
-    - Development Workflow
-    - Governance
-  Removed sections: N/A
+  Version change: 1.0.0 → 1.0.1
+  Modified principles: none
+  Added sections: none
+  Removed sections: none
   Templates requiring updates:
-    - .specify/templates/plan-template.md ✅ no update needed (generic gates reference)
+    - .specify/templates/plan-template.md ✅ no update needed (Constitution Check gate references constitution generically)
     - .specify/templates/spec-template.md ✅ no update needed (no constitution refs)
     - .specify/templates/tasks-template.md ✅ no update needed (generic template)
+    - .specify/templates/checklist-template.md ✅ no update needed (generic template; omitted from v1.0.0 report)
     - .specify/templates/agent-file-template.md ✅ no update needed (generic template)
     - CLAUDE.md ✅ already references "constitution principle I"
   Follow-up TODOs: none
+  Bump rationale: PATCH — added checklist-template.md to propagation checklist (previously omitted);
+    no principle or governance changes.
 -->
 
 # Flutter Context Menu Constitution
@@ -138,4 +137,4 @@ principle before implementation begins.
 Constitution Check section that lists every principle with a
 PASS/FAIL status and notes.
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-05 | **Last Amended**: 2026-02-24
+**Version**: 1.0.1 | **Ratified**: 2026-02-05 | **Last Amended**: 2026-02-26
