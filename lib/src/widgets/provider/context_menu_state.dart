@@ -1,12 +1,10 @@
 import 'package:flutter/widgets.dart';
 
-import '../core/models/context_menu.dart';
-import '../core/models/context_menu_entry.dart';
-import '../core/models/context_menu_item.dart';
-import '../core/utils/extensions/build_context_ext.dart';
-import '../core/utils/utils.dart';
+import '../../../flutter_context_menu.dart';
+import '../../core/utils/extensions/build_context_ext.dart';
+import '../../core/utils/utils.dart';
+import '../base/context_menu_widget.dart';
 import 'context_menu_provider.dart';
-import 'context_menu_widget.dart';
 
 /// Manages the state of the context menu.
 ///
@@ -26,6 +24,9 @@ class ContextMenuState<T> extends ChangeNotifier {
 
   /// Whether the position of the context menu has been verified.
   bool _isPositionVerified = false;
+
+  /// The position of the context menu.
+  Offset _position;
 
   /// The spawn anchor where the context menu should be spawned from.
   ///
@@ -53,7 +54,8 @@ class ContextMenuState<T> extends ChangeNotifier {
     required this.menu,
     this.parentItem,
     this.onItemSelected,
-  })  : _parentItemRect = null,
+  })  : _position = menu.position ?? Offset.zero,
+        _parentItemRect = null,
         _isSubmenu = false,
         selfClose = null,
         _spawnAnchor = AlignmentDirectional.center;
@@ -65,25 +67,14 @@ class ContextMenuState<T> extends ChangeNotifier {
     AlignmentGeometry? spawnAnchor,
     Rect? parentItemRect,
     this.onItemSelected,
-  })  : _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topStart,
+  })  : _position = menu.position ?? Offset.zero,
+        _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topStart,
         _parentItemRect = parentItemRect,
         _isSubmenu = true;
 
   List<ContextMenuEntry> get entries => menu.entries;
 
-  Offset get position => menu.position ?? Offset.zero;
-
-  double get maxWidth => menu.maxWidth;
-
-  double? get maxHeight => menu.maxHeight;
-
-  BorderRadiusGeometry? get borderRadius => menu.borderRadius;
-
-  EdgeInsets get padding => menu.padding;
-
-  Clip get clipBehavior => menu.clipBehavior;
-
-  BoxDecoration? get boxDecoration => menu.boxDecoration;
+  Offset get position => _position;
 
   Map<ShortcutActivator, VoidCallback> get shortcuts => menu.shortcuts;
 
@@ -152,8 +143,11 @@ class ContextMenuState<T> extends ChangeNotifier {
     final submenuParentRect = context.getWidgetBounds();
     if (submenuParentRect == null) return;
 
+    final style = ContextMenuTheme.resolve(context).merge(menu.style);
+    final padding = style.padding;
+
     final submenuPosition =
-        calculateSubmenuPosition(submenuParentRect, menu.padding);
+        calculateSubmenuPosition(submenuParentRect, padding);
 
     submenuBuilder = (BuildContext context) {
       final subMenuState = ContextMenuState<T>.submenu(
@@ -196,7 +190,7 @@ class ContextMenuState<T> extends ChangeNotifier {
         _isSubmenu,
       );
 
-      menu.position = boundaries.pos;
+      _position = boundaries.pos;
       _spawnAnchor = boundaries.alignment;
 
       notifyListeners();

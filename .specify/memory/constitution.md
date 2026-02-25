@@ -1,50 +1,141 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  Sync Impact Report
+  ===================
+  Version change: (none — template) → 1.0.0
+  Modified principles: N/A (first ratification)
+  Added sections:
+    - Core Principles (I–V) derived from plan.md Constitution Check
+    - Technology Constraints
+    - Development Workflow
+    - Governance
+  Removed sections: N/A
+  Templates requiring updates:
+    - .specify/templates/plan-template.md ✅ no update needed (generic gates reference)
+    - .specify/templates/spec-template.md ✅ no update needed (no constitution refs)
+    - .specify/templates/tasks-template.md ✅ no update needed (generic template)
+    - .specify/templates/agent-file-template.md ✅ no update needed (generic template)
+    - CLAUDE.md ✅ already references "constitution principle I"
+  Follow-up TODOs: none
+-->
+
+# Flutter Context Menu Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Zero Dependencies
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The package MUST maintain zero runtime dependencies beyond the Flutter
+SDK (`flutter` SDK dependency only). All functionality MUST be
+implemented using only Flutter SDK APIs (`ThemeExtension`,
+`InheritedWidget`, `Color.lerp`, `BoxDecoration`, etc.). Dev
+dependencies (`flutter_test`, `flutter_lints`) are permitted.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: A context menu widget is a leaf-level UI package.
+Additional runtime dependencies increase version conflict risk for
+consumers and bloat the dependency tree for a focused utility.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Public API Discipline
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+All public types MUST be exported through the barrel file
+`lib/flutter_context_menu.dart`. Internal source MUST follow the
+three-layer architecture:
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+- **Models**: `lib/src/core/models/` — immutable data classes
+- **Components**: `lib/src/components/` — concrete menu entry types
+- **Widgets**: `lib/src/widgets/` — rendering, state, and provider
+  widgets, organized into subdirectories (`base/`, `provider/`,
+  `theme/`)
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+New public types MUST be placed in the correct layer. Types that are
+not exported through the barrel file MUST be treated as private
+implementation details.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Rationale**: A single entry point simplifies consumer imports and
+enforces architectural boundaries. The layered structure prevents
+circular dependencies and keeps rendering separate from data.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### III. Static Analysis Compliance
+
+All code MUST pass:
+- `flutter analyze --fatal-warnings`
+- `dart format --output=none --set-exit-if-changed .`
+
+The following lint rules are enforced and MUST NOT be suppressed
+without explicit justification:
+- `prefer_relative_imports` — relative imports within the package
+- `prefer_const_declarations`
+- `prefer_const_constructors`
+- `prefer_final_fields`
+
+**Rationale**: CI gates enforce these checks. Suppressing warnings
+hides real issues and erodes code quality over time.
+
+### IV. Cross-Platform Compatibility
+
+All code MUST work on Android, iOS, Web, and Desktop (macOS, Windows,
+Linux) without platform-specific code or conditional imports. The
+package MUST NOT use `dart:io`, platform channels, or any API
+unavailable on all six targets.
+
+**Rationale**: The package is published on pub.dev for general
+Flutter consumption. Platform-specific code fragments the user base
+and increases maintenance burden.
+
+### V. Simplicity & Extensibility
+
+New abstractions MUST be minimal and justified by concrete current
+requirements. Custom entry builders MUST retain access to shared
+state (e.g., theme data) via `BuildContext`. YAGNI applies — do not
+build for hypothetical future requirements.
+
+Immutable, `const`-constructible data classes are preferred.
+`copyWith`, `merge`, and `lerp` methods MUST be provided on theme
+data classes to support Flutter's theming conventions.
+
+**Rationale**: A focused widget package must stay lean. Over-
+engineering discourages contributions and increases the learning
+curve for consumers.
+
+## Technology Constraints
+
+- **Dart**: ^3.6.0
+- **Flutter**: >=3.27.0
+- **Runtime dependencies**: Flutter SDK only (principle I)
+- **Dev dependencies**: `flutter_test`, `flutter_lints` ^6.0.0
+- **Versioning**: Semantic versioning per pub.dev conventions
+  (MAJOR.MINOR.PATCH). Additive public API = MINOR bump. Breaking
+  changes = MAJOR bump.
+
+## Development Workflow
+
+- **Analysis**: `flutter analyze --fatal-warnings` MUST pass before
+  merge (CI-enforced).
+- **Formatting**: `dart format --output=none --set-exit-if-changed .`
+  MUST pass before merge (CI-enforced).
+- **Testing**: No unit test suite exists for the package itself. The
+  smoke test in `example/test/` MUST continue to pass. New features
+  SHOULD be validated via the example app.
+- **Branching**: Feature branches follow the pattern
+  `###-feature-name` (e.g., `001-theme-support`).
+- **Specifications**: Feature specs live in `specs/###-feature-name/`
+  with plan, spec, tasks, and supporting artifacts.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes ad-hoc practices. All feature plans MUST
+include a Constitution Check table verifying compliance with each
+principle before implementation begins.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Amendment procedure**:
+1. Propose the change with rationale.
+2. Update this file with the new or modified principle.
+3. Increment the version (MAJOR for removals/redefinitions, MINOR
+   for additions, PATCH for clarifications).
+4. Update `LAST_AMENDED_DATE`.
+5. Propagate changes to `CLAUDE.md` and any affected spec artifacts.
+
+**Compliance review**: Each feature's plan.md MUST contain a
+Constitution Check section that lists every principle with a
+PASS/FAIL status and notes.
+
+**Version**: 1.0.0 | **Ratified**: 2026-02-05 | **Last Amended**: 2026-02-24

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-import '../../widgets/context_menu_state.dart';
-import '../../widgets/context_menu_widget.dart';
+import '../../widgets/base/context_menu_widget.dart';
+import '../../widgets/provider/context_menu_state.dart';
 import '../models/context_menu.dart';
 import 'menu_route_options.dart';
 
@@ -24,9 +24,10 @@ Future<T?> showContextMenu<T>(
   // to make sure the context menu is opened once.
   return await Navigator.of(context, rootNavigator: useRootNavigator).push<T>(
     PageRouteBuilder<T>(
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return Stack(
-          children: [ContextMenuWidget<T>(menuState: menuState)],
+      pageBuilder: (routeContext, animation, secondaryAnimation) {
+        return InheritedTheme.captureAll(
+          context,
+          Stack(children: [ContextMenuWidget<T>(menuState: menuState)]),
         );
       },
       fullscreenDialog: true,

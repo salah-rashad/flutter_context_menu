@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/context_menu_state.dart';
-import '../../widgets/menu_entry_widget.dart';
+import '../../widgets/base/menu_entry_widget.dart';
+import '../../widgets/provider/context_menu_state.dart';
 import 'context_menu_entry.dart';
 
 /// Represents a selectable item in a context menu.

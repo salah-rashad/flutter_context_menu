@@ -5,7 +5,7 @@
 
 ## Summary
 
-Add a global theming system to `flutter_context_menu` so developers can define context menu styling once and have it applied consistently throughout their application. The implementation provides two complementary theme delivery mechanisms: a `ThemeExtension<ContextMenuThemeData>` for `ThemeData` integration (convenient for app-wide light/dark themes) and a standalone `ContextMenuTheme` `InheritedWidget` for subtree-level overrides. A four-level precedence chain (inline > InheritedWidget > ThemeExtension > ColorScheme defaults) ensures flexibility while maintaining full backward compatibility.
+Add a global theming system to `flutter_context_menu` so developers can define context menu styling once and have it applied consistently throughout their application. The implementation provides two complementary theme delivery mechanisms: a `ThemeExtension<ContextMenuStyle>` for `ThemeData` integration (convenient for app-wide light/dark themes) and a standalone `ContextMenuTheme` `InheritedWidget` for subtree-level overrides. A four-level precedence chain (inline > InheritedWidget > ThemeExtension > ColorScheme defaults) ensures flexibility while maintaining full backward compatibility.
 
 ## Technical Context
 
@@ -58,10 +58,10 @@ lib/
     │   └── models/
     │       ├── context_menu.dart       # (EXISTING — no changes)
     │       ├── context_menu_entry.dart  # (EXISTING — no changes)
-    │       ├── context_menu_theme_data.dart  # NEW: top-level theme data + ThemeExtension
-    │       ├── menu_item_theme_data.dart     # NEW: item-level theme data
-    │       ├── menu_header_theme_data.dart   # NEW: header-level theme data
-    │       └── menu_divider_theme_data.dart  # NEW: divider-level theme data
+    │       ├── context_menu_style.dart  # NEW: top-level theme data + ThemeExtension
+    │       ├── menu_item_style.dart     # NEW: item-level theme data
+    │       ├── menu_header_style.dart   # NEW: header-level theme data
+    │       └── menu_divider_style.dart  # NEW: divider-level theme data
     ├── components/
     │   ├── menu_item.dart              # MODIFY: resolve colors from theme
     │   ├── menu_header.dart            # MODIFY: resolve styles from theme

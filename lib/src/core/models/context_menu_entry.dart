@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../widgets/context_menu_state.dart';
+import '../../widgets/provider/context_menu_state.dart';
 
 /// Represents an entry in a context menu.
 ///

@@ -1,9 +1,65 @@
+## v0.5.0
+
+### Breaking Changes
+
+- **`ContextMenu` styling fields removed**: The individual styling fields `boxDecoration`,
+  `borderRadius`, `padding`, `maxWidth`, and `maxHeight` have been removed from `ContextMenu`.
+  Replace them with the new `style` parameter:
+
+  ```dart
+  // Before (v0.4.x)
+  ContextMenu(
+    entries: entries,
+    padding: EdgeInsets.all(8.0),
+    borderRadius: BorderRadius.circular(12.0),
+    maxWidth: 400,
+  )
+
+  // After (v0.5.0)
+  ContextMenu(
+    entries: entries,
+    style: ContextMenuStyle(
+      padding: EdgeInsets.all(8.0),
+      borderRadius: BorderRadius.circular(12.0),
+      maxWidth: 400,
+    ),
+  )
+  ```
+
 ## v0.4.2
 
 ### Fixed
 
 - **Type Erasure**: Resolved generic type erasure across context menu item handling and preserved
   generic type parameter in `MenuEntryWidget` state (Fixes #50, #51)
+
+### Added
+
+- **Theme Support**: Comprehensive theming system for context menus via `ThemeExtension` or
+  `ContextMenuTheme` widget
+  - `ContextMenuStyle`: Main style class extending `ThemeExtension<ContextMenuStyle>` with full
+    styling control (replaces the removed `ContextMenu` fields and adds more)
+  - `MenuItemStyle`: Style for menu items (backgroundColor, focusedBackgroundColor, textColor,
+    focusedTextColor, disabledTextColor, iconColor, iconSize, shortcutTextOpacity, height,
+    borderRadius)
+  - `MenuHeaderStyle`: Style for menu headers (textStyle, textColor, padding)
+  - `MenuDividerStyle`: Style for menu dividers (color, height, thickness, indent, endIndent)
+  - `ContextMenuTheme`: InheritedWidget for subtree-specific style overrides
+
+### Features
+
+- Define app-wide context menu style via `ThemeData.extensions`
+- Override style for specific widget subtrees using `ContextMenuTheme` widget
+- Per-menu inline `style` overrides take precedence over theme values at single-property granularity
+- Full light/dark mode support with automatic style switching
+- Apps with no style configuration render identically to previous behavior
+
+### Precedence Order
+
+1. `ContextMenu.style` (per-instance override, highest priority)
+2. `ContextMenuTheme` widget (nearest ancestor in widget tree)
+3. `ThemeExtension<ContextMenuStyle>` on `ThemeData` (app-wide)
+4. Material `ColorScheme` defaults (lowest priority)
 
 ## v0.4.1
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Theme data for non-interactive header entries.
+/// Style for non-interactive header entries.
 ///
 /// All fields are nullable. Null values fall through to the next precedence level
 /// in the theme resolution chain (ContextMenuTheme widget > ThemeExtension > defaults).
 @immutable
-class MenuHeaderThemeData {
+class MenuHeaderStyle {
   /// Text style for header text.
   ///
   /// When null, resolves to [Theme.textTheme.labelMedium].
@@ -21,43 +21,43 @@ class MenuHeaderThemeData {
   /// When null, resolves to [EdgeInsets.all(8.0)].
   final EdgeInsets? padding;
 
-  /// Creates a [MenuHeaderThemeData].
-  const MenuHeaderThemeData({
+  /// Creates a [MenuHeaderStyle].
+  const MenuHeaderStyle({
     this.textStyle,
     this.textColor,
     this.padding,
   });
 
-  /// Creates a copy of this theme data with the given fields replaced with
+  /// Creates a copy of this style with the given fields replaced with
   /// the new values.
-  MenuHeaderThemeData copyWith({
+  MenuHeaderStyle copyWith({
     TextStyle? textStyle,
     Color? textColor,
     EdgeInsets? padding,
   }) {
-    return MenuHeaderThemeData(
+    return MenuHeaderStyle(
       textStyle: textStyle ?? this.textStyle,
       textColor: textColor ?? this.textColor,
       padding: padding ?? this.padding,
     );
   }
 
-  /// Linearly interpolate between two [MenuHeaderThemeData] objects.
-  static MenuHeaderThemeData lerp(
-    MenuHeaderThemeData? a,
-    MenuHeaderThemeData? b,
+  /// Linearly interpolate between two [MenuHeaderStyle] objects.
+  static MenuHeaderStyle lerp(
+    MenuHeaderStyle? a,
+    MenuHeaderStyle? b,
     double t,
   ) {
-    return MenuHeaderThemeData(
+    return MenuHeaderStyle(
       textStyle: TextStyle.lerp(a?.textStyle, b?.textStyle, t),
       textColor: Color.lerp(a?.textColor, b?.textColor, t),
       padding: EdgeInsets.lerp(a?.padding, b?.padding, t),
     );
   }
 
-  /// Merges this theme data with [other], with non-null values from [other]
-  /// taking precedence over values from this theme data.
-  MenuHeaderThemeData merge(MenuHeaderThemeData? other) {
+  /// Merges this style with [other], with non-null values from [other]
+  /// taking precedence over values from this style.
+  MenuHeaderStyle merge(MenuHeaderStyle? other) {
     if (other == null) return this;
     return copyWith(
       textStyle: other.textStyle,
@@ -69,7 +69,7 @@ class MenuHeaderThemeData {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is MenuHeaderThemeData &&
+    return other is MenuHeaderStyle &&
         other.textStyle == textStyle &&
         other.textColor == textColor &&
         other.padding == padding;

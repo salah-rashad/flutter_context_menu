@@ -2,11 +2,12 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
 
-import 'menu_divider_theme_data.dart';
-import 'menu_header_theme_data.dart';
-import 'menu_item_theme_data.dart';
+import '../constants.dart';
+import 'menu_divider_style.dart';
+import 'menu_header_style.dart';
+import 'menu_item_style.dart';
 
-/// Top-level theme data for context menus.
+/// Top-level style for context menus.
 ///
 /// Extends [ThemeExtension] for registration on [ThemeData.extensions].
 /// Also used as the data payload for the [ContextMenuTheme] InheritedWidget.
@@ -14,7 +15,7 @@ import 'menu_item_theme_data.dart';
 /// All fields are nullable. Null values fall through to the next precedence level
 /// in the theme resolution chain (inline > ContextMenuTheme widget > ThemeExtension > ColorScheme defaults).
 @immutable
-class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
+class ContextMenuStyle extends ThemeExtension<ContextMenuStyle> {
   /// Surface color of the menu container.
   ///
   /// When null, resolves to [ColorScheme.surface].
@@ -60,23 +61,23 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
   /// When null, the menu height is unconstrained.
   final double? maxHeight;
 
-  /// Theme data for menu items.
+  /// Style for menu items.
   ///
   /// When null, all item properties resolve to their defaults.
-  final MenuItemThemeData? menuItemTheme;
+  final MenuItemStyle? menuItemStyle;
 
-  /// Theme data for menu headers.
+  /// Style for menu headers.
   ///
   /// When null, all header properties resolve to their defaults.
-  final MenuHeaderThemeData? menuHeaderTheme;
+  final MenuHeaderStyle? menuHeaderStyle;
 
-  /// Theme data for menu dividers.
+  /// Style for menu dividers.
   ///
   /// When null, all divider properties resolve to their defaults.
-  final MenuDividerThemeData? menuDividerTheme;
+  final MenuDividerStyle? menuDividerStyle;
 
-  /// Creates a [ContextMenuThemeData].
-  const ContextMenuThemeData({
+  /// Creates a [ContextMenuStyle].
+  const ContextMenuStyle({
     this.surfaceColor,
     this.shadowColor,
     this.shadowOffset,
@@ -86,15 +87,36 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
     this.padding,
     this.maxWidth,
     this.maxHeight,
-    this.menuItemTheme,
-    this.menuHeaderTheme,
-    this.menuDividerTheme,
+    this.menuItemStyle,
+    this.menuHeaderStyle,
+    this.menuDividerStyle,
   });
 
-  /// Creates a copy of this theme data with the given fields replaced with
+  /// Creates a [ContextMenuStyle] with default values from the given [context].
+  ///
+  /// Uses [ColorScheme.surface] for surface color, [ThemeData.shadowColor] for shadow,
+  /// and respects the screen size for max height constraints.
+  factory ContextMenuStyle.fallback(BuildContext context) {
+    final theme = Theme.of(context);
+    final mediaQuery = MediaQuery.of(context);
+
+    return ContextMenuStyle(
+      surfaceColor: theme.colorScheme.surface,
+      shadowColor: theme.shadowColor.withValues(alpha: 0.5),
+      shadowOffset: const Offset(0.0, 2.0),
+      shadowBlurRadius: 10.0,
+      shadowSpreadRadius: -1.0,
+      borderRadius: BorderRadius.circular(4.0),
+      maxWidth: 350.0,
+      maxHeight: mediaQuery.size.height - (kContextMenuSafePadding * 2),
+      padding: const EdgeInsets.all(4.0),
+    );
+  }
+
+  /// Creates a copy of this style with the given fields replaced with
   /// the new values.
   @override
-  ContextMenuThemeData copyWith({
+  ContextMenuStyle copyWith({
     Color? surfaceColor,
     Color? shadowColor,
     Offset? shadowOffset,
@@ -104,11 +126,11 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
     EdgeInsets? padding,
     double? maxWidth,
     double? maxHeight,
-    MenuItemThemeData? menuItemTheme,
-    MenuHeaderThemeData? menuHeaderTheme,
-    MenuDividerThemeData? menuDividerTheme,
+    MenuItemStyle? menuItemStyle,
+    MenuHeaderStyle? menuHeaderStyle,
+    MenuDividerStyle? menuDividerStyle,
   }) {
-    return ContextMenuThemeData(
+    return ContextMenuStyle(
       surfaceColor: surfaceColor ?? this.surfaceColor,
       shadowColor: shadowColor ?? this.shadowColor,
       shadowOffset: shadowOffset ?? this.shadowOffset,
@@ -118,20 +140,19 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
       padding: padding ?? this.padding,
       maxWidth: maxWidth ?? this.maxWidth,
       maxHeight: maxHeight ?? this.maxHeight,
-      menuItemTheme: menuItemTheme ?? this.menuItemTheme,
-      menuHeaderTheme: menuHeaderTheme ?? this.menuHeaderTheme,
-      menuDividerTheme: menuDividerTheme ?? this.menuDividerTheme,
+      menuItemStyle: menuItemStyle ?? this.menuItemStyle,
+      menuHeaderStyle: menuHeaderStyle ?? this.menuHeaderStyle,
+      menuDividerStyle: menuDividerStyle ?? this.menuDividerStyle,
     );
   }
 
-  /// Linearly interpolate between two [ContextMenuThemeData] objects.
+  /// Linearly interpolate between two [ContextMenuStyle] objects.
   @override
-  ContextMenuThemeData lerp(
-      ThemeExtension<ContextMenuThemeData>? other, double t) {
-    if (other is! ContextMenuThemeData) {
+  ContextMenuStyle lerp(ThemeExtension<ContextMenuStyle>? other, double t) {
+    if (other is! ContextMenuStyle) {
       return this;
     }
-    return ContextMenuThemeData(
+    return ContextMenuStyle(
       surfaceColor: Color.lerp(surfaceColor, other.surfaceColor, t),
       shadowColor: Color.lerp(shadowColor, other.shadowColor, t),
       shadowOffset: Offset.lerp(shadowOffset, other.shadowOffset, t),
@@ -143,20 +164,19 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
       padding: EdgeInsets.lerp(padding, other.padding, t),
       maxWidth: lerpDouble(maxWidth, other.maxWidth, t),
       maxHeight: lerpDouble(maxHeight, other.maxHeight, t),
-      menuItemTheme:
-          MenuItemThemeData.lerp(menuItemTheme, other.menuItemTheme, t),
-      menuHeaderTheme:
-          MenuHeaderThemeData.lerp(menuHeaderTheme, other.menuHeaderTheme, t),
-      menuDividerTheme: MenuDividerThemeData.lerp(
-          menuDividerTheme, other.menuDividerTheme, t),
+      menuItemStyle: MenuItemStyle.lerp(menuItemStyle, other.menuItemStyle, t),
+      menuHeaderStyle:
+          MenuHeaderStyle.lerp(menuHeaderStyle, other.menuHeaderStyle, t),
+      menuDividerStyle:
+          MenuDividerStyle.lerp(menuDividerStyle, other.menuDividerStyle, t),
     );
   }
 
-  /// Merges this theme data with [other], with non-null values from [other]
-  /// taking precedence over values from this theme data.
-  ContextMenuThemeData merge(ContextMenuThemeData? other) {
+  /// Merges this style with [other], with non-null values from [other]
+  /// taking precedence over values from this style.
+  ContextMenuStyle merge(ContextMenuStyle? other) {
     if (other == null) return this;
-    return ContextMenuThemeData(
+    return ContextMenuStyle(
       surfaceColor: other.surfaceColor ?? surfaceColor,
       shadowColor: other.shadowColor ?? shadowColor,
       shadowOffset: other.shadowOffset ?? shadowOffset,
@@ -166,19 +186,19 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
       padding: other.padding ?? padding,
       maxWidth: other.maxWidth ?? maxWidth,
       maxHeight: other.maxHeight ?? maxHeight,
-      menuItemTheme:
-          menuItemTheme?.merge(other.menuItemTheme) ?? other.menuItemTheme,
-      menuHeaderTheme: menuHeaderTheme?.merge(other.menuHeaderTheme) ??
-          other.menuHeaderTheme,
-      menuDividerTheme: menuDividerTheme?.merge(other.menuDividerTheme) ??
-          other.menuDividerTheme,
+      menuItemStyle:
+          menuItemStyle?.merge(other.menuItemStyle) ?? other.menuItemStyle,
+      menuHeaderStyle: menuHeaderStyle?.merge(other.menuHeaderStyle) ??
+          other.menuHeaderStyle,
+      menuDividerStyle: menuDividerStyle?.merge(other.menuDividerStyle) ??
+          other.menuDividerStyle,
     );
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is ContextMenuThemeData &&
+    return other is ContextMenuStyle &&
         other.surfaceColor == surfaceColor &&
         other.shadowColor == shadowColor &&
         other.shadowOffset == shadowOffset &&
@@ -188,9 +208,9 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
         other.padding == padding &&
         other.maxWidth == maxWidth &&
         other.maxHeight == maxHeight &&
-        other.menuItemTheme == menuItemTheme &&
-        other.menuHeaderTheme == menuHeaderTheme &&
-        other.menuDividerTheme == menuDividerTheme;
+        other.menuItemStyle == menuItemStyle &&
+        other.menuHeaderStyle == menuHeaderStyle &&
+        other.menuDividerStyle == menuDividerStyle;
   }
 
   @override
@@ -204,7 +224,7 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
       padding.hashCode ^
       maxWidth.hashCode ^
       maxHeight.hashCode ^
-      menuItemTheme.hashCode ^
-      menuHeaderTheme.hashCode ^
-      menuDividerTheme.hashCode;
+      menuItemStyle.hashCode ^
+      menuHeaderStyle.hashCode ^
+      menuDividerStyle.hashCode;
 }

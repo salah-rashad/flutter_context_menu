@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../core/constants.dart';
 import '../core/models/context_menu_entry.dart';
 import '../core/models/context_menu_item.dart';
+import '../core/models/menu_item_style.dart';
 import '../core/utils/extensions/build_context_ext.dart';
 import '../core/utils/extensions/single_activator_ext.dart';
-import '../widgets/context_menu_state.dart';
+import '../widgets/provider/context_menu_state.dart';
+import '../widgets/theme/context_menu_theme.dart';
 import 'menu_divider.dart';
 import 'menu_header.dart';
-
-const double kMenuItemHeight = 32.0;
-const double kMenuItemIconSize = 32.0;
 
 /// Represents a selectable item in a context menu.
 ///
@@ -76,41 +76,81 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   @override
   Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode? focusNode]) {
-    bool isFocused = menuState.focusedEntry == this;
+    final bool isFocused = menuState.focusedEntry == this;
 
-    final background = context.colorScheme.surface;
-    final focusedBackground = context.colorScheme.surfaceContainer;
-    final adjustedTextColor = Color.alphaBlend(
-      context.colorScheme.onSurface.withValues(alpha: 0.7),
+    // Resolve effective theme using ContextMenuTheme.resolve()
+    // Precedence: fallback -> ThemeExtension -> ContextMenuTheme widget
+    final effectiveStyle = ContextMenuTheme.resolve(context);
+    final MenuItemStyle? itemStyle = effectiveStyle.menuItemStyle;
+
+    // Resolve colors with theme values and ColorScheme fallbacks
+    final colorScheme = context.colorScheme;
+
+    // Background colors
+    final background = itemStyle?.backgroundColor ?? Colors.transparent;
+
+    final adjustedFocusedBackgroundColor = Color.alphaBlend(
+      colorScheme.surfaceContainer.withValues(alpha: 0.7),
       background,
     );
-    final normalTextColor = textColor ?? adjustedTextColor;
-    final focusedTextColor = textColor ?? context.colorScheme.onSurface;
-    final disabledTextColor =
-        context.colorScheme.onSurface.withValues(alpha: 0.2);
+
+    final focusedBackground =
+        itemStyle?.focusedBackgroundColor ?? adjustedFocusedBackgroundColor;
+
+    // Text colors - compute adjusted text color by blending with background
+    final adjustedTextColor = Color.alphaBlend(
+      colorScheme.onSurface.withValues(alpha: 0.7),
+      background,
+    );
+
+    // Apply precedence: inline textColor > theme textColor > computed default
+    final resolvedTextColor =
+        textColor ?? itemStyle?.textColor ?? adjustedTextColor;
+    final resolvedFocusedTextColor =
+        textColor ?? itemStyle?.focusedTextColor ?? colorScheme.onSurface;
+    final resolvedDisabledTextColor = itemStyle?.disabledTextColor ??
+        colorScheme.onSurface.withValues(alpha: 0.2);
+
+    // Determine effective foreground color based on state
     final foregroundColor = !enabled
-        ? disabledTextColor
+        ? resolvedDisabledTextColor
         : isFocused
-            ? focusedTextColor
-            : normalTextColor;
+            ? resolvedFocusedTextColor
+            : resolvedTextColor;
+
+    // Icon styling
+    final iconColor = itemStyle?.iconColor ?? foregroundColor;
+    final iconSize = itemStyle?.iconSize ?? 16.0;
+
+    // Shortcut text opacity
+    // Shortcut text color: explicit shortcutTextColor > resolvedTextColor with opacity
+    final shortcutOpacity = itemStyle?.shortcutTextOpacity ?? 0.4;
+    final resolvedShortcutTextColor = itemStyle?.shortcutTextColor ??
+        resolvedTextColor.withValues(alpha: shortcutOpacity);
+
+    // Item dimensions
+    final itemHeight = itemStyle?.height ?? kMenuItemHeight;
+    final itemBorderRadius =
+        itemStyle?.borderRadius ?? BorderRadius.circular(4.0);
+
     final textStyle = TextStyle(color: foregroundColor, height: 1.0);
     final leadingIconThemeData =
-        IconThemeData(size: 16.0, color: normalTextColor);
+        IconThemeData(size: iconSize, color: iconColor);
     final trailingIconThemeData =
-        IconThemeData(size: 16.0, color: normalTextColor);
+        IconThemeData(size: iconSize, color: iconColor);
 
     // ~~~~~~~~~~ //
 
     return ConstrainedBox(
-      constraints:
-          constraints ?? const BoxConstraints.expand(height: kMenuItemHeight),
+      constraints: constraints ?? BoxConstraints.expand(height: itemHeight),
       child: Material(
+        animateColor: true,
         color: !enabled
             ? Colors.transparent
             : isFocused
                 ? focusedBackground
                 : background,
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: itemBorderRadius,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap:
@@ -142,7 +182,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
                   padding: const EdgeInsetsDirectional.only(start: 32.0),
                   child: DefaultTextStyle(
                       style: textStyle.apply(
-                        color: adjustedTextColor.withValues(alpha: 0.6),
+                        color: resolvedShortcutTextColor,
                       ),
                       child: Text(shortcut!.toKeyString())),
                 ),

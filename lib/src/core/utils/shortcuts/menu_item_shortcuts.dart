@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../widgets/context_menu_state.dart';
+import '../../../widgets/provider/context_menu_state.dart';
 import '../../models/context_menu_item.dart';
 
 Map<ShortcutActivator, VoidCallback> defaultMenuItemShortcuts(

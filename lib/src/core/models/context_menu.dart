@@ -3,58 +3,47 @@ import 'package:flutter/widgets.dart';
 
 import '../utils/helpers.dart';
 import 'context_menu_entry.dart';
+import 'context_menu_style.dart';
 
 /// Represents a context menu data model.
 class ContextMenu<T> {
   /// The position of the context menu.
-  Offset? position;
+  final Offset? position;
 
   /// The entries of the context menu.
-  List<ContextMenuEntry<T>> entries;
-
-  /// The padding around the entries   of the context menu.
-  ///
-  /// Defaults to [EdgeInsets.all(4.0)]
-  EdgeInsets padding;
-
-  /// The border radius around the context menu.
-  BorderRadiusGeometry? borderRadius;
-
-  /// The maximum width of the context menu.
-  ///
-  /// Defaults to 350.0
-  double maxWidth;
-
-  /// The maximum height of the context menu.
-  double? maxHeight;
+  final List<ContextMenuEntry<T>> entries;
 
   /// The clip behavior of the context menu.
   ///
   /// Defaults to [Clip.antiAlias]
-  Clip clipBehavior;
+  final Clip? clipBehavior;
 
-  /// The decoration of the context menu.
-  BoxDecoration? boxDecoration;
+  /// Whether to respect the padding of the context menu when opening submenus.
+  ///
+  /// If true, the context menu will not overlap the padding of the parent context menu.
+  ///
+  /// Defaults to true
+  final bool respectPadding;
 
   /// A map of shortcuts to be bound to the context menu and the nested context menus.
   ///
   /// Note: This overides the default shortcuts in [defaultMenuShortcuts] if any of the keys match.
-  Map<ShortcutActivator, VoidCallback> shortcuts;
+  final Map<ShortcutActivator, VoidCallback> shortcuts;
 
-  ContextMenu({
-    required this.entries,
-    this.position,
-    EdgeInsets? padding,
-    this.borderRadius,
-    double? maxWidth,
-    this.maxHeight,
-    Clip? clipBehavior,
-    this.boxDecoration,
-    Map<ShortcutActivator, VoidCallback>? shortcuts,
-  })  : padding = padding ?? const EdgeInsets.all(4.0),
-        maxWidth = maxWidth ?? 350.0,
-        clipBehavior = clipBehavior ?? Clip.antiAlias,
-        shortcuts = shortcuts ?? const {};
+  /// The style of the context menu.
+  ///
+  /// When provided, this style is merged on top of the resolved style
+  /// (from ContextMenuTheme widget or ThemeExtension), allowing per-instance
+  /// customization of menu appearance.
+  final ContextMenuStyle? style;
+
+  const ContextMenu(
+      {required this.entries,
+      this.position,
+      this.clipBehavior,
+      this.shortcuts = const {},
+      this.style,
+      this.respectPadding = true});
 
   /// A shortcut method to show the context menu.
   ///
@@ -66,22 +55,16 @@ class ContextMenu<T> {
   ContextMenu<T> copyWith({
     Offset? position,
     List<ContextMenuEntry<T>>? entries,
-    EdgeInsets? padding,
-    BorderRadiusGeometry? borderRadius,
-    double? maxWidth,
-    double? maxHeight,
     Clip? clipBehavior,
-    BoxDecoration? boxDecoration,
+    Map<ShortcutActivator, VoidCallback>? shortcuts,
+    ContextMenuStyle? style,
   }) {
     return ContextMenu<T>(
       position: position ?? this.position,
       entries: entries ?? this.entries,
-      padding: padding ?? this.padding,
-      borderRadius: borderRadius ?? this.borderRadius,
-      maxWidth: maxWidth ?? this.maxWidth,
-      maxHeight: maxHeight ?? this.maxHeight,
       clipBehavior: clipBehavior ?? this.clipBehavior,
-      boxDecoration: boxDecoration ?? this.boxDecoration,
+      shortcuts: shortcuts ?? this.shortcuts,
+      style: style ?? this.style,
     );
   }
 }

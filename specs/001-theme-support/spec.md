@@ -9,7 +9,7 @@
 
 ### Session 2026-02-05
 
-- Q: Should the theme be provided via a standalone `ContextMenuTheme` InheritedWidget only, via `ThemeExtension` on `ThemeData` only, or both? → A: Both — standalone `ContextMenuTheme` widget AND `ThemeExtension<ContextMenuThemeData>` support, with the InheritedWidget taking precedence when both are present.
+- Q: Should the theme be provided via a standalone `ContextMenuTheme` InheritedWidget only, via `ThemeExtension` on `ThemeData` only, or both? → A: Both — standalone `ContextMenuTheme` widget AND `ThemeExtension<ContextMenuStyle>` support, with the InheritedWidget taking precedence when both are present.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -68,7 +68,7 @@ A developer wants to control the appearance of menu items globally — text colo
 - What happens when partial theme data is provided (e.g., only surface color, nothing else)? All unspecified properties MUST fall back to defaults derived from the Material `ColorScheme`, matching current behavior.
 - What happens when the app switches between light and dark mode? The theme MUST react to `MediaQuery` brightness changes if it references `ColorScheme` values, just as the current defaults do.
 - What happens when `boxDecoration` is provided on a `ContextMenu` instance alongside a global theme? The inline `boxDecoration` MUST take full precedence for the menu container decoration, as it does today.
-- What happens when both a `ContextMenuTheme` ancestor widget and a `ThemeExtension<ContextMenuThemeData>` on `ThemeData` are present? The `ContextMenuTheme` ancestor widget MUST take precedence, as it represents a more specific/local override.
+- What happens when both a `ContextMenuTheme` ancestor widget and a `ThemeExtension<ContextMenuStyle>` on `ThemeData` are present? The `ContextMenuTheme` ancestor widget MUST take precedence, as it represents a more specific/local override.
 
 ## Requirements *(mandatory)*
 
@@ -78,8 +78,8 @@ A developer wants to control the appearance of menu items globally — text colo
 - **FR-002**: The package MUST provide a theme data class (or section within the main theme data) that encapsulates all visual properties for menu items: text color, focused text color, disabled text color, background color, focused background color, icon color, item height, and shortcut text opacity.
 - **FR-003**: The package MUST provide a theme data class (or section within the main theme data) that encapsulates visual properties for menu headers: text style, text color, and padding.
 - **FR-004**: The package MUST provide a theme data class (or section within the main theme data) that encapsulates visual properties for menu dividers: color, height, thickness, indent, and end indent.
-- **FR-005**: The package MUST provide two complementary mechanisms for supplying theme data: (a) a standalone `ContextMenuTheme` `InheritedWidget` that can wrap any subtree, and (b) a `ThemeExtension<ContextMenuThemeData>` integration so developers can register the theme on `ThemeData.extensions` alongside their existing Material theme.
-- **FR-006**: The package MUST resolve styling with a clear four-level precedence order: inline parameters on the widget > nearest `ContextMenuTheme` ancestor widget > `ThemeExtension<ContextMenuThemeData>` on `ThemeData` > Material `ColorScheme` defaults.
+- **FR-005**: The package MUST provide two complementary mechanisms for supplying theme data: (a) a standalone `ContextMenuTheme` `InheritedWidget` that can wrap any subtree, and (b) a `ThemeExtension<ContextMenuStyle>` integration so developers can register the theme on `ThemeData.extensions` alongside their existing Material theme.
+- **FR-006**: The package MUST resolve styling with a clear four-level precedence order: inline parameters on the widget > nearest `ContextMenuTheme` ancestor widget > `ThemeExtension<ContextMenuStyle>` on `ThemeData` > Material `ColorScheme` defaults.
 - **FR-007**: When no theme is provided and no inline parameters are set, the package MUST render identically to its current behavior (full backward compatibility).
 - **FR-008**: The theme data classes MUST support `copyWith` for easy partial overrides.
 - **FR-009**: The theme data classes MUST support equality comparison and hash codes for efficient rebuild detection.
@@ -87,12 +87,12 @@ A developer wants to control the appearance of menu items globally — text colo
 
 ### Key Entities
 
-- **ContextMenuThemeData**: Represents the complete set of visual properties for a context menu, including sub-themes for items, headers, and dividers.
-- **MenuItemThemeData**: Represents visual properties specific to selectable menu items (colors, sizing, states).
-- **MenuHeaderThemeData**: Represents visual properties specific to non-interactive header entries.
-- **MenuDividerThemeData**: Represents visual properties specific to divider entries.
-- **ContextMenuTheme (provider widget)**: A standalone `InheritedWidget` that supplies `ContextMenuThemeData` to descendant widgets in the tree. Takes precedence over the `ThemeExtension` approach.
-- **ContextMenuThemeData as ThemeExtension**: The same `ContextMenuThemeData` class also implements `ThemeExtension<ContextMenuThemeData>`, allowing registration on `ThemeData.extensions` for app-wide theming without an extra widget wrapper.
+- **ContextMenuStyle**: Represents the complete set of visual properties for a context menu, including sub-themes for items, headers, and dividers.
+- **MenuItemStyle**: Represents visual properties specific to selectable menu items (colors, sizing, states).
+- **MenuHeaderStyle**: Represents visual properties specific to non-interactive header entries.
+- **MenuDividerStyle**: Represents visual properties specific to divider entries.
+- **ContextMenuTheme (provider widget)**: A standalone `InheritedWidget` that supplies `ContextMenuStyle` to descendant widgets in the tree. Takes precedence over the `ThemeExtension` approach.
+- **ContextMenuStyle as ThemeExtension**: The same `ContextMenuStyle` class also implements `ThemeExtension<ContextMenuStyle>`, allowing registration on `ThemeData.extensions` for app-wide theming without an extra widget wrapper.
 
 ### Assumptions
 

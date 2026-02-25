@@ -14,8 +14,8 @@ All new types MUST be added to `lib/flutter_context_menu.dart`.
 ```dart
 /// Top-level theme data. Extends ThemeExtension for ThemeData integration.
 @immutable
-class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
-  const ContextMenuThemeData({
+class ContextMenuStyle extends ThemeExtension<ContextMenuStyle> {
+  const ContextMenuStyle({
     this.surfaceColor,
     this.shadowColor,
     this.shadowOffset,
@@ -25,9 +25,9 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
     this.padding,
     this.maxWidth,
     this.maxHeight,
-    this.menuItemTheme,
-    this.menuHeaderTheme,
-    this.menuDividerTheme,
+    this.menuItemStyle,
+    this.menuHeaderStyle,
+    this.menuDividerStyle,
   });
 
   final Color? surfaceColor;
@@ -39,25 +39,25 @@ class ContextMenuThemeData extends ThemeExtension<ContextMenuThemeData> {
   final EdgeInsets? padding;
   final double? maxWidth;
   final double? maxHeight;
-  final MenuItemThemeData? menuItemTheme;
-  final MenuHeaderThemeData? menuHeaderTheme;
-  final MenuDividerThemeData? menuDividerTheme;
+  final MenuItemStyle? menuItemStyle;
+  final MenuHeaderStyle? menuHeaderStyle;
+  final MenuDividerStyle? menuDividerStyle;
 
   /// Merges this with [other]. Non-null fields in [other] take priority.
-  ContextMenuThemeData merge(ContextMenuThemeData? other);
+  ContextMenuStyle merge(ContextMenuStyle? other);
 
   @override
-  ContextMenuThemeData copyWith({...});
+  ContextMenuStyle copyWith({...});
 
   @override
-  ContextMenuThemeData lerp(ContextMenuThemeData? other, double t);
+  ContextMenuStyle lerp(ContextMenuStyle? other, double t);
 }
 ```
 
 ```dart
 @immutable
-class MenuItemThemeData {
-  const MenuItemThemeData({
+class MenuItemStyle {
+  const MenuItemStyle({
     this.backgroundColor,
     this.focusedBackgroundColor,
     this.textColor,
@@ -81,16 +81,16 @@ class MenuItemThemeData {
   final double? height;
   final BorderRadiusGeometry? borderRadius;
 
-  MenuItemThemeData copyWith({...});
-  MenuItemThemeData merge(MenuItemThemeData? other);
-  static MenuItemThemeData? lerp(MenuItemThemeData? a, MenuItemThemeData? b, double t);
+  MenuItemStyle copyWith({...});
+  MenuItemStyle merge(MenuItemStyle? other);
+  static MenuItemStyle? lerp(MenuItemStyle? a, MenuItemStyle? b, double t);
 }
 ```
 
 ```dart
 @immutable
-class MenuHeaderThemeData {
-  const MenuHeaderThemeData({
+class MenuHeaderStyle {
+  const MenuHeaderStyle({
     this.textStyle,
     this.textColor,
     this.padding,
@@ -100,16 +100,16 @@ class MenuHeaderThemeData {
   final Color? textColor;
   final EdgeInsets? padding;
 
-  MenuHeaderThemeData copyWith({...});
-  MenuHeaderThemeData merge(MenuHeaderThemeData? other);
-  static MenuHeaderThemeData? lerp(MenuHeaderThemeData? a, MenuHeaderThemeData? b, double t);
+  MenuHeaderStyle copyWith({...});
+  MenuHeaderStyle merge(MenuHeaderStyle? other);
+  static MenuHeaderStyle? lerp(MenuHeaderStyle? a, MenuHeaderStyle? b, double t);
 }
 ```
 
 ```dart
 @immutable
-class MenuDividerThemeData {
-  const MenuDividerThemeData({
+class MenuDividerStyle {
+  const MenuDividerStyle({
     this.color,
     this.height,
     this.thickness,
@@ -123,16 +123,16 @@ class MenuDividerThemeData {
   final double? indent;
   final double? endIndent;
 
-  MenuDividerThemeData copyWith({...});
-  MenuDividerThemeData merge(MenuDividerThemeData? other);
-  static MenuDividerThemeData? lerp(MenuDividerThemeData? a, MenuDividerThemeData? b, double t);
+  MenuDividerStyle copyWith({...});
+  MenuDividerStyle merge(MenuDividerStyle? other);
+  static MenuDividerStyle? lerp(MenuDividerStyle? a, MenuDividerStyle? b, double t);
 }
 ```
 
 ### Provider Widget
 
 ```dart
-/// InheritedWidget that provides ContextMenuThemeData to descendants.
+/// InheritedWidget that provides ContextMenuStyle to descendants.
 class ContextMenuTheme extends InheritedWidget {
   const ContextMenuTheme({
     super.key,
@@ -140,13 +140,13 @@ class ContextMenuTheme extends InheritedWidget {
     required super.child,
   });
 
-  final ContextMenuThemeData data;
+  final ContextMenuStyle data;
 
-  /// Returns the nearest ContextMenuThemeData, or null if none.
-  static ContextMenuThemeData? of(BuildContext context);
+  /// Returns the nearest ContextMenuStyle, or null if none.
+  static ContextMenuStyle? of(BuildContext context);
 
   /// Alias for [of]. Returns null if no ancestor found.
-  static ContextMenuThemeData? maybeOf(BuildContext context);
+  static ContextMenuStyle? maybeOf(BuildContext context);
 
   @override
   bool updateShouldNotify(ContextMenuTheme oldWidget);
@@ -175,10 +175,10 @@ Existing `height`, `thickness`, `indent`, `endIndent`, `color` constructor param
 
 ```dart
 // In lib/flutter_context_menu.dart — add these exports:
-export 'src/core/models/context_menu_theme_data.dart';
-export 'src/core/models/menu_item_theme_data.dart';
-export 'src/core/models/menu_header_theme_data.dart';
-export 'src/core/models/menu_divider_theme_data.dart';
+export 'src/core/models/context_menu_style.dart';
+export 'src/core/models/menu_item_style.dart';
+export 'src/core/models/menu_header_style.dart';
+export 'src/core/models/menu_divider_style.dart';
 export 'src/widgets/context_menu_theme.dart';
 ```
 

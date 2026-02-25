@@ -31,8 +31,8 @@ final class CustomContextMenuItem<T> extends ContextMenuItem<T> {
   Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode? focusNode]) {
     return ListTile(
-      focusNode: focusNode,
       // important for highlighting item on focus
+      focusNode: focusNode,
       title: SizedBox(width: double.maxFinite, child: Text(label)),
       subtitle: subtitle != null ? Text(subtitle!) : null,
       onTap: () => handleItemSelection(context, menuState),

@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/theme/context_menu_theme.dart';
+import '../constants.dart';
 import '../models/context_menu.dart';
 import 'extensions/build_context_ext.dart';
-
-const double kContextMenuSafeArea = 8.0;
 
 /// Calculates the position of the context menu while ensuring it doesn't
 /// exceed screen boundaries, using a scoring-based placement for submenus.
@@ -17,19 +17,33 @@ const double kContextMenuSafeArea = 8.0;
   bool isSubmenu,
 ) {
   final screenSize = context.mediaQuery.size;
-  final safe = (Offset.zero & screenSize).deflate(kContextMenuSafeArea);
-  final menuRect = context.getWidgetBounds()!;
+  final safeArea = (Offset.zero & screenSize).deflate(kContextMenuSafePadding);
+  final menuRect = context.getWidgetBounds();
+
+  if (menuRect == null) {
+    return (pos: safeArea.topLeft, alignment: spawnAlignment);
+  }
+
   final textDir = Directionality.maybeOf(context) ?? TextDirection.ltr;
 
+  final menuStyle = ContextMenuTheme.resolve(context);
+  EdgeInsets padding = menuStyle.padding ?? EdgeInsets.zero;
+
+  if (!menu.respectPadding) {
+    padding = padding.copyWith(left: 0, right: 0);
+  }
+
   // Helpers
-  double clampX(double x) =>
-      x.clamp(safe.left, max(safe.left, safe.right - menuRect.width));
-  double clampY(double y) =>
-      y.clamp(safe.top, max(safe.top, safe.bottom - menuRect.height));
+  double clampX(double x) => x.clamp(
+      safeArea.left, max(safeArea.left, safeArea.right - menuRect.width));
+  double clampY(double y) => y.clamp(
+      safeArea.top, max(safeArea.top, safeArea.bottom - menuRect.height));
 
   double overflowAmount(Rect r) {
-    final double dx = max(0, safe.left - r.left) + max(0, r.right - safe.right);
-    final double dy = max(0, safe.top - r.top) + max(0, r.bottom - safe.bottom);
+    final double dx =
+        max(0, safeArea.left - r.left) + max(0, r.right - safeArea.right);
+    final double dy =
+        max(0, safeArea.top - r.top) + max(0, r.bottom - safeArea.bottom);
     return dx + dy;
   }
 
@@ -61,10 +75,10 @@ const double kContextMenuSafeArea = 8.0;
   final preferTop = isTopAligned(spawnAlignment);
 
   // Candidate anchors around the parent.
-  final xRight = parentRect.right + menu.padding.left;
-  final xLeft = parentRect.left - menuRect.width - menu.padding.right;
-  final yTop = parentRect.top - menu.padding.top;
-  final yBottom = parentRect.bottom - menuRect.height + menu.padding.bottom;
+  final xRight = parentRect.right + padding.left;
+  final xLeft = parentRect.left - menuRect.width - padding.right;
+  final yTop = parentRect.top - padding.top;
+  final yBottom = parentRect.bottom - menuRect.height + padding.bottom;
 
   final preferredPos =
       Offset(preferRight ? xRight : xLeft, preferTop ? yTop : yBottom);
@@ -118,7 +132,9 @@ const double kContextMenuSafeArea = 8.0;
   return (pos: Offset(finalX, finalY), alignment: best.align);
 }
 
-Offset calculateSubmenuPosition(Rect parentRect, EdgeInsets menuPadding) {
+Offset calculateSubmenuPosition(Rect parentRect, EdgeInsets? menuPadding) {
+  menuPadding ??= EdgeInsets.zero;
+
   return Offset(
     parentRect.right + menuPadding.right,
     parentRect.top - menuPadding.top,

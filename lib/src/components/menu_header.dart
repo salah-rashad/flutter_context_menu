@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../core/models/context_menu_entry.dart';
-import '../widgets/context_menu_state.dart';
+import '../core/models/menu_header_style.dart';
+import '../widgets/provider/context_menu_state.dart';
+import '../widgets/theme/context_menu_theme.dart';
 import 'menu_divider.dart';
 import 'menu_item.dart';
 
@@ -29,15 +31,23 @@ final class MenuHeader extends ContextMenuEntry<Never> {
 
   @override
   Widget builder(BuildContext context, ContextMenuState menuState) {
+    final style = ContextMenuTheme.resolve(context).menuHeaderStyle ??
+        const MenuHeaderStyle();
+
+    // Resolve styled values with fallback to defaults
+    final textStyle =
+        style.textStyle ?? Theme.of(context).textTheme.labelMedium;
+    final textColor = style.textColor ??
+        Theme.of(context).disabledColor.withValues(alpha: 0.3);
+    final padding = style.padding ?? const EdgeInsets.all(8.0);
+
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: Align(
         alignment: AlignmentDirectional.centerStart,
         child: Text(
           disableUppercase ? text : text.toUpperCase(),
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Theme.of(context).disabledColor.withValues(alpha: 0.3),
-              ),
+          style: textStyle?.copyWith(color: textColor),
         ),
       ),
     );

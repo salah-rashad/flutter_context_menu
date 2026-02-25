@@ -22,11 +22,11 @@ void main() {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         extensions: const <ThemeExtension<dynamic>>[
-          ContextMenuThemeData(
+          ContextMenuStyle(
             surfaceColor: Color(0xFFF5F5F5),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
             padding: EdgeInsets.all(6.0),
-            menuItemTheme: MenuItemThemeData(
+            menuItemStyle: MenuItemStyle(
               height: 36.0,
               focusedBackgroundColor: Color(0xFFE3F2FD),
             ),
@@ -35,10 +35,10 @@ void main() {
       ),
       darkTheme: ThemeData.dark().copyWith(
         extensions: const <ThemeExtension<dynamic>>[
-          ContextMenuThemeData(
+          ContextMenuStyle(
             surfaceColor: Color(0xFF303030),
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            menuItemTheme: MenuItemThemeData(
+            menuItemStyle: MenuItemStyle(
               focusedBackgroundColor: Color(0xFF424242),
             ),
           ),
@@ -58,10 +58,10 @@ Wrap your app (or a subtree) with the `ContextMenuTheme` widget:
 
 ```dart
 ContextMenuTheme(
-  data: const ContextMenuThemeData(
+  data: const ContextMenuStyle(
     surfaceColor: Color(0xFFF5F5F5),
     borderRadius: BorderRadius.all(Radius.circular(8.0)),
-    menuItemTheme: MenuItemThemeData(
+    menuItemStyle: MenuItemStyle(
       height: 36.0,
     ),
   ),
@@ -76,9 +76,9 @@ Override the theme for a specific section of the app:
 ```dart
 // This subtree gets a different context menu style
 ContextMenuTheme(
-  data: const ContextMenuThemeData(
+  data: const ContextMenuStyle(
     surfaceColor: Color(0xFFFFEBEE), // red-tinted
-    menuItemTheme: MenuItemThemeData(
+    menuItemStyle: MenuItemStyle(
       textColor: Color(0xFFC62828),
     ),
   ),
@@ -115,9 +115,9 @@ All theme properties are optional. Set only what you want to change:
 
 ```dart
 // Only change item height and border radius — everything else stays default
-const ContextMenuThemeData(
+const ContextMenuStyle(
   borderRadius: BorderRadius.all(Radius.circular(12.0)),
-  menuItemTheme: MenuItemThemeData(
+  menuItemStyle: MenuItemStyle(
     height: 40.0,
   ),
 )

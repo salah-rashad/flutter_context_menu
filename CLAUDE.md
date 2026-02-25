@@ -53,10 +53,15 @@ All public exports go through the barrel file. The package has three layers:
 
 **Widgets** (`lib/src/widgets/`):
 - `ContextMenuRegion` — wraps any widget to detect right-click/long-press and show a menu at the interaction point.
-- `ContextMenuState<T>` — `ChangeNotifier` managing focus, selection, submenu visibility, and position verification.
-- `ContextMenuWidget` — assembles state via `ContextMenuProvider` (InheritedNotifier), keyboard shortcuts, and focus scope.
-- `ContextMenuWidgetView` — renders the menu container with box decoration and scale animation.
-- `MenuEntryWidget` — renders individual entries with mouse region and focus handling.
+- `base/` — core rendering widgets:
+  - `ContextMenuWidget` — assembles state via `ContextMenuProvider`, keyboard shortcuts, and focus scope.
+  - `ContextMenuWidgetView` — renders the menu container with box decoration, scale animation, and theme resolution.
+  - `MenuEntryWidget` — renders individual entries with mouse region and focus handling.
+- `provider/` — state management:
+  - `ContextMenuProvider` — `InheritedNotifier` that exposes `ContextMenuState` to descendants.
+  - `ContextMenuState<T>` — `ChangeNotifier` managing focus, selection, submenu visibility, and position verification.
+- `theme/` — theming:
+  - `ContextMenuTheme` — `InheritedWidget` supplying `ContextMenuStyle` to descendant widgets. Takes precedence over `ThemeExtension`.
 
 ### Menu Display Flow
 

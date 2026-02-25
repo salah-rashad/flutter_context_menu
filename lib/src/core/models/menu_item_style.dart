@@ -2,12 +2,12 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
 
-/// Theme data for selectable menu items.
+/// Style for selectable menu items.
 ///
 /// All fields are nullable. Null values fall through to the next precedence level
 /// in the theme resolution chain (ContextMenuTheme widget > ThemeExtension > ColorScheme defaults).
 @immutable
-class MenuItemThemeData {
+class MenuItemStyle {
   /// Background color for normal (unfocused) menu items.
   ///
   /// When null, resolves to [ColorScheme.surface].
@@ -43,6 +43,11 @@ class MenuItemThemeData {
   /// When null, resolves to 16.0.
   final double? iconSize;
 
+  /// Color for shortcut hint text.
+  ///
+  /// When null, resolves to [textColor] with [shortcutTextOpacity] applied.
+  final Color? shortcutTextColor;
+
   /// Opacity for shortcut text.
   ///
   /// When null, resolves to 0.6.
@@ -58,8 +63,8 @@ class MenuItemThemeData {
   /// When null, resolves to [BorderRadius.circular(4.0)].
   final BorderRadiusGeometry? borderRadius;
 
-  /// Creates a [MenuItemThemeData].
-  const MenuItemThemeData({
+  /// Creates a [MenuItemStyle].
+  const MenuItemStyle({
     this.backgroundColor,
     this.focusedBackgroundColor,
     this.textColor,
@@ -67,14 +72,15 @@ class MenuItemThemeData {
     this.disabledTextColor,
     this.iconColor,
     this.iconSize,
+    this.shortcutTextColor,
     this.shortcutTextOpacity,
     this.height,
     this.borderRadius,
   });
 
-  /// Creates a copy of this theme data with the given fields replaced with
+  /// Creates a copy of this style with the given fields replaced with
   /// the new values.
-  MenuItemThemeData copyWith({
+  MenuItemStyle copyWith({
     Color? backgroundColor,
     Color? focusedBackgroundColor,
     Color? textColor,
@@ -82,11 +88,12 @@ class MenuItemThemeData {
     Color? disabledTextColor,
     Color? iconColor,
     double? iconSize,
+    Color? shortcutTextColor,
     double? shortcutTextOpacity,
     double? height,
     BorderRadiusGeometry? borderRadius,
   }) {
-    return MenuItemThemeData(
+    return MenuItemStyle(
       backgroundColor: backgroundColor ?? this.backgroundColor,
       focusedBackgroundColor:
           focusedBackgroundColor ?? this.focusedBackgroundColor,
@@ -95,19 +102,20 @@ class MenuItemThemeData {
       disabledTextColor: disabledTextColor ?? this.disabledTextColor,
       iconColor: iconColor ?? this.iconColor,
       iconSize: iconSize ?? this.iconSize,
+      shortcutTextColor: shortcutTextColor ?? this.shortcutTextColor,
       shortcutTextOpacity: shortcutTextOpacity ?? this.shortcutTextOpacity,
       height: height ?? this.height,
       borderRadius: borderRadius ?? this.borderRadius,
     );
   }
 
-  /// Linearly interpolate between two [MenuItemThemeData] objects.
-  static MenuItemThemeData lerp(
-    MenuItemThemeData? a,
-    MenuItemThemeData? b,
+  /// Linearly interpolate between two [MenuItemStyle] objects.
+  static MenuItemStyle lerp(
+    MenuItemStyle? a,
+    MenuItemStyle? b,
     double t,
   ) {
-    return MenuItemThemeData(
+    return MenuItemStyle(
       backgroundColor: Color.lerp(a?.backgroundColor, b?.backgroundColor, t),
       focusedBackgroundColor:
           Color.lerp(a?.focusedBackgroundColor, b?.focusedBackgroundColor, t),
@@ -117,6 +125,8 @@ class MenuItemThemeData {
           Color.lerp(a?.disabledTextColor, b?.disabledTextColor, t),
       iconColor: Color.lerp(a?.iconColor, b?.iconColor, t),
       iconSize: lerpDouble(a?.iconSize, b?.iconSize, t),
+      shortcutTextColor:
+          Color.lerp(a?.shortcutTextColor, b?.shortcutTextColor, t),
       shortcutTextOpacity:
           lerpDouble(a?.shortcutTextOpacity, b?.shortcutTextOpacity, t),
       height: lerpDouble(a?.height, b?.height, t),
@@ -125,9 +135,9 @@ class MenuItemThemeData {
     );
   }
 
-  /// Merges this theme data with [other], with non-null values from [other]
-  /// taking precedence over values from this theme data.
-  MenuItemThemeData merge(MenuItemThemeData? other) {
+  /// Merges this style with [other], with non-null values from [other]
+  /// taking precedence over values from this style.
+  MenuItemStyle merge(MenuItemStyle? other) {
     if (other == null) return this;
     return copyWith(
       backgroundColor: other.backgroundColor,
@@ -137,6 +147,7 @@ class MenuItemThemeData {
       disabledTextColor: other.disabledTextColor,
       iconColor: other.iconColor,
       iconSize: other.iconSize,
+      shortcutTextColor: other.shortcutTextColor,
       shortcutTextOpacity: other.shortcutTextOpacity,
       height: other.height,
       borderRadius: other.borderRadius,
@@ -146,7 +157,7 @@ class MenuItemThemeData {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is MenuItemThemeData &&
+    return other is MenuItemStyle &&
         other.backgroundColor == backgroundColor &&
         other.focusedBackgroundColor == focusedBackgroundColor &&
         other.textColor == textColor &&
@@ -154,6 +165,7 @@ class MenuItemThemeData {
         other.disabledTextColor == disabledTextColor &&
         other.iconColor == iconColor &&
         other.iconSize == iconSize &&
+        other.shortcutTextColor == shortcutTextColor &&
         other.shortcutTextOpacity == shortcutTextOpacity &&
         other.height == height &&
         other.borderRadius == borderRadius;
@@ -168,6 +180,7 @@ class MenuItemThemeData {
       disabledTextColor.hashCode ^
       iconColor.hashCode ^
       iconSize.hashCode ^
+      shortcutTextColor.hashCode ^
       shortcutTextOpacity.hashCode ^
       height.hashCode ^
       borderRadius.hashCode;

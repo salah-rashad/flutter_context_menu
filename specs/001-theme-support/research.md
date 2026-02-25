@@ -5,7 +5,7 @@
 
 ## Decision 1: Theme Distribution Mechanism
 
-**Decision**: Use both a standalone `ContextMenuTheme` `InheritedWidget` and `ThemeExtension<ContextMenuThemeData>` registration on `ThemeData.extensions`.
+**Decision**: Use both a standalone `ContextMenuTheme` `InheritedWidget` and `ThemeExtension<ContextMenuStyle>` registration on `ThemeData.extensions`.
 
 **Rationale**: `ThemeExtension` is Flutter's official mechanism for custom theme data (available since Flutter 3.0). It integrates with `ThemeData`, supports `lerp` for smooth theme transitions, and lets developers define context menu styling alongside light/dark themes without extra widget wrappers. The standalone `InheritedWidget` adds the ability to override themes locally in a subtree, matching Flutter patterns like `IconTheme`, `DefaultTextStyle`, etc.
 
@@ -16,7 +16,7 @@
 
 ## Decision 2: Theme Data Structure
 
-**Decision**: Single top-level `ContextMenuThemeData` class containing nested sub-theme classes: `MenuItemThemeData`, `MenuHeaderThemeData`, `MenuDividerThemeData`.
+**Decision**: Single top-level `ContextMenuStyle` class containing nested sub-theme classes: `MenuItemStyle`, `MenuHeaderStyle`, `MenuDividerStyle`.
 
 **Rationale**: Mirrors the component hierarchy. Developers can override just the parts they care about (e.g., only item colors). Nested structure keeps the top-level class clean while allowing granular control. `copyWith` on each class enables partial overrides.
 
@@ -31,11 +31,11 @@
 **Rationale**: All-nullable fields mean partial themes "just work" — any unset property falls through to the next level. This preserves full backward compatibility: when no theme is configured, every property resolves to the same `ColorScheme`-derived defaults currently hardcoded in the widgets.
 
 **Alternatives considered**:
-- Non-nullable fields with factory defaults: Would force developers to specify all values even for small overrides, or require a `ContextMenuThemeData.fallback(context)` factory that reads `ColorScheme`. The nullable approach is simpler and standard in Flutter (see `ButtonStyle`, `InputDecorationTheme`).
+- Non-nullable fields with factory defaults: Would force developers to specify all values even for small overrides, or require a `ContextMenuStyle.fallback(context)` factory that reads `ColorScheme`. The nullable approach is simpler and standard in Flutter (see `ButtonStyle`, `InputDecorationTheme`).
 
 ## Decision 4: ThemeExtension lerp Implementation
 
-**Decision**: Implement `lerp` on `ContextMenuThemeData` and all sub-theme classes using Flutter's built-in lerp functions (`Color.lerp`, `BorderRadius.lerp`, `EdgeInsets.lerp`, `lerpDouble`).
+**Decision**: Implement `lerp` on `ContextMenuStyle` and all sub-theme classes using Flutter's built-in lerp functions (`Color.lerp`, `BorderRadius.lerp`, `EdgeInsets.lerp`, `lerpDouble`).
 
 **Rationale**: Required by the `ThemeExtension` contract. Enables smooth animated transitions when switching between themes (e.g., light ↔ dark). Without `lerp`, theme switches would snap abruptly.
 

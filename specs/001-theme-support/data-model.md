@@ -6,7 +6,7 @@
 ## Entity Diagram
 
 ```text
-ContextMenuThemeData (extends ThemeExtension<ContextMenuThemeData>)
+ContextMenuStyle (extends ThemeExtension<ContextMenuStyle>)
 ├── surfaceColor: Color?
 ├── shadowColor: Color?
 ├── shadowOffset: Offset?
@@ -16,11 +16,11 @@ ContextMenuThemeData (extends ThemeExtension<ContextMenuThemeData>)
 ├── padding: EdgeInsets?
 ├── maxWidth: double?
 ├── maxHeight: double?
-├── menuItemTheme: MenuItemThemeData?
-├── menuHeaderTheme: MenuHeaderThemeData?
-└── menuDividerTheme: MenuDividerThemeData?
+├── menuItemStyle: MenuItemStyle?
+├── menuHeaderStyle: MenuHeaderStyle?
+└── menuDividerStyle: MenuDividerStyle?
 
-MenuItemThemeData
+MenuItemStyle
 ├── backgroundColor: Color?
 ├── focusedBackgroundColor: Color?
 ├── textColor: Color?
@@ -32,12 +32,12 @@ MenuItemThemeData
 ├── height: double?
 └── borderRadius: BorderRadiusGeometry?
 
-MenuHeaderThemeData
+MenuHeaderStyle
 ├── textStyle: TextStyle?
 ├── textColor: Color?
 └── padding: EdgeInsets?
 
-MenuDividerThemeData
+MenuDividerStyle
 ├── color: Color?
 ├── height: double?
 ├── thickness: double?
@@ -47,9 +47,9 @@ MenuDividerThemeData
 
 ## Entity Details
 
-### ContextMenuThemeData
+### ContextMenuStyle
 
-Top-level theme data class. Extends `ThemeExtension<ContextMenuThemeData>` for `ThemeData.extensions` registration. Also used as the data payload for the `ContextMenuTheme` `InheritedWidget`.
+Top-level theme data class. Extends `ThemeExtension<ContextMenuStyle>` for `ThemeData.extensions` registration. Also used as the data payload for the `ContextMenuTheme` `InheritedWidget`.
 
 **All fields are nullable.** Null means "not specified at this level; fall through to next precedence level."
 
@@ -64,17 +64,17 @@ Top-level theme data class. Extends `ThemeExtension<ContextMenuThemeData>` for `
 | `padding` | `EdgeInsets?` | `EdgeInsets.all(4.0)` |
 | `maxWidth` | `double?` | `350.0` |
 | `maxHeight` | `double?` | unconstrained |
-| `menuItemTheme` | `MenuItemThemeData?` | all item defaults |
-| `menuHeaderTheme` | `MenuHeaderThemeData?` | all header defaults |
-| `menuDividerTheme` | `MenuDividerThemeData?` | all divider defaults |
+| `menuItemStyle` | `MenuItemStyle?` | all item defaults |
+| `menuHeaderStyle` | `MenuHeaderStyle?` | all header defaults |
+| `menuDividerStyle` | `MenuDividerStyle?` | all divider defaults |
 
 **Required methods**:
 - `copyWith(...)` — all fields as optional named parameters
-- `lerp(ContextMenuThemeData? other, double t)` — delegates to per-field lerp
+- `lerp(ContextMenuStyle? other, double t)` — delegates to per-field lerp
 - `operator ==` and `hashCode` — field-by-field comparison
-- `merge(ContextMenuThemeData? other)` — combines two instances (other's non-null fields win)
+- `merge(ContextMenuStyle? other)` — combines two instances (other's non-null fields win)
 
-### MenuItemThemeData
+### MenuItemStyle
 
 Theme data for selectable menu items (`MenuItem`).
 
@@ -93,7 +93,7 @@ Theme data for selectable menu items (`MenuItem`).
 
 **Required methods**: `copyWith`, `lerp`, `operator ==`, `hashCode`, `merge`
 
-### MenuHeaderThemeData
+### MenuHeaderStyle
 
 Theme data for non-interactive header entries (`MenuHeader`).
 
@@ -105,7 +105,7 @@ Theme data for non-interactive header entries (`MenuHeader`).
 
 **Required methods**: `copyWith`, `lerp`, `operator ==`, `hashCode`, `merge`
 
-### MenuDividerThemeData
+### MenuDividerStyle
 
 Theme data for separator entries (`MenuDivider`).
 
@@ -126,13 +126,13 @@ Theme data for separator entries (`MenuDivider`).
 An `InheritedWidget` (not `InheritedNotifier` — theme data is immutable, not a `ChangeNotifier`).
 
 **Fields**:
-- `data`: `ContextMenuThemeData` (required)
+- `data`: `ContextMenuStyle` (required)
 - `child`: `Widget` (required)
 
 **Static accessor**:
-- `ContextMenuTheme.of(BuildContext context)` → `ContextMenuThemeData?`
+- `ContextMenuTheme.of(BuildContext context)` → `ContextMenuStyle?`
   - Returns null if no ancestor `ContextMenuTheme` exists (does NOT throw)
-- `ContextMenuTheme.maybeOf(BuildContext context)` → `ContextMenuThemeData?`
+- `ContextMenuTheme.maybeOf(BuildContext context)` → `ContextMenuStyle?`
   - Alias for consistency with Flutter conventions
 
 ## Theme Resolution Function
@@ -140,9 +140,9 @@ An `InheritedWidget` (not `InheritedNotifier` — theme data is immutable, not a
 A static or top-level helper that resolves the effective theme for a given context:
 
 ```text
-resolveTheme(BuildContext context) → ContextMenuThemeData:
+resolveTheme(BuildContext context) → ContextMenuStyle:
   1. Check ContextMenuTheme.of(context) → inherited widget data
-  2. Check Theme.of(context).extension<ContextMenuThemeData>() → extension data
+  2. Check Theme.of(context).extension<ContextMenuStyle>() → extension data
   3. Merge: inherited (if present) takes priority over extension (if present)
   4. Return merged result (may still have null fields — render code fills defaults)
 ```

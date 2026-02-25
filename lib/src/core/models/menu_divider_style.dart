@@ -2,12 +2,12 @@ import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
 
-/// Theme data for separator entries.
+/// Style for separator entries.
 ///
 /// All fields are nullable. Null values fall through to the next precedence level
 /// in the theme resolution chain (ContextMenuTheme widget > ThemeExtension > defaults).
 @immutable
-class MenuDividerThemeData {
+class MenuDividerStyle {
   /// Color of the divider.
   ///
   /// When null, resolves to Flutter's default [Divider] color.
@@ -33,8 +33,8 @@ class MenuDividerThemeData {
   /// When null, resolves to null (no end indent).
   final double? endIndent;
 
-  /// Creates a [MenuDividerThemeData].
-  const MenuDividerThemeData({
+  /// Creates a [MenuDividerStyle].
+  const MenuDividerStyle({
     this.color,
     this.height,
     this.thickness,
@@ -42,16 +42,16 @@ class MenuDividerThemeData {
     this.endIndent,
   });
 
-  /// Creates a copy of this theme data with the given fields replaced with
+  /// Creates a copy of this style with the given fields replaced with
   /// the new values.
-  MenuDividerThemeData copyWith({
+  MenuDividerStyle copyWith({
     Color? color,
     double? height,
     double? thickness,
     double? indent,
     double? endIndent,
   }) {
-    return MenuDividerThemeData(
+    return MenuDividerStyle(
       color: color ?? this.color,
       height: height ?? this.height,
       thickness: thickness ?? this.thickness,
@@ -60,13 +60,13 @@ class MenuDividerThemeData {
     );
   }
 
-  /// Linearly interpolate between two [MenuDividerThemeData] objects.
-  static MenuDividerThemeData lerp(
-    MenuDividerThemeData? a,
-    MenuDividerThemeData? b,
+  /// Linearly interpolate between two [MenuDividerStyle] objects.
+  static MenuDividerStyle lerp(
+    MenuDividerStyle? a,
+    MenuDividerStyle? b,
     double t,
   ) {
-    return MenuDividerThemeData(
+    return MenuDividerStyle(
       color: Color.lerp(a?.color, b?.color, t),
       height: lerpDouble(a?.height, b?.height, t),
       thickness: lerpDouble(a?.thickness, b?.thickness, t),
@@ -75,9 +75,9 @@ class MenuDividerThemeData {
     );
   }
 
-  /// Merges this theme data with [other], with non-null values from [other]
-  /// taking precedence over values from this theme data.
-  MenuDividerThemeData merge(MenuDividerThemeData? other) {
+  /// Merges this style with [other], with non-null values from [other]
+  /// taking precedence over values from this style.
+  MenuDividerStyle merge(MenuDividerStyle? other) {
     if (other == null) return this;
     return copyWith(
       color: other.color,
@@ -91,7 +91,7 @@ class MenuDividerThemeData {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is MenuDividerThemeData &&
+    return other is MenuDividerStyle &&
         other.color == color &&
         other.height == height &&
         other.thickness == thickness &&

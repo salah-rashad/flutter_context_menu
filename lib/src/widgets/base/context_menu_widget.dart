@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../core/utils/shortcuts/menu_shortcuts.dart';
-import 'context_menu_provider.dart';
-import 'context_menu_state.dart';
+import '../../core/utils/shortcuts/menu_shortcuts.dart';
+import '../provider/context_menu_provider.dart';
+import '../provider/context_menu_state.dart';
 import 'context_menu_widget_view.dart';
 
 /// Widget that displays the context menu.
