@@ -154,7 +154,11 @@ final class MenuItem<T> extends ContextMenuItem<T> {
                       child: IconTheme(
                         data: trailingIconThemeData,
                         child: Icon(
-                          isSubmenuItem ? Icons.arrow_right : null,
+                          isSubmenuItem
+                              ? (Directionality.of(context) == TextDirection.rtl
+                                  ? Icons.arrow_left
+                                  : Icons.arrow_right)
+                              : null,
                         ),
                       ),
                     ),

@@ -22,39 +22,43 @@ class ContextMenuWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ContextMenuProvider<T>(
-      state: menuState,
-      child: Builder(
-        builder: (context) {
-          final state = ContextMenuState.of(context);
-          state.verifyPosition(context);
+    return Directionality(
+        textDirection: menuState.menu.textDirection ??
+            Directionality.maybeOf(context) ??
+            TextDirection.ltr,
+        child: ContextMenuProvider<T>(
+          state: menuState,
+          child: Builder(
+            builder: (context) {
+              final state = ContextMenuState.of(context);
+              state.verifyPosition(context);
 
-          return Positioned(
-            key: state.key,
-            left: state.position.dx,
-            top: state.position.dy,
-            child: OverlayPortal(
-              controller: state.overlayController,
-              overlayChildBuilder: state.submenuBuilder,
-              child: CallbackShortcuts(
-                bindings: defaultMenuShortcuts(context, state)
-                  ..addAll(state.shortcuts),
-                child: FocusScope(
-                  autofocus: true,
-                  node: state.focusScopeNode,
-                  child: Opacity(
-                    opacity: state.isPositionVerified ? 1.0 : 0.0,
-                    child: ContextMenuWidgetView(
-                      menu: state.menu,
-                      spawnAnchor: state.spawnAnchor,
+              return Positioned(
+                key: state.key,
+                left: state.position.dx,
+                top: state.position.dy,
+                child: OverlayPortal(
+                  controller: state.overlayController,
+                  overlayChildBuilder: state.submenuBuilder,
+                  child: CallbackShortcuts(
+                    bindings: defaultMenuShortcuts(context, state)
+                      ..addAll(state.shortcuts),
+                    child: FocusScope(
+                      autofocus: true,
+                      node: state.focusScopeNode,
+                      child: Opacity(
+                        opacity: state.isPositionVerified ? 1.0 : 0.0,
+                        child: ContextMenuWidgetView(
+                          menu: state.menu,
+                          spawnAnchor: state.spawnAnchor,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
+              );
+            },
+          ),
+        ));
   }
 }

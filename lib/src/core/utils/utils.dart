@@ -19,7 +19,9 @@ const double kContextMenuSafeArea = 8.0;
   final screenSize = context.mediaQuery.size;
   final safe = (Offset.zero & screenSize).deflate(kContextMenuSafeArea);
   final menuRect = context.getWidgetBounds()!;
-  final textDir = Directionality.maybeOf(context) ?? TextDirection.ltr;
+  final textDir = menu.textDirection ??
+      Directionality.maybeOf(context) ??
+      TextDirection.ltr;
 
   // Helpers
   double clampX(double x) =>
@@ -34,7 +36,11 @@ const double kContextMenuSafeArea = 8.0;
   }
 
   bool isTopAligned(AlignmentGeometry a) => a.resolve(textDir).y <= 0.0;
-  bool isRightAligned(AlignmentGeometry a) => a.resolve(textDir).x >= 0.0;
+  bool isRightAligned(AlignmentGeometry a) {
+    final x = a.resolve(textDir).x;
+    if (x == 0.0) return textDir == TextDirection.ltr;
+    return x >= 0.0;
+  }
 
   AlignmentGeometry alignFromSides({required bool right, required bool top}) {
     if (top) {
@@ -118,11 +124,25 @@ const double kContextMenuSafeArea = 8.0;
   return (pos: Offset(finalX, finalY), alignment: best.align);
 }
 
-Offset calculateSubmenuPosition(Rect parentRect, EdgeInsets menuPadding) {
-  return Offset(
-    parentRect.right + menuPadding.right,
-    parentRect.top - menuPadding.top,
-  );
+Offset calculateSubmenuPosition(Rect parentRect, EdgeInsets menuPadding,
+    [BuildContext? context, ContextMenu? menu]) {
+  final textDir = menu?.textDirection ??
+      (context != null ? Directionality.maybeOf(context) : null) ??
+      TextDirection.ltr;
+
+  if (textDir == TextDirection.ltr) {
+    return Offset(
+      parentRect.right + menuPadding.right,
+      parentRect.top - menuPadding.top,
+    );
+  } else {
+    // Offset the submenu to the left side in RTL scenarios
+    // Use an estimated max-width if not explicitly provided, exact bounds will be checked in verifyPosition
+    return Offset(
+      parentRect.left - menuPadding.right - (menu?.maxWidth ?? 350.0),
+      parentRect.top - menuPadding.top,
+    );
+  }
 }
 
 // bool hasSameFocusNodeId(String line1, String line2) {

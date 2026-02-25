@@ -36,6 +36,9 @@ class ContextMenu<T> {
   /// The decoration of the context menu.
   BoxDecoration? boxDecoration;
 
+  /// The text direction of the context menu.
+  TextDirection? textDirection;
+
   /// A map of shortcuts to be bound to the context menu and the nested context menus.
   ///
   /// Note: This overides the default shortcuts in [defaultMenuShortcuts] if any of the keys match.
@@ -50,6 +53,7 @@ class ContextMenu<T> {
     this.maxHeight,
     Clip? clipBehavior,
     this.boxDecoration,
+    this.textDirection,
     Map<ShortcutActivator, VoidCallback>? shortcuts,
   })  : padding = padding ?? const EdgeInsets.all(4.0),
         maxWidth = maxWidth ?? 350.0,
@@ -72,6 +76,7 @@ class ContextMenu<T> {
     double? maxHeight,
     Clip? clipBehavior,
     BoxDecoration? boxDecoration,
+    TextDirection? textDirection,
   }) {
     return ContextMenu<T>(
       position: position ?? this.position,
@@ -82,6 +87,7 @@ class ContextMenu<T> {
       maxHeight: maxHeight ?? this.maxHeight,
       clipBehavior: clipBehavior ?? this.clipBehavior,
       boxDecoration: boxDecoration ?? this.boxDecoration,
+      textDirection: textDirection ?? this.textDirection,
     );
   }
 }

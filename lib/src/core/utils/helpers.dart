@@ -13,8 +13,16 @@ Future<T?> showContextMenu<T>(
   bool useRootNavigator = true,
   ValueChanged<T?>? onItemSelected,
 }) async {
-  final menuState =
-      ContextMenuState<T>(menu: contextMenu, onItemSelected: onItemSelected);
+  final capturedDirectionality =
+      Directionality.maybeOf(context) ?? TextDirection.ltr;
+  final effectiveMenu = contextMenu.copyWith(
+    textDirection: contextMenu.textDirection ?? capturedDirectionality,
+  );
+
+  final menuState = ContextMenuState<T>(
+    menu: effectiveMenu,
+    onItemSelected: onItemSelected,
+  );
   routeOptions ??= const MenuRouteOptions(
     barrierDismissible: true,
   );
