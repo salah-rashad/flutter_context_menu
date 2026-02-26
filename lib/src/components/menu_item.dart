@@ -113,7 +113,8 @@ final class MenuItem<T> extends ContextMenuItem<T> {
         borderRadius: BorderRadius.circular(4.0),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: !enabled ? null : () => handleItemSelection(context),
+          onTap:
+              !enabled ? null : () => handleItemSelection(context, menuState),
           canRequestFocus: false,
           hoverColor: Colors.transparent,
           child: Row(

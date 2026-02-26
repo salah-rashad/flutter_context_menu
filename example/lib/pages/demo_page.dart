@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
 Map<String, ContextMenu> _contextMenus(BuildContext context) => {
-      "Default (built-in)": ContextMenu(entries: defaultContextMenuItems),
+      "Default (built-in)":
+          ContextMenu<String>(entries: defaultContextMenuItems),
       "Custom\n\nmax width: 200\npadding: 0": ContextMenu(
         entries: customContextMenuItems,
         maxWidth: 200,
         padding: EdgeInsets.zero,
       ),
-      "Custom with box decoration\n\npadding: horizontal(8)": ContextMenu(
+      "Custom with box decoration\n\npadding: horizontal(8)":
+          ContextMenu<String>(
         entries: customContextMenuItems,
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         boxDecoration: BoxDecoration(
@@ -23,7 +25,7 @@ Map<String, ContextMenu> _contextMenus(BuildContext context) => {
           ],
         ),
       ),
-      "Default\n\nposition (x: 50, y: 30)\npadding: 0": ContextMenu(
+      "Default\n\nposition (x: 50, y: 30)\npadding: 0": ContextMenu<String>(
         entries: defaultContextMenuItems,
         padding: EdgeInsets.zero,
         position: const Offset(50, 30),

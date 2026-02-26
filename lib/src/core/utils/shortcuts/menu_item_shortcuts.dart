@@ -23,15 +23,15 @@ Map<ShortcutActivator, VoidCallback> defaultMenuItemShortcuts(
         if (item.isSubmenuItem &&
             !isSubmenuOpen &&
             focusedItemIsNotTheSelectedItem) {
-          item.handleItemSelection(context);
+          item.handleItemSelection(context, menuState);
         }
       }
     },
     const SingleActivator(LogicalKeyboardKey.space): () =>
-        item.handleItemSelection(context),
+        item.handleItemSelection(context, menuState),
     const SingleActivator(LogicalKeyboardKey.enter): () =>
-        item.handleItemSelection(context),
+        item.handleItemSelection(context, menuState),
     const SingleActivator(LogicalKeyboardKey.numpadEnter): () =>
-        item.handleItemSelection(context),
+        item.handleItemSelection(context, menuState),
   };
 }
