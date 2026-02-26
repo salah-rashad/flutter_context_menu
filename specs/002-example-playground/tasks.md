@@ -32,19 +32,19 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 [P] Create `example/lib/state/app_settings_state.dart` with `AppSettingsState` class containing `ThemeMode themeMode` field
-- [ ] T008 [P] Create `example/lib/state/entry_node.dart` with `EntryNode` class and `EntryType` enum per data-model.md, including `toEntry()` conversion method that produces `MenuItem<String>`, `MenuHeader`, or `MenuDivider`
-- [ ] T009 [P] Create `example/lib/state/menu_properties_state.dart` with `MenuPropertiesState` class (clipBehavior, respectPadding). Note: maxWidth/maxHeight are ContextMenuStyle properties and live in InlineStyleState, not here.
-- [ ] T010 [P] Create `example/lib/state/menu_item_style_state.dart` with `MenuItemStyleState` class (all nullable fields per data-model.md) and `toMenuItemStyle()` builder
-- [ ] T011 [P] Create `example/lib/state/menu_header_style_state.dart` with `MenuHeaderStyleState` class and `toMenuHeaderStyle()` builder
-- [ ] T012 [P] Create `example/lib/state/menu_divider_style_state.dart` with `MenuDividerStyleState` class and `toMenuDividerStyle()` builder
-- [ ] T013 [P] Create `example/lib/state/inline_style_state.dart` with `InlineStyleState` class containing all `ContextMenuStyle` fields + nested sub-style states, and `toContextMenuStyle()` builder
-- [ ] T014 [P] Create `example/lib/state/inherited_theme_state.dart` with `InheritedThemeState` class (enabled flag + `InlineStyleState style`)
-- [ ] T015 [P] Create `example/lib/state/theme_extension_state.dart` with `ThemeExtensionState` class (enabled flag + `InlineStyleState style`)
-- [ ] T016 Create `example/lib/state/playground_state.dart` with `PlaygroundState extends ChangeNotifier` composing all sub-states, implementing `buildContextMenu()`, `buildInlineStyle()`, `buildInheritedStyle()`, `buildThemeExtensionStyle()`, and all mutation methods per contracts/state-contracts.md
-- [ ] T017 [P] Create `example/lib/utils/default_entries.dart` with default sample `List<EntryNode>` (header, items with icons/shortcuts, divider, submenu, disabled item) per data-model.md
-- [ ] T018 [P] Create `example/lib/utils/theme_bridge.dart` with `buildMaterialTheme()` function that produces a `ThemeData` from current shadcn_flutter color context and optional `ContextMenuStyle` extension
-- [ ] T019 Create `example/lib/screens/playground_screen.dart` with `ResizablePanel.horizontal` split layout: left `ResizablePane` (tools panel placeholder) + right `ResizablePane` (playground area placeholder)
+- [x] T007 [P] Create `example/lib/state/app_settings_state.dart` with `AppSettingsState` class containing `ThemeMode themeMode` field
+- [x] T008 [P] Create `example/lib/state/entry_node.dart` with `EntryNode` class and `EntryType` enum per data-model.md, including `toEntry()` conversion method that produces `MenuItem<String>`, `MenuHeader`, or `MenuDivider`
+- [x] T009 [P] Create `example/lib/state/menu_properties_state.dart` with `MenuPropertiesState` class (clipBehavior, respectPadding). Note: maxWidth/maxHeight are ContextMenuStyle properties and live in InlineStyleState, not here.
+- [x] T010 [P] Create `example/lib/state/menu_item_style_state.dart` with `MenuItemStyleState` class (all nullable fields per data-model.md) and `toMenuItemStyle()` builder
+- [x] T011 [P] Create `example/lib/state/menu_header_style_state.dart` with `MenuHeaderStyleState` class and `toMenuHeaderStyle()` builder
+- [x] T012 [P] Create `example/lib/state/menu_divider_style_state.dart` with `MenuDividerStyleState` class and `toMenuDividerStyle()` builder
+- [x] T013 [P] Create `example/lib/state/inline_style_state.dart` with `InlineStyleState` class containing all `ContextMenuStyle` fields + nested sub-style states, and `toContextMenuStyle()` builder
+- [x] T014 [P] Create `example/lib/state/inherited_theme_state.dart` with `InheritedThemeState` class (enabled flag + `InlineStyleState style`)
+- [x] T015 [P] Create `example/lib/state/theme_extension_state.dart` with `ThemeExtensionState` class (enabled flag + `InlineStyleState style`)
+- [x] T016 Create `example/lib/state/playground_state.dart` with `PlaygroundState extends ChangeNotifier` composing all sub-states, implementing `buildContextMenu()`, `buildInlineStyle()`, `buildInheritedStyle()`, `buildThemeExtensionStyle()`, and all mutation methods per contracts/state-contracts.md
+- [x] T017 [P] Create `example/lib/utils/default_entries.dart` with default sample `List<EntryNode>` (header, items with icons/shortcuts, divider, submenu, disabled item) per data-model.md
+- [x] T018 [P] Create `example/lib/utils/theme_bridge.dart` with `buildMaterialTheme()` function that produces a `ThemeData` from current shadcn_flutter color context and optional `ContextMenuStyle` extension
+- [x] T019 Create `example/lib/screens/playground_screen.dart` with `ResizablePanel.horizontal` split layout: left `ResizablePane` (tools panel placeholder) + right `ResizablePane` (playground area placeholder)
 
 **Checkpoint**: Foundation ready — state model complete, split layout renders, `flutter run -d chrome` shows empty split view
 

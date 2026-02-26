@@ -1,4 +1,4 @@
-import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:flutter/material.dart';
 
 /// App-level settings state.
 ///
