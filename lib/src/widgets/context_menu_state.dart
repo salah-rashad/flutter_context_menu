@@ -152,8 +152,8 @@ class ContextMenuState<T> extends ChangeNotifier {
     final submenuParentRect = context.getWidgetBounds();
     if (submenuParentRect == null) return;
 
-    final submenuPosition =
-        calculateSubmenuPosition(submenuParentRect, menu.padding);
+    final submenuPosition = calculateSubmenuPosition(
+        submenuParentRect, menu.padding, context, menu);
 
     submenuBuilder = (BuildContext context) {
       final subMenuState = ContextMenuState<T>.submenu(
