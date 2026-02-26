@@ -39,7 +39,9 @@ class PlaygroundApp extends StatelessWidget {
         colorScheme: ColorSchemes.darkSlate,
       ),
       themeMode: themeMode,
-      home: const PlaygroundScreen(),
+      home: const ToastLayer(
+        child: PlaygroundScreen(),
+      ),
     );
   }
 }

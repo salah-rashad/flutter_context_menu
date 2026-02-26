@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
+/// Sentinel value for distinguishing between "not provided" and "null" in copyWith.
+const _absent = Object();
+
 /// State for [MenuDividerStyle] properties.
 ///
 /// All fields are nullable. When non-null, they are used to build
@@ -58,19 +61,21 @@ class MenuDividerStyleState {
   }
 
   /// Creates a copy of this state with the given fields replaced.
+  ///
+  /// Nullable fields use a sentinel pattern to allow explicitly setting null.
   MenuDividerStyleState copyWith({
-    Color? color,
-    double? height,
-    double? thickness,
-    double? indent,
-    double? endIndent,
+    Object? color = _absent,
+    Object? height = _absent,
+    Object? thickness = _absent,
+    Object? indent = _absent,
+    Object? endIndent = _absent,
   }) {
     return MenuDividerStyleState(
-      color: color ?? this.color,
-      height: height ?? this.height,
-      thickness: thickness ?? this.thickness,
-      indent: indent ?? this.indent,
-      endIndent: endIndent ?? this.endIndent,
+      color: color == _absent ? this.color : color as Color?,
+      height: height == _absent ? this.height : height as double?,
+      thickness: thickness == _absent ? this.thickness : thickness as double?,
+      indent: indent == _absent ? this.indent : indent as double?,
+      endIndent: endIndent == _absent ? this.endIndent : endIndent as double?,
     );
   }
 

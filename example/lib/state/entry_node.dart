@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
+/// Sentinel value for distinguishing between "not provided" and "null" in copyWith.
+const _absent = Object();
+
 /// Type of menu entry.
 enum EntryType {
   /// Selectable menu item with optional icon, shortcut, and submenu support.
@@ -108,45 +111,60 @@ class EntryNode {
   });
 
   /// Creates a copy of this node with the given fields replaced.
+  ///
+  /// Nullable fields use a sentinel pattern to allow setting values to null.
+  /// Pass `null` explicitly to clear a nullable field.
   EntryNode copyWith({
     String? id,
     EntryType? type,
     String? label,
-    IconData? icon,
-    String? shortcutLabel,
+    Object? icon = _absent,
+    Object? shortcutLabel = _absent,
     bool? enabled,
-    Color? textColor,
-    String? value,
+    Object? textColor = _absent,
+    Object? value = _absent,
     TrailingType? trailingType,
-    String? trailingText,
+    Object? trailingText = _absent,
     bool? isSubmenu,
     List<EntryNode>? children,
     bool? disableUppercase,
-    double? dividerHeight,
-    double? dividerThickness,
-    double? dividerIndent,
-    double? dividerEndIndent,
-    Color? dividerColor,
+    Object? dividerHeight = _absent,
+    Object? dividerThickness = _absent,
+    Object? dividerIndent = _absent,
+    Object? dividerEndIndent = _absent,
+    Object? dividerColor = _absent,
   }) {
     return EntryNode(
       id: id ?? this.id,
       type: type ?? this.type,
       label: label ?? this.label,
-      icon: icon ?? this.icon,
-      shortcutLabel: shortcutLabel ?? this.shortcutLabel,
+      icon: icon == _absent ? this.icon : icon as IconData?,
+      shortcutLabel: shortcutLabel == _absent
+          ? this.shortcutLabel
+          : shortcutLabel as String?,
       enabled: enabled ?? this.enabled,
-      textColor: textColor ?? this.textColor,
-      value: value ?? this.value,
+      textColor: textColor == _absent ? this.textColor : textColor as Color?,
+      value: value == _absent ? this.value : value as String?,
       trailingType: trailingType ?? this.trailingType,
-      trailingText: trailingText ?? this.trailingText,
+      trailingText:
+          trailingText == _absent ? this.trailingText : trailingText as String?,
       isSubmenu: isSubmenu ?? this.isSubmenu,
       children: children ?? this.children,
       disableUppercase: disableUppercase ?? this.disableUppercase,
-      dividerHeight: dividerHeight ?? this.dividerHeight,
-      dividerThickness: dividerThickness ?? this.dividerThickness,
-      dividerIndent: dividerIndent ?? this.dividerIndent,
-      dividerEndIndent: dividerEndIndent ?? this.dividerEndIndent,
-      dividerColor: dividerColor ?? this.dividerColor,
+      dividerHeight: dividerHeight == _absent
+          ? this.dividerHeight
+          : dividerHeight as double?,
+      dividerThickness: dividerThickness == _absent
+          ? this.dividerThickness
+          : dividerThickness as double?,
+      dividerIndent: dividerIndent == _absent
+          ? this.dividerIndent
+          : dividerIndent as double?,
+      dividerEndIndent: dividerEndIndent == _absent
+          ? this.dividerEndIndent
+          : dividerEndIndent as double?,
+      dividerColor:
+          dividerColor == _absent ? this.dividerColor : dividerColor as Color?,
     );
   }
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
+/// Sentinel value for distinguishing between "not provided" and "null" in copyWith.
+const _absent = Object();
+
 /// State for [MenuItemStyle] properties.
 ///
 /// All fields are nullable. When non-null, they are used to build
@@ -101,32 +104,46 @@ class MenuItemStyleState {
   }
 
   /// Creates a copy of this state with the given fields replaced.
+  ///
+  /// Nullable fields use a sentinel pattern to allow explicitly setting null.
   MenuItemStyleState copyWith({
-    Color? backgroundColor,
-    Color? focusedBackgroundColor,
-    Color? textColor,
-    Color? focusedTextColor,
-    Color? disabledTextColor,
-    Color? iconColor,
-    double? iconSize,
-    Color? shortcutTextColor,
-    double? shortcutTextOpacity,
-    double? height,
-    double? borderRadius,
+    Object? backgroundColor = _absent,
+    Object? focusedBackgroundColor = _absent,
+    Object? textColor = _absent,
+    Object? focusedTextColor = _absent,
+    Object? disabledTextColor = _absent,
+    Object? iconColor = _absent,
+    Object? iconSize = _absent,
+    Object? shortcutTextColor = _absent,
+    Object? shortcutTextOpacity = _absent,
+    Object? height = _absent,
+    Object? borderRadius = _absent,
   }) {
     return MenuItemStyleState(
-      backgroundColor: backgroundColor ?? this.backgroundColor,
-      focusedBackgroundColor:
-          focusedBackgroundColor ?? this.focusedBackgroundColor,
-      textColor: textColor ?? this.textColor,
-      focusedTextColor: focusedTextColor ?? this.focusedTextColor,
-      disabledTextColor: disabledTextColor ?? this.disabledTextColor,
-      iconColor: iconColor ?? this.iconColor,
-      iconSize: iconSize ?? this.iconSize,
-      shortcutTextColor: shortcutTextColor ?? this.shortcutTextColor,
-      shortcutTextOpacity: shortcutTextOpacity ?? this.shortcutTextOpacity,
-      height: height ?? this.height,
-      borderRadius: borderRadius ?? this.borderRadius,
+      backgroundColor: backgroundColor == _absent
+          ? this.backgroundColor
+          : backgroundColor as Color?,
+      focusedBackgroundColor: focusedBackgroundColor == _absent
+          ? this.focusedBackgroundColor
+          : focusedBackgroundColor as Color?,
+      textColor: textColor == _absent ? this.textColor : textColor as Color?,
+      focusedTextColor: focusedTextColor == _absent
+          ? this.focusedTextColor
+          : focusedTextColor as Color?,
+      disabledTextColor: disabledTextColor == _absent
+          ? this.disabledTextColor
+          : disabledTextColor as Color?,
+      iconColor: iconColor == _absent ? this.iconColor : iconColor as Color?,
+      iconSize: iconSize == _absent ? this.iconSize : iconSize as double?,
+      shortcutTextColor: shortcutTextColor == _absent
+          ? this.shortcutTextColor
+          : shortcutTextColor as Color?,
+      shortcutTextOpacity: shortcutTextOpacity == _absent
+          ? this.shortcutTextOpacity
+          : shortcutTextOpacity as double?,
+      height: height == _absent ? this.height : height as double?,
+      borderRadius:
+          borderRadius == _absent ? this.borderRadius : borderRadius as double?,
     );
   }
 

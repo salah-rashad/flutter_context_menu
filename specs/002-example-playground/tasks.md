@@ -58,10 +58,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T020 [US1] Create `example/lib/widgets/embedded_context_menu.dart` — StatefulWidget that creates `ContextMenuState<String>` from `PlaygroundState.buildContextMenu()`, places `ContextMenuWidget<String>` inside a `Stack`, provides custom `onItemSelected` that updates `PlaygroundState.lastSelectedValue` without dismissing, intercepts Escape key to prevent dismissal, and recreates state when entries change
-- [ ] T021 [US1] Create `example/lib/widgets/playground_area.dart` — Reads `PlaygroundState` via `context.watch`, wraps content in `Theme` widget (Material bridge from `theme_bridge.dart`), centers `EmbeddedContextMenu`, shows selection feedback (toast via shadcn_flutter `showToast` or bottom status bar) when `lastSelectedValue` changes. NOTE: Do NOT add ContextMenuTheme wrapping here — that is added by T048 (US5).
-- [ ] T022 [US1] Wire `PlaygroundArea` into the right pane of `PlaygroundScreen` and wire a minimal placeholder into the left pane
-- [ ] T023 [US1] Verify: run `flutter run -d chrome`, confirm context menu renders at center with default entries, hover/focus states work, submenus open/close, Escape/click-outside does not dismiss, item selection shows feedback
+- [x] T020 [US1] Create `example/lib/widgets/embedded_context_menu.dart` — StatefulWidget that creates `ContextMenuState<String>` from `PlaygroundState.buildContextMenu()`, places `ContextMenuWidget<String>` inside a `Stack`, provides custom `onItemSelected` that updates `PlaygroundState.lastSelectedValue` without dismissing, intercepts Escape key to prevent dismissal, and recreates state when entries change
+- [x] T021 [US1] Create `example/lib/widgets/playground_area.dart` — Reads `PlaygroundState` via `context.watch`, wraps content in `Theme` widget (Material bridge from `theme_bridge.dart`), centers `EmbeddedContextMenu`, shows selection feedback (toast via shadcn_flutter `showToast` or bottom status bar) when `lastSelectedValue` changes. NOTE: Do NOT add ContextMenuTheme wrapping here — that is added by T048 (US5).
+- [x] T022 [US1] Wire `PlaygroundArea` into the right pane of `PlaygroundScreen` and wire a minimal placeholder into the left pane
+- [x] T023 [US1] Verify: run `flutter run -d chrome`, confirm context menu renders at center with default entries, hover/focus states work, submenus open/close, Escape/click-outside does not dismiss, item selection shows feedback
 
 **Checkpoint**: MVP complete — always-visible interactable context menu displayed with default config
 

@@ -5,6 +5,9 @@ import 'menu_divider_style_state.dart';
 import 'menu_header_style_state.dart';
 import 'menu_item_style_state.dart';
 
+/// Sentinel value for distinguishing between "not provided" and "null" in copyWith.
+const _absent = Object();
+
 /// State for [ContextMenuStyle] properties.
 ///
 /// All fields are nullable. When non-null, they are passed to
@@ -118,33 +121,49 @@ class InlineStyleState {
   }
 
   /// Creates a copy of this state with the given fields replaced.
+  ///
+  /// Nullable fields use a sentinel pattern to allow explicitly setting null.
   InlineStyleState copyWith({
-    Color? surfaceColor,
-    Color? shadowColor,
-    Offset? shadowOffset,
-    double? shadowBlurRadius,
-    double? shadowSpreadRadius,
-    double? borderRadius,
-    double? padding,
-    double? maxWidth,
-    double? maxHeight,
-    MenuItemStyleState? menuItemStyle,
-    MenuHeaderStyleState? menuHeaderStyle,
-    MenuDividerStyleState? menuDividerStyle,
+    Object? surfaceColor = _absent,
+    Object? shadowColor = _absent,
+    Object? shadowOffset = _absent,
+    Object? shadowBlurRadius = _absent,
+    Object? shadowSpreadRadius = _absent,
+    Object? borderRadius = _absent,
+    Object? padding = _absent,
+    Object? maxWidth = _absent,
+    Object? maxHeight = _absent,
+    Object? menuItemStyle = _absent,
+    Object? menuHeaderStyle = _absent,
+    Object? menuDividerStyle = _absent,
   }) {
     return InlineStyleState(
-      surfaceColor: surfaceColor ?? this.surfaceColor,
-      shadowColor: shadowColor ?? this.shadowColor,
-      shadowOffset: shadowOffset ?? this.shadowOffset,
-      shadowBlurRadius: shadowBlurRadius ?? this.shadowBlurRadius,
-      shadowSpreadRadius: shadowSpreadRadius ?? this.shadowSpreadRadius,
-      borderRadius: borderRadius ?? this.borderRadius,
-      padding: padding ?? this.padding,
-      maxWidth: maxWidth ?? this.maxWidth,
-      maxHeight: maxHeight ?? this.maxHeight,
-      menuItemStyle: menuItemStyle ?? this.menuItemStyle,
-      menuHeaderStyle: menuHeaderStyle ?? this.menuHeaderStyle,
-      menuDividerStyle: menuDividerStyle ?? this.menuDividerStyle,
+      surfaceColor:
+          surfaceColor == _absent ? this.surfaceColor : surfaceColor as Color?,
+      shadowColor:
+          shadowColor == _absent ? this.shadowColor : shadowColor as Color?,
+      shadowOffset:
+          shadowOffset == _absent ? this.shadowOffset : shadowOffset as Offset?,
+      shadowBlurRadius: shadowBlurRadius == _absent
+          ? this.shadowBlurRadius
+          : shadowBlurRadius as double?,
+      shadowSpreadRadius: shadowSpreadRadius == _absent
+          ? this.shadowSpreadRadius
+          : shadowSpreadRadius as double?,
+      borderRadius:
+          borderRadius == _absent ? this.borderRadius : borderRadius as double?,
+      padding: padding == _absent ? this.padding : padding as double?,
+      maxWidth: maxWidth == _absent ? this.maxWidth : maxWidth as double?,
+      maxHeight: maxHeight == _absent ? this.maxHeight : maxHeight as double?,
+      menuItemStyle: menuItemStyle == _absent
+          ? this.menuItemStyle
+          : menuItemStyle as MenuItemStyleState?,
+      menuHeaderStyle: menuHeaderStyle == _absent
+          ? this.menuHeaderStyle
+          : menuHeaderStyle as MenuHeaderStyleState?,
+      menuDividerStyle: menuDividerStyle == _absent
+          ? this.menuDividerStyle
+          : menuDividerStyle as MenuDividerStyleState?,
     );
   }
 

@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
+/// Resolves a [ThemeMode] to a [Brightness] based on the current platform brightness.
+///
+/// This helper centralizes the theme mode → brightness conversion logic
+/// to avoid duplication across multiple widgets.
+Brightness resolvedBrightness(
+  BuildContext context,
+  ThemeMode themeMode,
+) {
+  return switch (themeMode) {
+    ThemeMode.dark => Brightness.dark,
+    ThemeMode.light => Brightness.light,
+    ThemeMode.system => MediaQuery.platformBrightnessOf(context),
+  };
+}
+
 /// Builds a Material [ThemeData] from the current shadcn_flutter color context.
 ///
 /// This function creates a Material theme that matches the shadcn_flutter

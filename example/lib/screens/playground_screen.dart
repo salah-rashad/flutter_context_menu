@@ -4,12 +4,13 @@ import 'package:shadcn_flutter/shadcn_flutter.dart';
 
 import '../state/playground_state.dart';
 import '../utils/theme_bridge.dart';
+import '../widgets/playground_area.dart';
 
 /// Main playground screen with split layout.
 ///
 /// Layout:
-/// - Left pane: Tools panel (placeholder for Phase 3+)
-/// - Right pane: Playground area (placeholder for Phase 3+)
+/// - Left pane: Tools panel (placeholder for Phase 4+)
+/// - Right pane: Playground area with embedded context menu
 ///
 /// Uses shadcn_flutter [ResizablePanel.horizontal] for the split layout.
 class PlaygroundScreen extends material.StatelessWidget {
@@ -18,10 +19,10 @@ class PlaygroundScreen extends material.StatelessWidget {
   @override
   material.Widget build(material.BuildContext context) {
     final playgroundState = context.watch<PlaygroundState>();
-    final brightness =
-        playgroundState.appSettings.themeMode == material.ThemeMode.dark
-            ? material.Brightness.dark
-            : material.Brightness.light;
+    final brightness = resolvedBrightness(
+      context,
+      playgroundState.appSettings.themeMode,
+    );
 
     return material.Theme(
       data: buildMaterialTheme(
@@ -41,12 +42,12 @@ class PlaygroundScreen extends material.StatelessWidget {
                 child: const _ToolsPanelPlaceholder(),
               ),
             ),
-            // Right pane - Playground area
+            // Right pane - Playground area with embedded context menu
             ResizablePane.flex(
               initialFlex: 1,
               child: material.Container(
-                color: brightness.surfaceColor,
-                child: const _PlaygroundAreaPlaceholder(),
+                color: brightness.borderColor,
+                child: const PlaygroundArea(),
               ),
             ),
           ],
@@ -86,51 +87,6 @@ class _ToolsPanelPlaceholder extends material.StatelessWidget {
             'Phase 3+',
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Placeholder widget for the playground area.
-///
-/// Will be replaced in Phase 3 (US1) with the embedded context menu.
-class _PlaygroundAreaPlaceholder extends material.StatelessWidget {
-  const _PlaygroundAreaPlaceholder();
-
-  @override
-  material.Widget build(material.BuildContext context) {
-    final theme = material.Theme.of(context);
-    return material.Center(
-      child: material.Column(
-        mainAxisSize: material.MainAxisSize.min,
-        children: [
-          material.Icon(
-            material.Icons.menu,
-            size: 64,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
-          ),
-          const material.SizedBox(height: 16),
-          material.Text(
-            'Context Menu Playground',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-            ),
-          ),
-          const material.SizedBox(height: 8),
-          material.Text(
-            'The embedded context menu will appear here',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-            ),
-          ),
-          const material.SizedBox(height: 4),
-          material.Text(
-            'Phase 3 (US1)',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.2),
             ),
           ),
         ],

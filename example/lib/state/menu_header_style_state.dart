@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
+/// Sentinel value for distinguishing between "not provided" and "null" in copyWith.
+const _absent = Object();
+
 /// State for [MenuHeaderStyle] properties.
 ///
 /// All fields are nullable. When non-null, they are used to build
@@ -35,13 +38,15 @@ class MenuHeaderStyleState {
   }
 
   /// Creates a copy of this state with the given fields replaced.
+  ///
+  /// Nullable fields use a sentinel pattern to allow explicitly setting null.
   MenuHeaderStyleState copyWith({
-    Color? textColor,
-    double? padding,
+    Object? textColor = _absent,
+    Object? padding = _absent,
   }) {
     return MenuHeaderStyleState(
-      textColor: textColor ?? this.textColor,
-      padding: padding ?? this.padding,
+      textColor: textColor == _absent ? this.textColor : textColor as Color?,
+      padding: padding == _absent ? this.padding : padding as double?,
     );
   }
 
