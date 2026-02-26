@@ -2,7 +2,7 @@ import 'package:example/pages/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
-Map<String, ContextMenu> _contextMenus(BuildContext context) => {
+Map<String, ContextMenu<String>> _contextMenus(BuildContext context) => {
       // Uses global style from MaterialApp (grey.shade900 surface, 12px radius)
       "Uses Global Style\n\n(Theme Extension)":
           const ContextMenu(entries: defaultContextMenuItems),
@@ -26,7 +26,7 @@ Map<String, ContextMenu> _contextMenus(BuildContext context) => {
           shadowColor: Colors.black,
           shadowOffset: const Offset(-5, 5),
           shadowBlurRadius: 0.5,
-          menuItemStyle: MenuItemStyle(
+          menuItemStyle: const MenuItemStyle(
             textColor: Colors.white,
             focusedTextColor: Colors.white,
           ),

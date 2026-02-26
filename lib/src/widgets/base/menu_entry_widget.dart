@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import '../core/models/context_menu_entry.dart';
-import '../core/models/context_menu_item.dart';
-import '../core/utils/shortcuts/menu_item_shortcuts.dart';
-import 'context_menu_state.dart';
+import '../../core/models/context_menu_entry.dart';
+import '../../core/models/context_menu_item.dart';
+import '../../core/utils/shortcuts/menu_item_shortcuts.dart';
+import '../provider/context_menu_state.dart';
 
 /// A widget that represents a single item in a context menu.
 ///
