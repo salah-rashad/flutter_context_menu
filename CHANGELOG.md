@@ -1,3 +1,10 @@
+## v0.4.2
+
+### Fixed
+
+- **Type Erasure**: Resolved generic type erasure across context menu item handling and preserved
+  generic type parameter in `MenuEntryWidget` state (Fixes #50, #51)
+
 ## v0.4.1
 
 ### Fixed
