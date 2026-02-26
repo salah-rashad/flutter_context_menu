@@ -81,6 +81,8 @@ Create custom menu entries by subclassing `ContextMenuEntry<T>` and implementing
 
 ## Active Technologies
 - Dart ^3.6.0, Flutter >=3.27.0 + Flutter SDK only (zero runtime dependencies — constitution principle I) (001-theme-support)
+- Dart ^3.6.0, Flutter >=3.27.0 + `flutter_context_menu` (path: ../), `shadcn_flutter`, `provider` (002-example-playground)
+- N/A (no persistence; state resets on app restart) (002-example-playground)
 
 ## Recent Changes
 - 001-theme-support: Added Dart ^3.6.0, Flutter >=3.27.0 + Flutter SDK only (zero runtime dependencies — constitution principle I)
