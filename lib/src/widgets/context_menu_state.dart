@@ -101,9 +101,9 @@ class ContextMenuState<T> extends ChangeNotifier {
 
   bool get isSubmenu => _isSubmenu;
 
-  static ContextMenuState of(BuildContext context) {
+  static ContextMenuState<T> of<T>(BuildContext context) {
     final provider =
-        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider>();
+        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider<T>>();
 
     if (provider == null) {
       throw 'No ContextMenuProvider found in context';
@@ -111,9 +111,9 @@ class ContextMenuState<T> extends ChangeNotifier {
     return provider.notifier!;
   }
 
-  static ContextMenuState? maybeOf(BuildContext context) {
+  static ContextMenuState<T>? maybeOf<T>(BuildContext context) {
     final provider =
-        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider>();
+        context.dependOnInheritedWidgetOfExactType<ContextMenuProvider<T>>();
 
     return provider?.notifier;
   }

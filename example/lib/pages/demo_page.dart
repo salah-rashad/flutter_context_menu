@@ -2,7 +2,7 @@ import 'package:example/pages/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
 
-Map<String, ContextMenu> _contextMenus(BuildContext context) => {
+Map<String, ContextMenu<String>> _contextMenus(BuildContext context) => {
       "Default (built-in)":
           ContextMenu<String>(entries: defaultContextMenuItems),
       "Custom\n\nmax width: 200\npadding: 0": ContextMenu(

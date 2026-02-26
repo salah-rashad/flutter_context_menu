@@ -26,7 +26,7 @@ class ContextMenuWidget<T> extends StatelessWidget {
       state: menuState,
       child: Builder(
         builder: (context) {
-          final state = ContextMenuState.of(context);
+          final state = ContextMenuState.of<T>(context);
           state.verifyPosition(context);
 
           return Positioned(
@@ -44,7 +44,7 @@ class ContextMenuWidget<T> extends StatelessWidget {
                   node: state.focusScopeNode,
                   child: Opacity(
                     opacity: state.isPositionVerified ? 1.0 : 0.0,
-                    child: ContextMenuWidgetView(
+                    child: ContextMenuWidgetView<T>(
                       menu: state.menu,
                       spawnAnchor: state.spawnAnchor,
                     ),
