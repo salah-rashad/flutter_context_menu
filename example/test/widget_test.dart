@@ -1,30 +1,26 @@
 // This is a basic Flutter widget test.
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Smoke test for the Context Menu Playground app.
+// Verifies that the app loads and displays the expected placeholder content.
 
-import 'package:flutter/material.dart';
+import 'package:example/app.dart';
+import 'package:example/state/playground_state.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:example/main.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('App loads and displays playground screen',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(
+      ChangeNotifierProvider<PlaygroundState>(
+        create: (_) => PlaygroundState(),
+        child: const PlaygroundApp(),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the placeholder text is displayed.
+    expect(find.text('Tools Panel (Phase 2)'), findsOneWidget);
+    expect(find.text('Playground Area (Phase 2)'), findsOneWidget);
   });
 }

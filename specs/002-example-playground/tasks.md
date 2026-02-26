@@ -17,12 +17,12 @@
 
 **Purpose**: Project initialization, dependency setup, and scaffold
 
-- [ ] T001 Clean existing example app: remove `example/lib/pages/`, `example/lib/entries/`, and old `example/lib/main.dart` content
-- [ ] T002 Update `example/pubspec.yaml` to add `shadcn_flutter` and `provider` dependencies, remove `flutter_web_plugins`
-- [ ] T003 Run `flutter pub get` in `example/` to resolve dependencies
-- [ ] T004 Create directory structure: `example/lib/state/`, `example/lib/screens/`, `example/lib/widgets/tools_panel/structure_tab/`, `example/lib/widgets/tools_panel/theming_tab/shared/`, `example/lib/widgets/common/`, `example/lib/utils/`
-- [ ] T005 Create `example/lib/main.dart` with `ShadcnApp` root, `ChangeNotifierProvider<PlaygroundState>`, light/dark theme config using `ColorSchemes`
-- [ ] T006 Create `example/lib/app.dart` with root app widget that reads `PlaygroundState.appSettings.themeMode` and passes it to `ShadcnApp`
+- [x] T001 Clean existing example app: remove `example/lib/pages/`, `example/lib/entries/`, and old `example/lib/main.dart` content
+- [x] T002 Update `example/pubspec.yaml` to add `shadcn_flutter` and `provider` dependencies, remove `flutter_web_plugins`
+- [x] T003 Run `flutter pub get` in `example/` to resolve dependencies
+- [x] T004 Create directory structure: `example/lib/state/`, `example/lib/screens/`, `example/lib/widgets/tools_panel/structure_tab/`, `example/lib/widgets/tools_panel/theming_tab/shared/`, `example/lib/widgets/common/`, `example/lib/utils/`
+- [x] T005 Create `example/lib/main.dart` with `ShadcnApp` root, `ChangeNotifierProvider<PlaygroundState>`, light/dark theme config using `ColorSchemes`
+- [x] T006 Create `example/lib/app.dart` with root app widget that reads `PlaygroundState.appSettings.themeMode` and passes it to `ShadcnApp`
 
 ---
 

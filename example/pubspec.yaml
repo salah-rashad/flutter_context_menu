@@ -31,11 +31,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_web_plugins:
-    sdk: flutter
 
   flutter_context_menu:
     path: ../
+  shadcn_flutter: ^0.0.16
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
