@@ -74,7 +74,7 @@ final class MenuItem<T> extends ContextMenuItem<T> {
   String get debugLabel => "${super.debugLabel} - $label";
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState,
+  Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode? focusNode]) {
     bool isFocused = menuState.focusedEntry == this;
 

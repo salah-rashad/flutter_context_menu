@@ -9,19 +9,19 @@ import 'context_menu_state.dart';
 /// A widget that represents a single item in a context menu.
 ///
 /// This widget is used internally by the `ContextMenu` contextMenu.
-class MenuEntryWidget extends StatefulWidget {
-  final ContextMenuEntry entry;
+class MenuEntryWidget<T> extends StatefulWidget {
+  final ContextMenuEntry<T> entry;
 
   const MenuEntryWidget({super.key, required this.entry});
 
   @override
-  State<MenuEntryWidget> createState() => _MenuEntryWidgetState();
+  State<MenuEntryWidget<T>> createState() => _MenuEntryWidgetState<T>();
 }
 
-class _MenuEntryWidgetState extends State<MenuEntryWidget> {
+class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
   late final FocusNode focusNode;
 
-  ContextMenuEntry get entry => widget.entry;
+  ContextMenuEntry<T> get entry => widget.entry;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final menuState = ContextMenuState.of(context);
+    final menuState = ContextMenuState.of<T>(context);
 
     return MouseRegion(
       onEnter: (event) => _onMouseEnter(context, event, menuState),
@@ -45,8 +45,8 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
       onHover: (event) => _onMouseHover(event, menuState),
       child: Builder(
         builder: (_) {
-          if (entry is ContextMenuItem) {
-            final item = entry as ContextMenuItem;
+          if (entry is ContextMenuItem<T>) {
+            final item = entry as ContextMenuItem<T>;
 
             return CallbackShortcuts(
               bindings: defaultMenuItemShortcuts(context, item, menuState),
@@ -77,11 +77,11 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
   void _onMouseEnter(
     BuildContext context,
     PointerEnterEvent event,
-    ContextMenuState menuState,
+    ContextMenuState<T> menuState,
   ) {
     final entry = widget.entry;
-    if (entry is ContextMenuItem && entry.enabled) {
-      final item = widget.entry as ContextMenuItem;
+    if (entry is ContextMenuItem<T> && entry.enabled) {
+      final item = widget.entry as ContextMenuItem<T>;
       final isSubmenuItem = item.isSubmenuItem;
       final isOpenedSubmenu = menuState.isOpened(item);
       final isFocused = menuState.isFocused(item);
@@ -97,9 +97,9 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
     entry.onMouseEnter(event, menuState);
   }
 
-  void _onMouseExit(PointerExitEvent event, ContextMenuState menuState) {
+  void _onMouseExit(PointerExitEvent event, ContextMenuState<T> menuState) {
     final entry = widget.entry;
-    if (entry is ContextMenuItem && entry.enabled) {
+    if (entry is ContextMenuItem<T> && entry.enabled) {
       final item = widget.entry as ContextMenuItem;
       final isOpenedSubmenu = menuState.isOpened(item);
       final isFocused = menuState.isFocused(item);
@@ -113,7 +113,7 @@ class _MenuEntryWidgetState extends State<MenuEntryWidget> {
     entry.onMouseExit(event, menuState);
   }
 
-  void _onMouseHover(PointerHoverEvent event, ContextMenuState menuState) {
+  void _onMouseHover(PointerHoverEvent event, ContextMenuState<T> menuState) {
     if (menuState.isFocused(entry)) {
       _ensureFocused(entry, menuState, focusNode);
     }

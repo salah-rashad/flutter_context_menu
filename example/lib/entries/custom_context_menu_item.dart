@@ -28,7 +28,7 @@ final class CustomContextMenuItem<T> extends ContextMenuItem<T> {
   String get debugLabel => "${super.debugLabel} - $label";
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState,
+  Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode? focusNode]) {
     return ListTile(
       focusNode: focusNode,

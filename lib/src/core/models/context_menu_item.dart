@@ -67,7 +67,8 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   ///
   /// If the item has subitems, it toggles the submenu's visibility.
   /// Otherwise, it pops the current context menu and returns the [value].
-  void handleItemSelection(BuildContext context, ContextMenuState menuState) {
+  void handleItemSelection(
+      BuildContext context, ContextMenuState<T> menuState) {
     if (!enabled) return;
 
     if (isSubmenuItem) {
@@ -83,7 +84,7 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   }
 
   /// Toggles the visibility of the submenu associated with this menu item.
-  void _toggleSubmenu(BuildContext context, ContextMenuState menuState) {
+  void _toggleSubmenu(BuildContext context, ContextMenuState<T> menuState) {
     if (menuState.isSubmenuOpen &&
         menuState.focusedEntry == menuState.selectedItem) {
       menuState.closeSubmenu();
@@ -93,6 +94,6 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   }
 
   @override
-  Widget builder(BuildContext context, ContextMenuState menuState,
+  Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode focusNode]);
 }

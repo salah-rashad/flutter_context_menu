@@ -5,8 +5,8 @@ import '../core/utils/extensions/build_context_ext.dart';
 import '../core/utils/utils.dart';
 import 'menu_entry_widget.dart';
 
-class ContextMenuWidgetView extends StatelessWidget {
-  final ContextMenu menu;
+class ContextMenuWidgetView<T> extends StatelessWidget {
+  final ContextMenu<T> menu;
   final AlignmentGeometry spawnAnchor;
 
   const ContextMenuWidgetView(
@@ -54,7 +54,7 @@ class ContextMenuWidgetView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       for (final item in menu.entries)
-                        MenuEntryWidget(entry: item)
+                        MenuEntryWidget<T>(entry: item)
                     ],
                   ),
                 ),
