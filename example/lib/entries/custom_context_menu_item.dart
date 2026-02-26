@@ -35,7 +35,7 @@ final class CustomContextMenuItem<T> extends ContextMenuItem<T> {
       // important for highlighting item on focus
       title: SizedBox(width: double.maxFinite, child: Text(label)),
       subtitle: subtitle != null ? Text(subtitle!) : null,
-      onTap: () => handleItemSelection(context),
+      onTap: () => handleItemSelection(context, menuState),
       trailing: Icon(isSubmenuItem ? Icons.arrow_right : null),
       leading: Icon(icon),
       dense: false,
