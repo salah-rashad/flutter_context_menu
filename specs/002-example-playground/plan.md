@@ -82,10 +82,26 @@ example/
 │   │   │   ├── tools_panel.dart           # Two-level tab container (Structure / Theming)
 │   │   │   ├── structure_tab/
 │   │   │   │   ├── structure_tab.dart     # Structure tab layout (tree + properties)
-│   │   │   │   ├── entry_tree_editor.dart # TreeView for menu entries CRUD
-│   │   │   │   ├── entry_node_tile.dart   # Single tree node widget
-│   │   │   │   ├── entry_properties.dart  # Selected entry's property editor
-│   │   │   │   └── menu_properties.dart   # ContextMenu-level property controls
+│   │   │   │   ├── entry_node_tile.dart   # Single tree node widget (type icon, label, action buttons)
+│   │   │   │   ├── entry_tree_editor.dart # Barrel: exports EntryTreeEditor
+│   │   │   │   ├── entry_tree_editor/
+│   │   │   │   │   ├── entry_tree_editor.dart  # Full tree editor (CRUD, reorder, submenu nesting)
+│   │   │   │   │   ├── entry_tree_header.dart  # Tree panel header with "Add" action
+│   │   │   │   │   ├── add_entry_dropdown.dart # Dropdown to pick MenuItem/Header/Divider
+│   │   │   │   │   ├── entry_item_view.dart    # Row widget for a single entry in the tree
+│   │   │   │   │   ├── hoverable_tree_item.dart # Hover-aware wrapper for tree rows
+│   │   │   │   │   ├── entry_empty_state.dart  # Empty state shown when entry list is empty
+│   │   │   │   │   └── tree_node_utils.dart    # Helpers for tree path/depth operations
+│   │   │   │   ├── entry_properties.dart  # Barrel: exports EntryProperties
+│   │   │   │   ├── entry_properties/
+│   │   │   │   │   ├── entry_properties.dart      # Root property panel, switches on EntryType
+│   │   │   │   │   ├── item_fields.dart            # Property fields for MenuItem entries
+│   │   │   │   │   ├── header_fields.dart          # Property fields for MenuHeader entries
+│   │   │   │   │   ├── divider_fields.dart         # Property fields for MenuDivider entries
+│   │   │   │   │   ├── property_field_widgets.dart # Shared form field primitives (LabeledRow, etc.)
+│   │   │   │   │   ├── property_type_header.dart   # Section header showing current entry type
+│   │   │   │   │   └── properties_empty_state.dart # Empty state when no entry is selected
+│   │   │   │   └── menu_properties.dart   # ContextMenu-level property controls (Phase 5)
 │   │   │   └── theming_tab/
 │   │   │       ├── theming_tab.dart       # Sub-tabs container (Inline/Inherited/Extension)
 │   │   │       ├── inline_style_tab.dart  # Inline style controls
