@@ -75,15 +75,15 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Create `example/lib/widgets/common/icon_picker.dart` — `Select` dropdown with predefined list of common Material icons (file, edit, save, copy, paste, delete, settings, etc.), returns `IconData?`
-- [ ] T025 [P] [US2] Create `example/lib/widgets/common/section_header.dart` — Collapsible section header widget using shadcn_flutter `Accordion` or styled `GhostButton`
-- [ ] T026 [US2] Create `example/lib/widgets/tools_panel/structure_tab/entry_node_tile.dart` — Single tree node widget showing entry type icon, label, and action buttons (delete, move up/down), tappable to select for property editing
-- [ ] T027 [US2] Create `example/lib/widgets/tools_panel/structure_tab/entry_properties.dart` — Property editor panel for the currently selected `EntryNode` with basic fields: label `TextField`, enabled `Switch`, value input, submenu toggle `Switch`, and divider/header-specific fields (disableUppercase, dividerHeight, etc.) depending on `EntryType`. NOTE: Icon picker, shortcut selector, text color, and trailing widget are added by T060 (US8).
-- [ ] T028 [US2] Create `example/lib/widgets/tools_panel/structure_tab/entry_tree_editor.dart` — Full tree editor using shadcn_flutter `TreeView` or custom list with `EntryNodeTile` widgets, "Add" button (dropdown to pick MenuItem/MenuHeader/MenuDivider), reorder via move up/down buttons, recursive rendering for submenu children, selected entry state for property editing
-- [ ] T029 [US2] Create `example/lib/widgets/tools_panel/structure_tab/structure_tab.dart` — Layout combining `EntryTreeEditor` at top and `EntryProperties` below (or side by side), scrollable
-- [ ] T030 [US2] Create `example/lib/widgets/tools_panel/tools_panel.dart` — Two-level `Tabs` container: "Structure" tab (renders `StructureTab`) and "Theming" tab (placeholder for now)
-- [ ] T031 [US2] Wire `ToolsPanel` into the left pane of `PlaygroundScreen`, replacing the placeholder
-- [ ] T032 [US2] Verify: add/remove/reorder entries in tree → context menu updates in real time; edit entry properties → reflected on menu; convert to submenu → add children → submenu renders
+- [x] T024 [P] [US2] Create `example/lib/widgets/common/icon_picker.dart` — `Select` dropdown with predefined list of common Material icons (file, edit, save, copy, paste, delete, settings, etc.), returns `IconData?`. Uses shadcn_flutter Select for the picker UI itself; exposes Material Icons only (consumer simulation zone).
+- [x] T025 [P] [US2] Create `example/lib/widgets/common/section_header.dart` — Collapsible section header widget using shadcn_flutter `Accordion` or styled `GhostButton`
+- [x] T026 [US2] Create `example/lib/widgets/tools_panel/structure_tab/entry_node_tile.dart` — Single tree node widget showing entry type icon, label, and action buttons (delete, move up/down), tappable to select for property editing
+- [x] T027 [US2] Create `example/lib/widgets/tools_panel/structure_tab/entry_properties.dart` — Property editor panel for the currently selected `EntryNode` with basic fields: label `TextField`, enabled `Switch`, value input, submenu toggle `Switch`, and divider/header-specific fields (disableUppercase, dividerHeight, etc.) depending on `EntryType`. NOTE: Icon picker, shortcut selector, text color, and trailing widget are added by T060 (US8).
+- [x] T028 [US2] Create `example/lib/widgets/tools_panel/structure_tab/entry_tree_editor.dart` — Full tree editor using shadcn_flutter `TreeView` or custom list with `EntryNodeTile` widgets, "Add" button (dropdown to pick MenuItem/MenuHeader/MenuDivider), reorder via move up/down buttons, recursive rendering for submenu children, selected entry state for property editing
+- [x] T029 [US2] Create `example/lib/widgets/tools_panel/structure_tab/structure_tab.dart` — Layout combining `EntryTreeEditor` at top and `EntryProperties` below (or side by side), scrollable
+- [x] T030 [US2] Create `example/lib/widgets/tools_panel/tools_panel.dart` — Two-level `Tabs` container: "Structure" tab (renders `StructureTab`) and "Theming" tab (placeholder for now)
+- [x] T031 [US2] Wire `ToolsPanel` into the left pane of `PlaygroundScreen`, replacing the placeholder
+- [x] T032 [US2] Verify: add/remove/reorder entries in tree → context menu updates in real time; edit entry properties → reflected on menu; convert to submenu → add children → submenu renders
 
 **Checkpoint**: Entry manipulation complete — full CRUD on menu entries with real-time preview
 

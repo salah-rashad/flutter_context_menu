@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart' as material;
 import 'package:provider/provider.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
+import 'package:shadcn_flutter/shadcn_flutter_extension.dart';
 
 import '../state/playground_state.dart';
 import '../utils/theme_bridge.dart';
 import '../widgets/playground_area.dart';
+import '../widgets/tools_panel/tools_panel.dart';
 
 /// Main playground screen with split layout.
 ///
 /// Layout:
-/// - Left pane: Tools panel (placeholder for Phase 4+)
+/// - Left pane: Tools panel with Structure and Theming tabs
 /// - Right pane: Playground area with embedded context menu
 ///
 /// Uses shadcn_flutter [ResizablePanel.horizontal] for the split layout.
@@ -38,58 +40,20 @@ class PlaygroundScreen extends material.StatelessWidget {
               minSize: 250,
               maxSize: 500,
               child: material.Container(
-                color: brightness.mutedColor,
-                child: const _ToolsPanelPlaceholder(),
+                color: context.theme.colorScheme.slate.background,
+                child: const ToolsPanel(),
               ),
             ),
             // Right pane - Playground area with embedded context menu
             ResizablePane.flex(
               initialFlex: 1,
               child: material.Container(
-                color: brightness.surfaceColor,
+                color: context.theme.colorScheme.background,
                 child: const PlaygroundArea(),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Placeholder widget for the tools panel.
-///
-/// Will be replaced in Phase 4 (US2) with the full entry tree editor.
-class _ToolsPanelPlaceholder extends material.StatelessWidget {
-  const _ToolsPanelPlaceholder();
-
-  @override
-  material.Widget build(material.BuildContext context) {
-    final theme = material.Theme.of(context);
-    return material.Center(
-      child: material.Column(
-        mainAxisSize: material.MainAxisSize.min,
-        children: [
-          material.Icon(
-            material.Icons.build_outlined,
-            size: 48,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-          ),
-          const material.SizedBox(height: 16),
-          material.Text(
-            'Tools Panel',
-            style: theme.textTheme.titleMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-            ),
-          ),
-          const material.SizedBox(height: 8),
-          material.Text(
-            'Phase 3+',
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-            ),
-          ),
-        ],
       ),
     );
   }

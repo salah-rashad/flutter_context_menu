@@ -166,7 +166,7 @@ As a developer, I select a specific MenuItem in the entry tree and configure its
 - **FR-009**: All three theme tabs MUST expose the same full set of `ContextMenuStyle` properties so users can observe precedence behavior.
 - **FR-010**: Changes in the tools panel MUST be reflected on the pre-rendered context menu in real time (no manual refresh or rebuild needed).
 - **FR-011**: The app MUST support light and dark mode toggling, and the toggle MUST be accessible from the app UI.
-- **FR-012**: The app MUST be built using the `shadcn_flutter` package ([GitHub](https://github.com/sunarya-thito/shadcn_flutter)) for the playground shell UI (tools panel, layout, controls). Component reference: `specs/002-example-playground/shadcn_flutter_reference.md`.
+- **FR-012**: The app MUST be built using the `shadcn_flutter` package ([GitHub](https://github.com/sunarya-thito/shadcn_flutter)) for the playground shell UI (tools panel, layout, controls, all UI elements outside the playground content area). Material widgets MUST only be used within the playground content area to simulate real-world context menu usage. Component reference: `specs/002-example-playground/shadcn_flutter_reference.md`.
 - **FR-013**: The tree editor MUST allow configuring individual MenuItem properties: label, icon, shortcut indicator, trailing widget, enabled state, text color, and value.
 - **FR-014**: The tree editor MUST allow converting a MenuItem to/from a submenu item and editing child entries within it.
 - **FR-015**: When an item is selected in the context menu, the app MUST display feedback (selected value) without dismissing the menu.

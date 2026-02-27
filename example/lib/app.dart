@@ -34,9 +34,11 @@ class PlaygroundApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: const ThemeData(
         colorScheme: ColorSchemes.lightSlate,
+        density: Density.compactDensity,
       ),
       darkTheme: const ThemeData(
         colorScheme: ColorSchemes.darkSlate,
+        density: Density.defaultDensity,
       ),
       themeMode: themeMode,
       home: const ToastLayer(

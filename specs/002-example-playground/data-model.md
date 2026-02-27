@@ -36,7 +36,7 @@ Represents a single menu entry in the tree editor. Recursive for submenus.
 | id | `String` | UUID | Unique identifier for tree operations |
 | type | `EntryType` | `item` | One of: `item`, `header`, `divider` |
 | label | `String` | "New Item" | Display text (items and headers) |
-| icon | `IconData?` | null | Material icon (items only) |
+| icon | `IconData?` | null | Material icon (items only) — selected from a predefined Material Icons list; Material icons are used here as the playground simulates a real consumer app |
 | shortcutLabel | `String?` | null | Shortcut display text, e.g., "Ctrl+C" (items only) |
 | enabled | `bool` | true | Whether the item is selectable (items only) |
 | textColor | `Color?` | null | Inline text color override (items only) |

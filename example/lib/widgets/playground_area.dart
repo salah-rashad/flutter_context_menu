@@ -86,17 +86,11 @@ class _PlaygroundAreaState extends material.State<PlaygroundArea> {
         color: material.Colors.transparent,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            // Calculate center position based on constraints
-            final position = Offset(
-              constraints.maxWidth / 2,
-              constraints.maxHeight / 2,
-            );
-
             return Stack(
               children: [
                 // Centered embedded context menu
-                EmbeddedContextMenu(
-                  position: position,
+                const EmbeddedContextMenu(
+                  position: Offset.zero,
                 ),
                 // Selection feedback indicator at bottom
                 if (playgroundState.lastSelectedValue != null)

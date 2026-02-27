@@ -13,6 +13,7 @@ The playground area (`PlaygroundArea`) wraps its content in a `MaterialApp` widg
 
 **Language/Version**: Dart ^3.6.0, Flutter >=3.27.0
 **Primary Dependencies**: `flutter_context_menu` (path: ../), `shadcn_flutter`, `provider`
+**Icon Strategy**: Two-zone icon separation — (1) `shadcn_flutter` shell UI (tools panel, app chrome, controls) uses Lucide icons via `shadcn_flutter`'s built-in icon set; (2) the embedded context menu / `PlaygroundArea` uses Material `Icons.*` (from `flutter/material.dart`) to simulate a real Flutter app. The `icon_picker.dart` selector exposes Material icons only, as those are the icons a consumer would realistically use in their own context menu.
 **Storage**: N/A (no persistence; state resets on app restart)
 **Testing**: Smoke test in `example/test/` (manual visual testing for playground features)
 **Target Platform**: Web (Chrome) primary, Desktop secondary
@@ -98,7 +99,7 @@ example/
 │   │   └── common/
 │   │       ├── color_field.dart           # ColorInput wrapper
 │   │       ├── number_field.dart          # Numeric input with Slider
-│   │       ├── icon_picker.dart           # Predefined icon selector (Select dropdown)
+│   │       ├── icon_picker.dart           # Predefined Material icon selector (Select dropdown) — Material icons only, as used in real consumer apps
 │   │       └── section_header.dart        # Collapsible section header
 │   └── utils/
 │       ├── default_entries.dart           # Default sample EntryNode list

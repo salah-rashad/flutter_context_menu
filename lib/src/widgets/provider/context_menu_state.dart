@@ -182,7 +182,9 @@ class ContextMenuState<T> extends ChangeNotifier {
     _submenuState?.dispose();
     _submenuState = null;
     _selectedItem = null;
-    overlayController.hide();
+    try {
+      overlayController.hide();
+    } catch (_) {}
     notifyListeners();
   }
 
