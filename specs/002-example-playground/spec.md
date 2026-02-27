@@ -162,7 +162,7 @@ As a developer, I select a specific MenuItem in the entry tree and configure its
 - **FR-005**: The tools panel MUST expose `ContextMenu`-level properties (`clipBehavior`, `respectPadding`) as interactive controls (dropdowns, toggles). Note: `maxWidth`/`maxHeight` are `ContextMenuStyle` properties and are configured via the three theme tabs (FR-006/007/008), not here. The `shortcuts` map is out of scope for the playground (complex key binding UI).
 - **FR-006**: The tools panel MUST provide an "Inline Style" tab for configuring all `ContextMenuStyle` properties and nested style objects (`MenuItemStyle`, `MenuHeaderStyle`, `MenuDividerStyle`).
 - **FR-007**: The tools panel MUST provide an "Inherited Theme" tab with an enable/disable switch that wraps the context menu in a `ContextMenuTheme` widget when enabled.
-- **FR-008**: The tools panel MUST provide a "Theme Extension" tab with an enable/disable switch that adds a `ContextMenuStyle` to `ThemeData.extensions` when enabled.
+- **FR-008**: The tools panel MUST provide a "Theme Extension" tab with an enable/disable switch that adds a `ContextMenuStyle` to `ThemeData.extensions` when enabled. The playground area achieves this by wrapping its content in a `MaterialApp` widget (configured with `theme`, `darkTheme`, and `themeMode`) whose `ThemeData.extensions` includes the active `ContextMenuStyle` extension.
 - **FR-009**: All three theme tabs MUST expose the same full set of `ContextMenuStyle` properties so users can observe precedence behavior.
 - **FR-010**: Changes in the tools panel MUST be reflected on the pre-rendered context menu in real time (no manual refresh or rebuild needed).
 - **FR-011**: The app MUST support light and dark mode toggling, and the toggle MUST be accessible from the app UI.
@@ -195,9 +195,14 @@ As a developer, I select a specific MenuItem in the entry tree and configure its
 - Q: How should the tools panel sections be organized? → A: Two-level tabs — top-level "Structure" tab (entries tree + menu properties) and "Theming" tab (sub-tabs for Inline Style, Inherited Theme, Theme Extension).
 - Q: What is the primary target platform? → A: Web (Chrome) as primary; desktop as secondary.
 
+### Session 2026-02-27
+
+- Q: How is the Theme Extension layer injected and how is light/dark mode scoped? → A: The playground area (`PlaygroundArea`) wraps its content in a `MaterialApp` widget. This gives the embedded context menu a proper `ThemeData` ancestry so that `ThemeData.extensions` (for FR-008) and `themeMode` (for FR-011 scoped to the playground) work correctly. The outer `shadcn_flutter` shell is unaffected.
+
 ## Assumptions
 
 - The playground targets Web (Chrome) as the primary platform and desktop as secondary. Mobile responsiveness is not a primary concern but the layout should not break on tablet-sized screens.
+- The playground area (`PlaygroundArea`) wraps its content in a `MaterialApp` widget (not a bare `Theme`) to establish a full `ThemeData` context. This is the mechanism by which the Theme Extension tab injects `ContextMenuStyle` via `ThemeData.extensions`, and by which light/dark mode toggling (via `themeMode`) is scoped to the playground area without affecting the outer `shadcn_flutter` shell. Both `theme` (light) and `darkTheme` (dark) are constructed using Flutter's `ThemeData.light()`/`ThemeData.dark()` defaults with the active extension appended.
 - The `shadcn_flutter` package provides sufficient components (tabs, switches, sliders, color pickers, tree views, dropdowns) for the tools panel; any gaps will be filled with standard Flutter widgets.
 - The "pre-rendered" context menu will be implemented by directly embedding the menu widget in the widget tree (bypassing the overlay/route-based display) so it can remain always visible.
 - Icon selection will use a predefined set of common Material icons rather than a full icon browser.

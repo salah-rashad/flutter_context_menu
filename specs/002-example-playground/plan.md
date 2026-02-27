@@ -7,6 +7,8 @@
 
 Rebuild the example project as an interactive playground app using `shadcn_flutter` for the shell UI. The playground displays an always-visible, non-dismissible context menu at center stage, with a tools panel on the left providing real-time controls for menu entries, properties, and a three-layer theme system (inline style, inherited theme, theme extension). State is managed via `provider` with a `ChangeNotifier`. The context menu is embedded directly in the widget tree by instantiating `ContextMenuWidget<T>` inside a `Stack`, bypassing the normal route/overlay display flow.
 
+The playground area (`PlaygroundArea`) wraps its content in a `MaterialApp` widget (with `theme`, `darkTheme`, and `themeMode`) rather than a bare `Theme` widget. This establishes a full `ThemeData` ancestry so that: (a) the Theme Extension layer can inject `ContextMenuStyle` via `ThemeData.extensions`, and (b) light/dark mode toggling is scoped to the playground area without affecting the outer `shadcn_flutter` shell. Both `theme` and `darkTheme` are built from Flutter's `ThemeData.light()`/`ThemeData.dark()` defaults with the active extension appended when enabled.
+
 ## Technical Context
 
 **Language/Version**: Dart ^3.6.0, Flutter >=3.27.0
@@ -73,7 +75,7 @@ example/
 │   ├── screens/
 │   │   └── playground_screen.dart         # Main split layout (ResizablePanel)
 │   ├── widgets/
-│   │   ├── playground_area.dart           # Center area with theme bridge + embedded menu
+│   │   ├── playground_area.dart           # Center area: MaterialApp wrapper (ThemeData.extensions + themeMode) + embedded menu
 │   │   ├── embedded_context_menu.dart     # Wraps ContextMenuWidget for always-on display
 │   │   ├── tools_panel/
 │   │   │   ├── tools_panel.dart           # Two-level tab container (Structure / Theming)

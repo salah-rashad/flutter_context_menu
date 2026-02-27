@@ -48,6 +48,13 @@ class ContextMenuState<T> extends ChangeNotifier {
   final VoidCallback? selfClose;
   WidgetBuilder submenuBuilder = (context) => const SizedBox.shrink();
 
+  /// The reusable state for the currently open submenu.
+  ///
+  /// Created once in [showSubmenu] and reused across rebuilds so that
+  /// [ContextMenuWidget] inside [OverlayPortal] does not recreate its
+  /// [ContextMenuState] on every parent rebuild.
+  ContextMenuState<T>? _submenuState;
+
   final ValueChanged<T?>? onItemSelected;
 
   ContextMenuState({
@@ -149,20 +156,20 @@ class ContextMenuState<T> extends ChangeNotifier {
     final submenuPosition =
         calculateSubmenuPosition(submenuParentRect, padding);
 
-    submenuBuilder = (BuildContext context) {
-      final subMenuState = ContextMenuState<T>.submenu(
-        menu: menu.copyWith(
-          entries: items,
-          position: submenuPosition,
-        ),
-        spawnAnchor: spawnAnchor,
-        parentItemRect: submenuParentRect,
-        selfClose: closeSubmenu,
-        parentItem: parent,
-        onItemSelected: onItemSelected,
-      );
+    _submenuState = ContextMenuState<T>.submenu(
+      menu: menu.copyWith(
+        entries: items,
+        position: submenuPosition,
+      ),
+      spawnAnchor: spawnAnchor,
+      parentItemRect: submenuParentRect,
+      selfClose: closeSubmenu,
+      parentItem: parent,
+      onItemSelected: onItemSelected,
+    );
 
-      return ContextMenuWidget<T>(menuState: subMenuState);
+    submenuBuilder = (BuildContext context) {
+      return ContextMenuWidget<T>(menuState: _submenuState!);
     };
 
     overlayController.show();
@@ -172,6 +179,8 @@ class ContextMenuState<T> extends ChangeNotifier {
   /// Closes the current submenu and removes the overlay.
   void closeSubmenu() {
     if (!isSubmenuOpen) return;
+    _submenuState?.dispose();
+    _submenuState = null;
     _selectedItem = null;
     overlayController.hide();
     notifyListeners();

@@ -51,6 +51,9 @@ class _PlaygroundAreaState extends material.State<PlaygroundArea> {
   @override
   material.Widget build(material.BuildContext context) {
     final playgroundState = context.watch<PlaygroundState>();
+
+    final themeExtension = playgroundState.buildThemeExtensionStyle();
+
     final brightness = resolvedBrightness(
       context,
       playgroundState.appSettings.themeMode,
@@ -66,12 +69,20 @@ class _PlaygroundAreaState extends material.State<PlaygroundArea> {
       });
     }
 
-    return material.Theme(
-      data: buildMaterialTheme(
-        brightness: brightness,
-        contextMenuStyle: playgroundState.buildThemeExtensionStyle(),
+    return material.MaterialApp(
+      themeMode: playgroundState.appSettings.themeMode,
+      debugShowCheckedModeBanner: false,
+      theme: material.ThemeData.light().copyWith(
+        extensions: [
+          if (themeExtension != null) themeExtension,
+        ],
       ),
-      child: material.Material(
+      darkTheme: material.ThemeData.dark().copyWith(
+        extensions: [
+          if (themeExtension != null) themeExtension,
+        ],
+      ),
+      home: material.Material(
         color: material.Colors.transparent,
         child: LayoutBuilder(
           builder: (context, constraints) {

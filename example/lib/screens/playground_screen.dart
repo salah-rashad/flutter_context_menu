@@ -46,7 +46,7 @@ class PlaygroundScreen extends material.StatelessWidget {
             ResizablePane.flex(
               initialFlex: 1,
               child: material.Container(
-                color: brightness.borderColor,
+                color: brightness.surfaceColor,
                 child: const PlaygroundArea(),
               ),
             ),

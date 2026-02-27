@@ -40,14 +40,6 @@ class _EmbeddedContextMenuState extends State<EmbeddedContextMenu> {
   Clip? _lastClipBehavior;
   bool? _lastRespectPadding;
 
-  @override
-  void didUpdateWidget(EmbeddedContextMenu oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.position != widget.position) {
-      _recreateMenuState();
-    }
-  }
-
   /// Updates the menu state if entries or style have changed.
   void _updateMenuStateIfNeeded(PlaygroundState playgroundState) {
     final newHash = _computeEntriesHash(playgroundState.entries);
@@ -141,12 +133,8 @@ class _EmbeddedMenuView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ContextMenuWidget(
-          menuState: menuState,
-        ),
-      ],
+    return ContextMenuWidget(
+      menuState: menuState,
     );
   }
 }
