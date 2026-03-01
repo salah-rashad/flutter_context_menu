@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/context_menu_state.dart';
-import '../../widgets/menu_entry_widget.dart';
 import 'context_menu_entry.dart';
+import 'context_menu_interactive_entry.dart';
 
 /// Represents a selectable item in a context menu.
 ///
 /// The [ContextMenuItem] class is used to define individual items that can be displayed
-/// within a context menu. It extends the [ContextMenuEntry] class, providing additional
+/// within a context menu. It extends the [ContextMenuInteractiveEntry] class, providing additional
 /// functionality for handling item selection, submenus, and associated values.
 ///
 /// A [ContextMenuItem] can have an associated [value] that can be returned when the item
@@ -26,26 +26,26 @@ import 'context_menu_entry.dart';
 ///
 /// see:
 /// - [ContextMenuEntry]
+/// - [ContextMenuInteractiveEntry]
 /// - [MenuItem]
 /// - [MenuHeader]
 /// - [MenuDivider]
 ///
-abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
+abstract base class ContextMenuItem<T> extends ContextMenuInteractiveEntry<T> {
   final T? value;
   final List<ContextMenuEntry<T>>? items;
   final ValueChanged<T?>? onSelected;
-  final bool enabled;
 
   const ContextMenuItem({
     this.value,
     this.onSelected,
-    this.enabled = true,
+    super.enabled,
   }) : items = null;
 
   const ContextMenuItem.submenu({
     required this.items,
     this.onSelected,
-    this.enabled = true,
+    super.enabled,
   }) : value = null;
 
   /// Indicates whether the menu item has subitems.
@@ -56,17 +56,11 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
   /// - [MenuItem]
   bool get isSubmenuItem => items != null;
 
-  /// Indicates whether the menu item is using the focus node in a child widget.
-  ///
-  /// Used internally by the [MenuEntryWidget]
-  ///
-  /// This is helpful when user want to manually handle focus in the [builder].
-  bool get autoHandleFocus => true;
-
   /// Handles the selection of the context menu item.
   ///
   /// If the item has subitems, it toggles the submenu's visibility.
   /// Otherwise, it pops the current context menu and returns the [value].
+  @override
   void handleItemSelection(
       BuildContext context, ContextMenuState<T> menuState) {
     if (!enabled) return;
@@ -95,5 +89,5 @@ abstract base class ContextMenuItem<T> extends ContextMenuEntry<T> {
 
   @override
   Widget builder(BuildContext context, ContextMenuState<T> menuState,
-      [FocusNode focusNode]);
+      [FocusNode? focusNode]);
 }

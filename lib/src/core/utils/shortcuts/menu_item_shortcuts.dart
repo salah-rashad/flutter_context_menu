@@ -2,11 +2,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../widgets/context_menu_state.dart';
+import '../../models/context_menu_interactive_entry.dart';
 import '../../models/context_menu_item.dart';
 
 Map<ShortcutActivator, VoidCallback> defaultMenuItemShortcuts(
   BuildContext context,
-  ContextMenuItem item,
+  ContextMenuInteractiveEntry item,
   ContextMenuState menuState,
 ) {
   final focusedEntry = menuState.focusedEntry;
