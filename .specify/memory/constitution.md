@@ -1,50 +1,143 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: 0.0.0 → 1.0.0 (initial ratification)
+- Added principles:
+  - I. Zero Dependencies
+  - II. Type Safety
+  - III. Public API Stability
+  - IV. Static Analysis Compliance
+  - V. Widget Composability
+- Added sections:
+  - Quality Gates
+  - Development Workflow
+  - Governance
+- Removed sections: (none — fresh constitution)
+- Templates requiring updates:
+  - .specify/templates/plan-template.md — ✅ no updates needed
+    (Constitution Check section is generic; principles slot in at
+    usage time)
+  - .specify/templates/spec-template.md — ✅ no updates needed
+    (template is feature-agnostic)
+  - .specify/templates/tasks-template.md — ✅ no updates needed
+    (task phases are generic; no principle-specific task types added)
+- Follow-up TODOs: none
+-->
+
+# flutter_context_menu Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Zero Dependencies
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The package MUST NOT introduce runtime dependencies beyond the
+Flutter SDK (`flutter`). Dev-dependencies (linting, testing) are
+permitted. Every feature MUST be implementable with Flutter's
+built-in primitives (widgets, overlays, focus system, gestures).
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: A context-menu widget is foundational UI
+infrastructure. Adding third-party dependencies increases supply-
+chain risk and version-conflict potential for consumers.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Type Safety
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+All public APIs that operate on menu values MUST preserve generic
+type parameters (`<T>`) through the full call chain — from
+`ContextMenu<T>` through `ContextMenuState<T>`, entry builders,
+and selection callbacks. Type erasure at any boundary is a
+regression.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: Consumers rely on compile-time type checking to
+connect menu selections to domain logic. Silent type erasure
+causes runtime failures that are difficult to diagnose.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Public API Stability
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Breaking changes to exported symbols MUST be:
+1. Documented in `CHANGELOG.md` under a **Breaking Changes**
+   heading.
+2. Reflected in a MINOR version bump (pre-1.0) or MAJOR version
+   bump (post-1.0) per pub.dev semver conventions.
+3. Accompanied by migration guidance when the change affects
+   commonly used API surface.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+New public API MUST be exported exclusively through the barrel
+file `lib/flutter_context_menu.dart`. Internal implementation
+files MUST NOT be imported directly by consumers.
+
+**Rationale**: The package is published on pub.dev; downstream
+projects pin versions and rely on semver guarantees.
+
+### IV. Static Analysis Compliance
+
+All code MUST pass `flutter analyze --fatal-warnings` and
+`dart format --set-exit-if-changed .` before merge. The
+project-level `analysis_options.yaml` rules — including
+`prefer_relative_imports`, `prefer_const_constructors`,
+`prefer_const_declarations`, and `prefer_final_fields` — are
+non-negotiable.
+
+**Rationale**: CI enforces these gates. A clean analysis report
+is a prerequisite for every PR; violations block merge.
+
+### V. Widget Composability
+
+Menu entries MUST follow Flutter's compositional model:
+- Custom entries are created by subclassing `ContextMenuEntry<T>`
+  and implementing the `builder` method — not by modifying
+  built-in entry classes.
+- Labels, icons, and trailing widgets accept `Widget` (not
+  primitive types) so consumers can compose arbitrary content.
+- Positioning, focus, and keyboard navigation MUST work
+  identically for built-in and custom entries.
+
+**Rationale**: A context-menu library succeeds when it is
+extensible without forking. Composability keeps the core small
+while enabling unlimited customization.
+
+## Quality Gates
+
+All pull requests MUST satisfy these gates before merge:
+
+- `flutter analyze --fatal-warnings` passes with zero issues.
+- `dart format --set-exit-if-changed .` reports no formatting
+  drift.
+- `CHANGELOG.md` is updated for user-facing changes.
+- Breaking changes include a **Breaking Changes** section in the
+  changelog entry and appropriate version bump.
+- The example app (`example/`) builds and runs without errors.
+
+## Development Workflow
+
+- **Imports**: Use relative imports within the `lib/` directory.
+  The barrel file `lib/flutter_context_menu.dart` is the sole
+  public entry point.
+- **Branching**: Feature branches merge into `main` via pull
+  request.
+- **Versioning**: Follow pub.dev semver — pre-1.0, MINOR bumps
+  for breaking changes; PATCH bumps for fixes and non-breaking
+  additions.
+- **Commit style**: Use conventional-commit prefixes (`feat:`,
+  `fix:`, `docs:`, `chore:`, `refactor:`).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution is the authoritative source of project
+principles. It supersedes ad-hoc conventions wherever a conflict
+arises.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Amendment procedure**:
+1. Propose changes via the `/speckit.constitution` command or a
+   pull request modifying this file.
+2. Document the rationale for each change.
+3. Increment the version per semver:
+   - MAJOR: principle removal or incompatible redefinition.
+   - MINOR: new principle or materially expanded guidance.
+   - PATCH: wording clarification or typo fix.
+4. Update `Last Amended` date.
+
+**Compliance**: All spec, plan, and task artifacts produced by
+SpecKit commands MUST be validated against these principles.
+The plan template's "Constitution Check" section MUST reference
+the principles active at generation time.
+
+**Version**: 1.0.0 | **Ratified**: 2026-03-01 | **Last Amended**: 2026-03-01
