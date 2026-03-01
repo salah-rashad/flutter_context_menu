@@ -28,39 +28,40 @@
 
 ## v0.4.0
 
+### **Breaking Changes**
+
+* `MenuItem.label` changed from `String` to `Widget`.
+* `MenuItem.icon` changed from `IconData?` to `Widget?`.
+* `MenuItem.color` renamed to `MenuItem.textColor`.
+* `ContextMenuRegion.enableGestures` renamed to `enableDefaultGestures`.
+* `ContextMenuRegionBuilder`: the `showMenu` callback changed from `void Function()` to
+  `void Function(Offset position)`.
+* `ContextMenuItem.onSelected` changed from `VoidCallback?` to `ValueChanged<T?>?` — the callback
+  now receives the selected value.
+* `ContextMenuItem.items` changed from `List<ContextMenuEntry>?` to `List<ContextMenuEntry<T>>?`.
+* `ContextMenuState` is now generic (`ContextMenuState<T>`). Custom `ContextMenuEntry` subclasses
+  that reference `ContextMenuState` directly must add the type parameter.
+* `ContextMenuRegion.onItemSelected` changed from `ValueChanged<T>?` to `ValueChanged<T?>?`.
+
 ### **Added**
 
-* Support for **keyboard shortcuts** and **trailing widgets** in `MenuItem`, enabling richer and
-  more flexible menu actions. (closes #33)
-* Added `SingleActivatorExtensions` for human-readable shortcut strings (e.g., `"Ctrl+O"`).
-* Added a new `onItemSelected` callback to `ContextMenuRegion` and `showContextMenu` for immediate
-  selection handling.
+* Support for **keyboard shortcuts** (`shortcut`) and **trailing widgets** (`trailing`) in
+  `MenuItem`. (closes #33)
+* `SingleActivatorExtensions` for human-readable shortcut strings (e.g., `"Ctrl+O"`).
+* `onItemSelected` callback on `ContextMenuRegion` and `showContextMenu` for immediate selection
+  handling without awaiting the route result.
+* `kMenuItemHeight` and `kMenuItemIconSize` constants for consistent `MenuItem` layout.
+* `mediaQuery` extension on `BuildContext` to simplify `MediaQuery` access.
 
 ### **Changed**
 
-* Renamed `enableGestures` → `enableDefaultGestures` for clarity.
-* Renamed `MenuItem.color` → `textColor` for clearer meaning.
-* Updated default `spawnAnchor` for menus and submenus to improve positioning.
-* Refactored `icon` parameter on `MenuItem` from `IconData?` to `Widget?` to increase flexibility.
-* Refactored `label` parameter on `MenuItem` from `String` to `Widget` to increase flexibility.
-* Updated example project to showcase new features.
-
-### **Improved**
-
-* **Full generics upgrade**: `ContextMenu<T>`, `ContextMenuItem<T>`, `ContextMenuEntry<T>`, and all
-  related classes are now strongly typed.
-* `ContextMenu.copyWith` now correctly returns `ContextMenu<T>`.
-* Submenus now use `List<ContextMenuEntry<T>>` for strong typing.
-* `ContextMenuItem.onSelected` now exposes the selected value (`ValueChanged<T?>`).
-* General API consistency improved across widgets and utilities.
-* Significantly improved debugging output:
-
-    * `debugLabel` now includes inherited labels.
-    * `describeIdentity` used for consistent element identification.
+* **Full generics upgrade**: `ContextMenu<T>`, `ContextMenuItem<T>`, `ContextMenuEntry<T>`, and
+  `ContextMenuState<T>` are now strongly typed throughout.
+* Updated default `spawnAnchor` for submenus to improve positioning.
+* `debugLabel` now uses `describeIdentity` for consistent element identification, and `MenuItem`
+  includes its label in the output.
 * Extracted `ContextMenuWidgetView` for cleaner separation of concerns.
-* Introduced `kMenuItemHeight` constant for uniform layout behavior in `MenuItem`.
-* Introduced `kMenuItemIconSize` constant for icon size in `MenuItem`.
-* Added `mediaQuery` extension on `BuildContext` to simplify `MediaQuery` access.
+* Updated example project to showcase new features.
 
 ### **Fixed**
 
@@ -69,7 +70,7 @@
 
 ### **Removed**
 
-* Removed unused code such as `hasSameFocusNodeId`, `getScreenRect`, and `parentMenuKey`.
+* Removed unused internal helpers: `hasSameFocusNodeId`, `getScreenRect`, and `parentMenuKey`.
 
 ## 0.3.0
 
