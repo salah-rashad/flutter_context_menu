@@ -13,10 +13,16 @@ Future<T?> showContextMenu<T>(
   bool useRootNavigator = true,
   ValueChanged<T?>? onItemSelected,
 }) async {
-  final menuState =
-      ContextMenuState<T>(menu: contextMenu, onItemSelected: onItemSelected);
+  final menuState = ContextMenuState<T>(
+    menu: contextMenu,
+    onItemSelected: onItemSelected,
+    requestFocus: routeOptions?.requestFocus ?? true,
+  );
   routeOptions ??= const MenuRouteOptions(
     barrierDismissible: true,
+  );
+  routeOptions = routeOptions.copyWith(
+    requestFocus: routeOptions.requestFocus ?? true,
   );
 
   // Use root navigator to make sure the context menu is always on top, and to
