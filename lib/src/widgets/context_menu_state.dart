@@ -49,13 +49,25 @@ class ContextMenuState<T> extends ChangeNotifier {
 
   final ValueChanged<T?>? onItemSelected;
 
+  /// Whether the context menu should request focus when opened.
+  ///
+  /// When `false`, the menu will not steal focus from the currently focused
+  /// widget (e.g. a text field with selected text). This is the default
+  /// behavior when the menu is opened via pointer events (right-click or
+  /// long press) through [ContextMenuRegion].
+  final bool _requestFocus;
+
+  bool get requestFocus => _requestFocus;
+
   ContextMenuState({
     required this.menu,
     this.parentItem,
     this.onItemSelected,
+    bool requestFocus = true,
   })  : _parentItemRect = null,
         _isSubmenu = false,
         selfClose = null,
+        _requestFocus = requestFocus,
         _spawnAnchor = AlignmentDirectional.center;
 
   ContextMenuState.submenu({
@@ -65,8 +77,10 @@ class ContextMenuState<T> extends ChangeNotifier {
     AlignmentGeometry? spawnAnchor,
     Rect? parentItemRect,
     this.onItemSelected,
+    bool requestFocus = true,
   })  : _spawnAnchor = spawnAnchor ?? AlignmentDirectional.topStart,
         _parentItemRect = parentItemRect,
+        _requestFocus = requestFocus,
         _isSubmenu = true;
 
   List<ContextMenuEntry> get entries => menu.entries;
@@ -166,6 +180,7 @@ class ContextMenuState<T> extends ChangeNotifier {
         selfClose: closeSubmenu,
         parentItem: parent,
         onItemSelected: onItemSelected,
+        requestFocus: _requestFocus,
       );
 
       return ContextMenuWidget<T>(menuState: subMenuState);
@@ -201,7 +216,9 @@ class ContextMenuState<T> extends ChangeNotifier {
 
       notifyListeners();
       _isPositionVerified = true;
-      focusScopeNode.requestFocus();
+      if (_requestFocus) {
+        focusScopeNode.requestFocus();
+      }
     });
   }
 

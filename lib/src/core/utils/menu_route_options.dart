@@ -26,6 +26,35 @@ class MenuRouteOptions {
     this.maintainState = true,
     this.allowSnapshotting = true,
   });
+
+  MenuRouteOptions copyWith({
+    RouteSettings? routeSettings,
+    bool? requestFocus,
+    RouteTransitionsBuilder? transitionsBuilder,
+    Duration? transitionDuration,
+    Duration? reverseTransitionDuration,
+    bool? opaque,
+    bool? barrierDismissible,
+    Color? barrierColor,
+    String? barrierLabel,
+    bool? maintainState,
+    bool? allowSnapshotting,
+  }) {
+    return MenuRouteOptions(
+      routeSettings: routeSettings ?? this.routeSettings,
+      requestFocus: requestFocus ?? this.requestFocus,
+      transitionsBuilder: transitionsBuilder ?? this.transitionsBuilder,
+      transitionDuration: transitionDuration ?? this.transitionDuration,
+      reverseTransitionDuration:
+          reverseTransitionDuration ?? this.reverseTransitionDuration,
+      opaque: opaque ?? this.opaque,
+      barrierDismissible: barrierDismissible ?? this.barrierDismissible,
+      barrierColor: barrierColor ?? this.barrierColor,
+      barrierLabel: barrierLabel ?? this.barrierLabel,
+      maintainState: maintainState ?? this.maintainState,
+      allowSnapshotting: allowSnapshotting ?? this.allowSnapshotting,
+    );
+  }
 }
 
 Widget _defaultTransitionsBuilder(
