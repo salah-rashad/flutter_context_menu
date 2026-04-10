@@ -1,5 +1,4 @@
 import 'package:example/pages/menu_items.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_context_menu/flutter_context_menu.dart';
@@ -46,11 +45,12 @@ class CheckableMenuDemo extends StatefulWidget {
 }
 
 class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
-  // Use ValueNotifier for reactive updates while the menu is open
-  final ValueNotifier<bool> _showGrid = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> _snapToGuides = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _autoSave = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> _darkMode = ValueNotifier<bool>(true);
+  // Controllers for external state access and reactive UI updates
+  final CheckableController _showGrid = CheckableController();
+  final CheckableController _snapToGuides =
+      CheckableController(initialValue: true);
+  final CheckableController _autoSave = CheckableController();
+  final CheckableController _darkMode = CheckableController(initialValue: true);
 
   @override
   void dispose() {
@@ -67,26 +67,22 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
         const MenuHeader(text: "View Options"),
         CheckableMenuItem(
           label: const Text("Show grid"),
-          checkedNotifier: _showGrid,
-          onToggle: (value) => _showGrid.value = value,
+          controller: _showGrid,
         ),
         CheckableMenuItem(
           label: const Text("Snap to guides"),
-          checkedNotifier: _snapToGuides,
-          onToggle: (value) => _snapToGuides.value = value,
+          controller: _snapToGuides,
         ),
         CheckableMenuItem(
           label: const Text("Auto-save"),
-          checkedNotifier: _autoSave,
+          controller: _autoSave,
           shortcut:
               const SingleActivator(LogicalKeyboardKey.keyS, control: true),
-          onToggle: (value) => _autoSave.value = value,
         ),
-        CheckableMenuItem(
-          label: const Text("Disabled option"),
+        const CheckableMenuItem(
+          label: Text("Disabled option"),
           checked: true,
           enabled: false,
-          onToggle: (value) {}, // Won't be called since enabled=false
         ),
         const MenuDivider(),
         MenuItem.submenu(
@@ -95,12 +91,12 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
           items: [
             CheckableMenuItem(
               label: const Text("Dark mode"),
-              checkedNotifier: _darkMode,
+              controller: _darkMode,
               icon: const Icon(Icons.dark_mode),
-              onToggle: (value) => _darkMode.value = value,
             ),
             const MenuDivider(),
             const MenuHeader(text: "Nested Options"),
+            // Simple usage — no controller, state managed internally
             CheckableMenuItem(
               label: const Text("Enable notifications"),
               checked: false,
@@ -151,13 +147,13 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
                 ),
               ),
               const SizedBox(height: 8),
-              _ValueListenableBuilder3<bool, bool, bool>(
-                first: _showGrid,
-                second: _snapToGuides,
-                third: _autoSave,
-                builder: (context, showGrid, snapToGuides, autoSave, child) {
+              // Listen to controllers from outside the menu widget tree
+              ListenableBuilder(
+                listenable:
+                    Listenable.merge([_showGrid, _snapToGuides, _autoSave]),
+                builder: (context, child) {
                   return Text(
-                    "Grid: ${showGrid ? '✓' : '✗'} | Snap: ${snapToGuides ? '✓' : '✗'} | Auto-save: ${autoSave ? '✓' : '✗'}",
+                    "Grid: ${_showGrid.value ? '✓' : '✗'} | Snap: ${_snapToGuides.value ? '✓' : '✗'} | Auto-save: ${_autoSave.value ? '✓' : '✗'}",
                     style: const TextStyle(
                       fontSize: 11,
                       color: Colors.white70,
@@ -169,48 +165,6 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// A helper widget that listens to 3 ValueListenables.
-class _ValueListenableBuilder3<A, B, C> extends StatelessWidget {
-  final ValueListenable<A> first;
-  final ValueListenable<B> second;
-  final ValueListenable<C> third;
-  final Widget Function(BuildContext context, A a, B b, C c, Widget? child)
-      builder;
-  final Widget? child;
-
-  const _ValueListenableBuilder3({
-    super.key,
-    required this.first,
-    required this.second,
-    required this.third,
-    required this.builder,
-    this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder<A>(
-      valueListenable: first,
-      builder: (context, a, child) {
-        return ValueListenableBuilder<B>(
-          valueListenable: second,
-          builder: (context, b, child) {
-            return ValueListenableBuilder<C>(
-              valueListenable: third,
-              builder: (context, c, child) {
-                return builder(context, a, b, c, child);
-              },
-              child: child,
-            );
-          },
-          child: child,
-        );
-      },
-      child: child,
     );
   }
 }

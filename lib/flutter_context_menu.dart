@@ -1,5 +1,6 @@
 export 'src/components/checkable_menu_item.dart';
 export 'src/components/menu_divider.dart';
+export 'src/core/models/checkable_controller.dart';
 export 'src/components/menu_header.dart';
 export 'src/components/menu_item.dart';
 export 'src/core/enums/spawn_direction.dart';

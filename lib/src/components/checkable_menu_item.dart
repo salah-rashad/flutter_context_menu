@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/models/checkable_controller.dart';
 import '../core/models/context_menu_checkable_item.dart';
 import '../core/utils/extensions/build_context_ext.dart';
 import '../core/utils/extensions/single_activator_ext.dart';
@@ -8,33 +9,37 @@ import 'menu_item.dart';
 
 /// A concrete checkable menu entry with check indicator, label, and styling.
 ///
-/// Displays a checkmark (or custom icon) when [checked] is true.
+/// Displays a checkmark (or custom icon) when checked.
 /// The menu remains open after toggling.
 ///
-/// Example:
+/// **Simple usage** — state managed internally:
 /// ```dart
 /// CheckableMenuItem(
 ///   label: const Text('Show grid'),
-///   checked: showGrid,
-///   onToggle: (value) => setState(() => showGrid = value),
+///   checked: false,
+///   onToggle: (value) => print('Grid: $value'),
 /// )
 /// ```
 ///
-/// For reactive updates while the menu is open, use [checkedNotifier]:
+/// **Advanced usage** — external state access via [CheckableController]:
 /// ```dart
-/// final showGridNotifier = ValueNotifier<bool>(false);
+/// final gridController = CheckableController(initialValue: false);
 /// // ...
 /// CheckableMenuItem(
 ///   label: const Text('Show grid'),
-///   checkedNotifier: showGridNotifier,
-///   onToggle: (value) => showGridNotifier.value = value,
+///   controller: gridController,
+/// )
+/// // Listen from outside:
+/// ValueListenableBuilder<bool>(
+///   valueListenable: gridController,
+///   builder: (context, isChecked, child) => ...,
 /// )
 /// ```
 ///
 /// #### Parameters:
 /// - [label] - The title of the checkable menu item (required)
-/// - [checked] - Whether the item is currently checked (defaults to `false`)
-/// - [checkedNotifier] - Optional notifier for reactive updates while menu is open
+/// - [checked] - Initial checked state when no [controller] is provided
+/// - [controller] - Optional controller for external state access/listening
 /// - [onToggle] - Callback when the checked state changes
 /// - [icon] - Optional custom check indicator (defaults to `Icons.check`)
 /// - [shortcut] - Keyboard shortcut to display
@@ -45,13 +50,14 @@ import 'menu_item.dart';
 ///
 /// see:
 /// - [ContextMenuCheckableItem]
+/// - [CheckableController]
 /// - [MenuItem]
 ///
 final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
   /// Optional custom check indicator widget.
   ///
-  /// When [checked] is `true`, this widget is displayed in the leading
-  /// icon area. If `null`, a default checkmark icon (`Icons.check`) is shown.
+  /// When checked, this widget is displayed in the leading icon area.
+  /// If `null`, a default checkmark icon (`Icons.check`) is shown.
   final Widget? icon;
 
   /// The label widget displayed for this menu item.
@@ -74,14 +80,14 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
   /// The [label] parameter is required.
   /// The [checked] parameter defaults to `false`.
   /// The [enabled] parameter defaults to `true`.
-  /// For reactive updates, provide [checkedNotifier] instead of [checked].
+  /// For external state access, provide a [controller].
   const CheckableMenuItem({
     this.icon,
     required this.label,
     this.shortcut,
     this.trailing,
     super.checked,
-    super.checkedNotifier,
+    super.controller,
     super.onToggle,
     super.enabled,
     this.constraints,
@@ -94,22 +100,74 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
   @override
   Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode? focusNode]) {
-    // If a notifier is provided, use ValueListenableBuilder for reactive updates
-    if (checkedNotifier != null) {
-      return ValueListenableBuilder<bool>(
-        valueListenable: checkedNotifier!,
-        builder: (context, value, child) {
-          return _buildContent(context, menuState, value);
-        },
-      );
-    }
+    return _CheckableMenuItemWidget<T>(
+      entry: this,
+      menuState: menuState,
+    );
+  }
+}
 
-    return _buildContent(context, menuState, checked);
+/// Internal StatefulWidget that manages the effective [CheckableController].
+///
+/// If the entry provides a [CheckableController], it is used directly.
+/// Otherwise, an internal controller is created from the entry's [checked]
+/// value and disposed when the widget is removed from the tree.
+class _CheckableMenuItemWidget<T> extends StatefulWidget {
+  final CheckableMenuItem<T> entry;
+  final ContextMenuState<T> menuState;
+
+  const _CheckableMenuItemWidget({
+    required this.entry,
+    required this.menuState,
+  });
+
+  @override
+  State<_CheckableMenuItemWidget<T>> createState() =>
+      _CheckableMenuItemWidgetState<T>();
+}
+
+class _CheckableMenuItemWidgetState<T>
+    extends State<_CheckableMenuItemWidget<T>> {
+  CheckableController? _internalController;
+
+  CheckableController get _effectiveController =>
+      widget.entry.controller ?? _internalController!;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.entry.controller == null) {
+      _internalController =
+          CheckableController(initialValue: widget.entry.checked);
+    }
   }
 
-  Widget _buildContent(
-      BuildContext context, ContextMenuState<T> menuState, bool isChecked) {
-    final isFocused = menuState.focusedEntry == this;
+  @override
+  void dispose() {
+    _internalController?.dispose();
+    super.dispose();
+  }
+
+  void _handleToggle() {
+    if (!widget.entry.enabled) return;
+    _effectiveController.toggle();
+    widget.entry.onToggle?.call(_effectiveController.value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _effectiveController,
+      builder: (context, isChecked, child) {
+        return _buildContent(context, isChecked);
+      },
+    );
+  }
+
+  Widget _buildContent(BuildContext context, bool isChecked) {
+    final entry = widget.entry;
+    final menuState = widget.menuState;
+    final isFocused = menuState.focusedEntry == entry;
 
     final background = context.colorScheme.surface;
     final focusedBackground = context.colorScheme.surfaceContainer;
@@ -117,11 +175,11 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
       context.colorScheme.onSurface.withValues(alpha: 0.7),
       background,
     );
-    final normalTextColor = textColor ?? adjustedTextColor;
-    final focusedTextColor = textColor ?? context.colorScheme.onSurface;
+    final normalTextColor = entry.textColor ?? adjustedTextColor;
+    final focusedTextColor = entry.textColor ?? context.colorScheme.onSurface;
     final disabledTextColor =
         context.colorScheme.onSurface.withValues(alpha: 0.2);
-    final foregroundColor = !enabled
+    final foregroundColor = !entry.enabled
         ? disabledTextColor
         : isFocused
             ? focusedTextColor
@@ -133,10 +191,10 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
     // ~~~~~~~~~~ //
 
     return ConstrainedBox(
-      constraints:
-          constraints ?? const BoxConstraints.expand(height: kMenuItemHeight),
+      constraints: entry.constraints ??
+          const BoxConstraints.expand(height: kMenuItemHeight),
       child: Material(
-        color: !enabled
+        color: !entry.enabled
             ? Colors.transparent
             : isFocused
                 ? focusedBackground
@@ -144,8 +202,7 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
         borderRadius: BorderRadius.circular(4.0),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap:
-              !enabled ? null : () => handleItemSelection(context, menuState),
+          onTap: !entry.enabled ? null : _handleToggle,
           canRequestFocus: false,
           hoverColor: Colors.transparent,
           child: Row(
@@ -155,7 +212,7 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
                 child: isChecked
                     ? IconTheme(
                         data: leadingIconThemeData,
-                        child: icon ?? const Icon(Icons.check),
+                        child: entry.icon ?? const Icon(Icons.check),
                       )
                     : null,
               ),
@@ -165,20 +222,21 @@ final class CheckableMenuItem<T> extends ContextMenuCheckableItem<T> {
                   style: textStyle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  child: label,
+                  child: entry.label,
                 ),
               ),
-              if (shortcut != null)
+              if (entry.shortcut != null)
                 Padding(
                   padding: const EdgeInsetsDirectional.only(start: 32.0),
                   child: DefaultTextStyle(
                       style: textStyle.apply(
                         color: adjustedTextColor.withValues(alpha: 0.6),
                       ),
-                      child: Text(shortcut!.toKeyString())),
+                      child: Text(entry.shortcut!.toKeyString())),
                 ),
               const SizedBox(width: 8.0),
-              trailing ?? const SizedBox.square(dimension: kMenuItemIconSize)
+              entry.trailing ??
+                  const SizedBox.square(dimension: kMenuItemIconSize)
             ],
           ),
         ),
