@@ -1,8 +1,10 @@
+export 'src/components/checkable_menu_item.dart';
 export 'src/components/menu_divider.dart';
 export 'src/components/menu_header.dart';
 export 'src/components/menu_item.dart';
 export 'src/core/enums/spawn_direction.dart';
 export 'src/core/models/context_menu.dart';
+export 'src/core/models/context_menu_checkable_item.dart';
 export 'src/core/models/context_menu_entry.dart';
 export 'src/core/models/context_menu_interactive_entry.dart';
 export 'src/core/models/context_menu_item.dart';
