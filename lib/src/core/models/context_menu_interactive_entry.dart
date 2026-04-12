@@ -37,15 +37,19 @@ abstract base class ContextMenuInteractiveEntry<T> extends ContextMenuEntry<T> {
   /// focus node.
   bool get autoHandleFocus => true;
 
-  /// Handles the selection of this menu entry.
+  /// Returns the default activation callback for this entry.
   ///
-  /// Called when the user activates this entry via mouse click, tap,
-  /// or keyboard (Space/Enter).
+  /// Called by [MenuEntryWidget] to register keyboard and tap activation
+  /// automatically. Return a [VoidCallback] to enable default activation,
+  /// or `null` to skip (e.g., when a widget subclass registers its own
+  /// activator via [ContextMenuState.registerActivator] in `initState`).
   ///
-  /// Subclasses implement their own selection behavior:
-  /// - [ContextMenuItem] closes the menu (or toggles a submenu)
-  /// - [ContextMenuCheckableItem] toggles the checked state without closing
-  void handleItemSelection(BuildContext context, ContextMenuState<T> menuState);
+  /// Subclasses:
+  /// - [ContextMenuItem] returns a callback that calls [ContextMenuState.activateMenuItem]
+  /// - [ContextMenuCheckableItem] returns `null` — activation is handled by the widget layer
+  VoidCallback? createActivator(
+          BuildContext context, ContextMenuState<T> menuState) =>
+      null;
 
   /// Builds the widget representation of this menu entry.
   ///

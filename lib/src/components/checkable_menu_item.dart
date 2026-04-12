@@ -140,10 +140,21 @@ class _CheckableMenuItemWidgetState<T>
       _internalController =
           CheckableController(initialValue: widget.entry.checked);
     }
+    widget.menuState.registerActivator(widget.entry, _handleToggle);
+  }
+
+  @override
+  void didUpdateWidget(covariant _CheckableMenuItemWidget<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.entry != oldWidget.entry) {
+      oldWidget.menuState.unregisterActivator(oldWidget.entry);
+      widget.menuState.registerActivator(widget.entry, _handleToggle);
+    }
   }
 
   @override
   void dispose() {
+    widget.menuState.unregisterActivator(widget.entry);
     _internalController?.dispose();
     super.dispose();
   }
@@ -202,7 +213,9 @@ class _CheckableMenuItemWidgetState<T>
         borderRadius: BorderRadius.circular(4.0),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: !entry.enabled ? null : _handleToggle,
+          onTap: !entry.enabled
+              ? null
+              : () => widget.menuState.activateEntry(entry),
           canRequestFocus: false,
           hoverColor: Colors.transparent,
           child: Row(

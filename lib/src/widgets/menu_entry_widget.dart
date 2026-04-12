@@ -49,8 +49,15 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
           if (entry is ContextMenuInteractiveEntry<T>) {
             final item = entry as ContextMenuInteractiveEntry<T>;
 
+            if (!menuState.hasActivator(item)) {
+              final activator = item.createActivator(context, menuState);
+              if (activator != null) {
+                menuState.registerActivator(item, activator);
+              }
+            }
+
             return CallbackShortcuts(
-              bindings: defaultMenuItemShortcuts(context, item, menuState),
+              bindings: defaultMenuItemShortcuts(menuState),
               child: Focus(
                 canRequestFocus: item.enabled ? item.autoHandleFocus : false,
                 focusNode: item.autoHandleFocus ? focusNode : null,

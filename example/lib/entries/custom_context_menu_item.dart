@@ -32,10 +32,9 @@ final class CustomContextMenuItem<T> extends ContextMenuItem<T> {
       [FocusNode? focusNode]) {
     return ListTile(
       focusNode: focusNode,
-      // important for highlighting item on focus
       title: SizedBox(width: double.maxFinite, child: Text(label)),
       subtitle: subtitle != null ? Text(subtitle!) : null,
-      onTap: () => handleItemSelection(context, menuState),
+      onTap: () => menuState.activateMenuItem(context, this),
       trailing: Icon(isSubmenuItem ? Icons.arrow_right : null),
       leading: Icon(icon),
       dense: false,

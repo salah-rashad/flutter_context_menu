@@ -1,13 +1,11 @@
 import 'package:flutter/widgets.dart';
 
-import '../../widgets/context_menu_state.dart';
 import 'checkable_controller.dart';
 import 'context_menu_interactive_entry.dart';
 
 /// Abstract base class for checkable/toggle menu entries.
 ///
 /// Entries that maintain an on/off state and keep the menu open when toggled.
-/// Provides toggle-without-close behavior via [handleItemSelection].
 ///
 /// Use [CheckableMenuItem] for a ready-to-use implementation, or subclass
 /// this to create custom checkable entries with unique visuals.
@@ -84,14 +82,4 @@ abstract base class ContextMenuCheckableItem<T>
   /// If [controller] is provided, returns its current value.
   /// Otherwise, returns the static [checked] value.
   bool get currentChecked => controller?.value ?? checked;
-
-  @override
-  void handleItemSelection(
-      BuildContext context, ContextMenuState<T> menuState) {
-    if (!enabled) return;
-    onToggle?.call(!currentChecked);
-    // Note: Does NOT call Navigator.pop — menu stays open.
-    // The actual state mutation (controller.toggle()) is handled by
-    // the widget layer which owns the effective controller lifecycle.
-  }
 }

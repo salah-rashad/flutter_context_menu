@@ -14,11 +14,6 @@ import 'context_menu_interactive_entry.dart';
 /// is selected. It can also contain a list of [items] to represent submenus, enabling a
 /// hierarchical structure within the context menu.
 ///
-/// When a [ContextMenuItem] is selected, it triggers the [handleItemSelection] method, which
-/// determines whether the item has subitems. If it does, it toggles the visibility of
-/// the submenu associated with the item. If not, it pops the current context menu and
-/// returns the associated [value].
-///
 /// #### Parameters:
 /// - [value] - The value associated with the context menu item.
 /// - [items] - The list of subitems associated with the context menu item.
@@ -56,36 +51,10 @@ abstract base class ContextMenuItem<T> extends ContextMenuInteractiveEntry<T> {
   /// - [MenuItem]
   bool get isSubmenuItem => items != null;
 
-  /// Handles the selection of the context menu item.
-  ///
-  /// If the item has subitems, it toggles the submenu's visibility.
-  /// Otherwise, it pops the current context menu and returns the [value].
   @override
-  void handleItemSelection(
-      BuildContext context, ContextMenuState<T> menuState) {
-    if (!enabled) return;
-
-    if (isSubmenuItem) {
-      _toggleSubmenu(context, menuState);
-    } else {
-      menuState.setSelectedItem(this);
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context, value);
-      }
-    }
-    onSelected?.call(value);
-    menuState.onItemSelected?.call(value);
-  }
-
-  /// Toggles the visibility of the submenu associated with this menu item.
-  void _toggleSubmenu(BuildContext context, ContextMenuState<T> menuState) {
-    if (menuState.isSubmenuOpen &&
-        menuState.focusedEntry == menuState.selectedItem) {
-      menuState.closeSubmenu();
-    } else {
-      menuState.showSubmenu(context: context, parent: this);
-    }
-  }
+  VoidCallback? createActivator(
+          BuildContext context, ContextMenuState<T> menuState) =>
+      () => menuState.activateMenuItem(context, this);
 
   @override
   Widget builder(BuildContext context, ContextMenuState<T> menuState,

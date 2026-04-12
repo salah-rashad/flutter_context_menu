@@ -149,11 +149,14 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
               const SizedBox(height: 8),
               // Listen to controllers from outside the menu widget tree
               ListenableBuilder(
-                listenable:
-                    Listenable.merge([_showGrid, _snapToGuides, _autoSave]),
+                listenable: Listenable.merge(
+                    [_showGrid, _snapToGuides, _autoSave, _darkMode]),
                 builder: (context, child) {
                   return Text(
-                    "Grid: ${_showGrid.value ? '✓' : '✗'} | Snap: ${_snapToGuides.value ? '✓' : '✗'} | Auto-save: ${_autoSave.value ? '✓' : '✗'}",
+                    "Grid: ${_showGrid.value ? '✓' : '✗'} | "
+                    "Snap: ${_snapToGuides.value ? '✓' : '✗'} | "
+                    "Auto-save: ${_autoSave.value ? '✓' : '✗'} | "
+                    "Dark mode: ${_darkMode.value ? '✓' : '✗'}",
                     style: const TextStyle(
                       fontSize: 11,
                       color: Colors.white70,
