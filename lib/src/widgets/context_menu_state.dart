@@ -1,5 +1,5 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 
 import '../core/models/context_menu.dart';
 import '../core/models/context_menu_entry.dart';
