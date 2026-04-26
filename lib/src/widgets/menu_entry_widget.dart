@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../core/models/context_menu_entry.dart';
+import '../core/models/context_menu_interactive_entry.dart';
 import '../core/models/context_menu_item.dart';
 import '../core/utils/shortcuts/menu_item_shortcuts.dart';
 import 'context_menu_state.dart';
@@ -45,11 +46,18 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
       onHover: (event) => _onMouseHover(event, menuState),
       child: Builder(
         builder: (_) {
-          if (entry is ContextMenuItem<T>) {
-            final item = entry as ContextMenuItem<T>;
+          if (entry is ContextMenuInteractiveEntry<T>) {
+            final item = entry as ContextMenuInteractiveEntry<T>;
+
+            if (!menuState.hasActivator(item)) {
+              final activator = item.createActivator(context, menuState);
+              if (activator != null) {
+                menuState.registerActivator(item, activator);
+              }
+            }
 
             return CallbackShortcuts(
-              bindings: defaultMenuItemShortcuts(context, item, menuState),
+              bindings: defaultMenuItemShortcuts(menuState),
               child: Focus(
                 canRequestFocus: item.enabled ? item.autoHandleFocus : false,
                 focusNode: item.autoHandleFocus ? focusNode : null,
@@ -80,31 +88,42 @@ class _MenuEntryWidgetState<T> extends State<MenuEntryWidget<T>> {
     ContextMenuState<T> menuState,
   ) {
     final entry = widget.entry;
-    if (entry is ContextMenuItem<T> && entry.enabled) {
-      final item = widget.entry as ContextMenuItem<T>;
-      final isSubmenuItem = item.isSubmenuItem;
-      final isOpenedSubmenu = menuState.isOpened(item);
-      final isFocused = menuState.isFocused(item);
+    if (entry is ContextMenuInteractiveEntry<T> && entry.enabled) {
+      // Submenu-specific logic only applies to ContextMenuItem
+      if (entry is ContextMenuItem<T>) {
+        final item = entry;
+        final isSubmenuItem = item.isSubmenuItem;
+        final isOpenedSubmenu = menuState.isOpened(item);
+        final isFocused = menuState.isFocused(item);
 
-      if (!isSubmenuItem && !isFocused) {
+        if (!isSubmenuItem && !isFocused) {
+          menuState.closeSubmenu();
+        } else if (isSubmenuItem && !isOpenedSubmenu) {
+          menuState.showSubmenu(context: context, parent: item);
+        }
+      } else {
         menuState.closeSubmenu();
-      } else if (isSubmenuItem && !isOpenedSubmenu) {
-        menuState.showSubmenu(context: context, parent: item);
       }
 
-      menuState.setFocusedEntry(item);
+      menuState.setFocusedEntry(entry);
     }
     entry.onMouseEnter(event, menuState);
   }
 
   void _onMouseExit(PointerExitEvent event, ContextMenuState<T> menuState) {
     final entry = widget.entry;
-    if (entry is ContextMenuItem<T> && entry.enabled) {
-      final item = widget.entry as ContextMenuItem;
-      final isOpenedSubmenu = menuState.isOpened(item);
-      final isFocused = menuState.isFocused(item);
+    if (entry is ContextMenuInteractiveEntry<T> && entry.enabled) {
+      // Submenu-specific logic only applies to ContextMenuItem
+      if (entry is ContextMenuItem<T>) {
+        final item = entry;
+        final isOpenedSubmenu = menuState.isOpened(item);
+        final isFocused = menuState.isFocused(item);
 
-      if (isFocused && !isOpenedSubmenu) {
+        if (isFocused && !isOpenedSubmenu) {
+          menuState.setFocusedEntry(null);
+          focusNode.unfocus();
+        }
+      } else if (menuState.isFocused(entry)) {
         menuState.setFocusedEntry(null);
         focusNode.unfocus();
       }

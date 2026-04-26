@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../core/models/context_menu.dart';
@@ -205,8 +206,102 @@ class ContextMenuState<T> extends ChangeNotifier {
     });
   }
 
+  // --- Activator registry ---
+
+  final Map<ContextMenuEntry, VoidCallback> _activators = {};
+
+  /// Registers an activation callback for [entry].
+  ///
+  /// Called by the widget layer so that keyboard shortcuts and tap both
+  /// converge to the same code path. Stateful entry widgets (e.g., a custom
+  /// checkable item) call this in `initState` to override the default activator
+  /// provided by [ContextMenuInteractiveEntry.createActivator].
+  @internal
+  void registerActivator(ContextMenuEntry entry, VoidCallback callback) {
+    _activators[entry] = callback;
+  }
+
+  /// Unregisters the activation callback for [entry].
+  ///
+  /// Call in `dispose` of any widget that registered a custom activator.
+  @internal
+  void unregisterActivator(ContextMenuEntry entry) {
+    _activators.remove(entry);
+  }
+
+  /// Returns `true` if an activator is registered for [entry].
+  @internal
+  bool hasActivator(ContextMenuEntry entry) => _activators.containsKey(entry);
+
+  /// Activates the currently focused entry.
+  ///
+  /// Called by keyboard shortcuts (Space, Enter).
+  @internal
+  bool activateFocusedEntry() {
+    final entry = _focusedEntry;
+    if (entry == null) return false;
+    final activator = _activators[entry];
+    if (activator == null) return false;
+    activator();
+    return true;
+  }
+
+  /// Activates [entry] by invoking its registered activator.
+  ///
+  /// Used internally by [MenuEntryWidget] keyboard shortcuts and tap handlers.
+  @internal
+  bool activateEntry(ContextMenuEntry entry) {
+    final activator = _activators[entry];
+    if (activator == null) return false;
+    activator();
+    return true;
+  }
+
+  /// Toggles the submenu for [parent] — opens it if closed, closes it if open.
+  ///
+  /// Available for custom entry implementations that need submenu toggle behaviour.
+  void toggleSubmenu({
+    required BuildContext context,
+    required ContextMenuItem<T> parent,
+  }) {
+    if (isSubmenuOpen && focusedEntry == selectedItem) {
+      closeSubmenu();
+    } else {
+      showSubmenu(context: context, parent: parent);
+    }
+  }
+
+  /// Selects [item] and closes the menu, returning [item]'s value.
+  ///
+  /// Available for custom entry implementations that need close-and-return behaviour.
+  void selectAndClose(BuildContext context, ContextMenuItem<T> item) {
+    setSelectedItem(item);
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context, item.value);
+    }
+    item.onSelected?.call(item.value);
+    onItemSelected?.call(item.value);
+  }
+
+  /// Activates [item]: opens its submenu if it has one, otherwise selects it
+  /// and closes the menu.
+  ///
+  /// This is the default activation behaviour for all [ContextMenuItem]
+  /// subclasses. Custom entries extending [ContextMenuItem] get this for free
+  /// via [ContextMenuInteractiveEntry.createActivator] and do not need to call
+  /// this directly.
+  void activateMenuItem(BuildContext context, ContextMenuItem<T> item) {
+    if (!item.enabled) return;
+    if (item.isSubmenuItem) {
+      toggleSubmenu(context: context, parent: item);
+    } else {
+      selectAndClose(context, item);
+    }
+  }
+
   /// Closes the context menu and removes the overlay.
   void close() {
+    _activators.clear();
     closeSubmenu();
     focusScopeNode.dispose();
   }
