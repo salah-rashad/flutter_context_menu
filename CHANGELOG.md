@@ -1,3 +1,54 @@
+## v0.5.0
+
+### Added
+
+- **Checkable Menu Entries**: New `CheckableMenuItem` — a menu entry with an on/off state that
+  toggles without closing the menu. Supports a custom check indicator, keyboard shortcut label,
+  trailing widget, and the usual enabled/disabled and theming options.
+- **`ContextMenuCheckableItem<T>`**: Abstract base for checkable entries. Custom checkable entries
+  only need to override `builder` — toggle behavior (`toggle()`), keyboard activation
+  (Space/Enter), and focus handling are inherited.
+- **`CheckableController`**: A `ValueNotifier<bool>` for managing checked state from outside the
+  menu widget tree — read the value, listen via `ValueListenableBuilder`, or toggle
+  programmatically. When omitted, `CheckableMenuItem` creates and disposes one internally.
+- **`ContextMenuInteractiveEntry<T>`**: New shared base class for interactive (focusable,
+  selectable) entries, holding `enabled`, `autoHandleFocus`, and activation.
+
+### Changed
+
+- **Type Hierarchy** (non-breaking): `ContextMenuItem<T>` now extends `ContextMenuInteractiveEntry<T>`
+  instead of `ContextMenuEntry<T>`. `enabled` and `autoHandleFocus` are inherited rather than
+  declared on `ContextMenuItem`; existing subclasses and usages are unaffected.
+- **Activation**: Menu entry activation from tap and from keyboard now converge on a single
+  registered activator per entry, so custom entries behave identically for mouse and keyboard.
+
+### Breaking Changes
+
+Only affects **custom entries** that subclass `ContextMenuItem`. Code that uses `MenuItem`,
+`MenuHeader`, `MenuDivider` and `ContextMenuRegion` is unaffected.
+
+- **`ContextMenuItem.handleItemSelection()` was removed.** Activation now goes through
+  `ContextMenuState`. Replace calls in your `builder`:
+
+  ```dart
+  // Before
+  onTap: () => handleItemSelection(context, menuState),
+  // After
+  onTap: () => menuState.activateMenuItem(context, this),
+  ```
+
+  `ContextMenuState.selectAndClose()` and `ContextMenuState.toggleSubmenu()` are also public if you
+  need the individual behaviors.
+
+- **`ContextMenuEntry.builder` / `ContextMenuItem.builder` focus node is now nullable**:
+  `[FocusNode focusNode]` became `[FocusNode? focusNode]`. Overrides declaring a non-nullable
+  `FocusNode` must be updated to `FocusNode?`.
+
+- **Submenu items no longer invoke `onSelected` / `onItemSelected` when their submenu opens.**
+  Previously both fired on every activation, including submenu toggles. They now fire only when an
+  item is actually selected and the menu closes. Move any submenu-open side effects to
+  `onMouseEnter` or to the submenu's own entries.
+
 ## v0.4.2
 
 ### Fixed

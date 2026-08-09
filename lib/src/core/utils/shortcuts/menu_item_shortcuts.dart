@@ -5,33 +5,26 @@ import '../../../widgets/context_menu_state.dart';
 import '../../models/context_menu_item.dart';
 
 Map<ShortcutActivator, VoidCallback> defaultMenuItemShortcuts(
-  BuildContext context,
-  ContextMenuItem item,
-  ContextMenuState menuState,
-) {
-  final focusedEntry = menuState.focusedEntry;
-
+    ContextMenuState menuState) {
   return {
-    // opens submenu of the focused item
     const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+      final focusedEntry = menuState.focusedEntry;
       if (focusedEntry is ContextMenuItem) {
-        final item = focusedEntry;
-
         final bool isSubmenuOpen = menuState.isSubmenuOpen;
         final focusedItemIsNotTheSelectedItem =
             menuState.focusedEntry != menuState.selectedItem;
-        if (item.isSubmenuItem &&
+        if (focusedEntry.isSubmenuItem &&
             !isSubmenuOpen &&
             focusedItemIsNotTheSelectedItem) {
-          item.handleItemSelection(context, menuState);
+          menuState.activateEntry(focusedEntry);
         }
       }
     },
     const SingleActivator(LogicalKeyboardKey.space): () =>
-        item.handleItemSelection(context, menuState),
+        menuState.activateFocusedEntry(),
     const SingleActivator(LogicalKeyboardKey.enter): () =>
-        item.handleItemSelection(context, menuState),
+        menuState.activateFocusedEntry(),
     const SingleActivator(LogicalKeyboardKey.numpadEnter): () =>
-        item.handleItemSelection(context, menuState),
+        menuState.activateFocusedEntry(),
   };
 }
