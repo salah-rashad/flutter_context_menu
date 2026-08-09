@@ -71,7 +71,7 @@ body:
         [✓] Flutter (Channel stable, 3.x.x, ...)
         [✓] Android toolchain - ...
         ...
-      render: shell
+      render: console
     validations:
       required: true
 
@@ -81,10 +81,8 @@ body:
       label: Logs or Screenshots
       description: Paste any relevant logs, error messages, or attach screenshots if applicable.
       placeholder: |
-        ```bash
         [ERROR:flutter/lib/ui/ui_dart_state.cc(209)] Unhandled Exception: ...
-        ```
-      render: shell
+      render: console
 
   - type: input
     id: platform
