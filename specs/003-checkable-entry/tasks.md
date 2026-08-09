@@ -73,7 +73,7 @@
 
 ### Implementation
 
-- [ ] T012 [US3] Verify keyboard navigation works with checkable entries in `lib/src/widgets/menu_entry_widget.dart` and `lib/src/core/utils/shortcuts/menu_item_shortcuts.dart`. The foundational refactor (Phase 2, T003-T004) already changed type checks to `ContextMenuInteractiveEntry`, so Space/Enter/NumpadEnter should already call `handleItemSelection` on checkable entries. Manually test with the example app: focus a checkable entry via arrow keys, press Space/Enter, verify toggle and menu stays open. If issues found, fix in the relevant files.
+- [x] T012 [US3] Verify keyboard navigation works with checkable entries in `lib/src/widgets/menu_entry_widget.dart` and `lib/src/core/utils/shortcuts/menu_item_shortcuts.dart`. The foundational refactor (Phase 2, T003-T004) already changed type checks to `ContextMenuInteractiveEntry`, so Space/Enter/NumpadEnter should already call `handleItemSelection` on checkable entries. Manually test with the example app: focus a checkable entry via arrow keys, press Space/Enter, verify toggle and menu stays open. If issues found, fix in the relevant files.
 
 **Checkpoint**: Keyboard navigation works for checkable entries. Space/Enter toggles, arrow keys navigate, disabled entries ignore input.
 
@@ -87,7 +87,7 @@
 
 ### Implementation
 
-- [ ] T013 [US4] Create a custom checkable entry example in `example/lib/entries/` (e.g., `custom_checkable_menu_item.dart`). Subclass `ContextMenuCheckableItem`, override only `builder` with a custom visual (e.g., a row with label + switch indicator). Add it to the example app demo page. Verify toggle behavior, keyboard navigation, and focus management work correctly without any extra boilerplate. This validates the extensibility contract from spec US4.
+- [x] T013 [US4] Create a custom checkable entry example in `example/lib/entries/` (e.g., `custom_checkable_menu_item.dart`). Subclass `ContextMenuCheckableItem`, override only `builder` with a custom visual (e.g., a row with label + switch indicator). Add it to the example app demo page. Verify toggle behavior, keyboard navigation, and focus management work correctly without any extra boilerplate. This validates the extensibility contract from spec US4.
 
 **Checkpoint**: Custom subclassing works. Developers can create custom checkable entries by overriding `builder` only.
 
@@ -97,9 +97,9 @@
 
 **Purpose**: Final quality checks and version bump
 
-- [ ] T014 [P] Update `pubspec.yaml` version from 0.4.2 to 0.5.0 (MINOR bump — new public symbols added per Constitution II)
-- [ ] T015 [P] Update `CHANGELOG.md` with 0.5.0 entry describing: new `ContextMenuInteractiveEntry` base class, new `ContextMenuCheckableItem` and `CheckableMenuItem` components, type hierarchy refactor (non-breaking)
-- [ ] T016 Run full quality gate: `flutter analyze --fatal-warnings`, `dart format --set-exit-if-changed .`, `cd example && flutter build`. Verify example app smoke test passes: `cd example && flutter test`.
+- [x] T014 [P] Update `pubspec.yaml` version from 0.4.2 to 0.5.0 (MINOR bump — new public symbols added per Constitution II)
+- [x] T015 [P] Update `CHANGELOG.md` with 0.5.0 entry describing: new `ContextMenuInteractiveEntry` base class, new `ContextMenuCheckableItem` and `CheckableMenuItem` components, type hierarchy refactor (non-breaking)
+- [x] T016 Run full quality gate: `flutter analyze --fatal-warnings`, `dart format --set-exit-if-changed .`, `cd example && flutter build`. Verify example app smoke test passes: `cd example && flutter test`.
 
 ---
 

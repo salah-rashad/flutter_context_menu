@@ -212,10 +212,12 @@ class ContextMenuState<T> extends ChangeNotifier {
 
   /// Registers an activation callback for [entry].
   ///
-  /// Called by the widget layer so that keyboard shortcuts and tap both
-  /// converge to the same code path. Stateful entry widgets (e.g., a custom
-  /// checkable item) call this in `initState` to override the default activator
-  /// provided by [ContextMenuInteractiveEntry.createActivator].
+  /// Keyboard shortcuts and tap both activate an entry through this registry,
+  /// so both converge on the same code path. The callback normally comes from
+  /// [ContextMenuInteractiveEntry.createActivator]; a stateful entry widget
+  /// registers its own here in `initState` when the activation logic needs
+  /// widget state (as [CheckableMenuItem] does for its internal controller),
+  /// which replaces the entry's default.
   @internal
   void registerActivator(ContextMenuEntry entry, VoidCallback callback) {
     _activators[entry] = callback;
@@ -223,7 +225,7 @@ class ContextMenuState<T> extends ChangeNotifier {
 
   /// Unregisters the activation callback for [entry].
   ///
-  /// Call in `dispose` of any widget that registered a custom activator.
+  /// Called from `dispose` of the widget that registered it.
   @internal
   void unregisterActivator(ContextMenuEntry entry) {
     _activators.remove(entry);
@@ -248,7 +250,10 @@ class ContextMenuState<T> extends ChangeNotifier {
 
   /// Activates [entry] by invoking its registered activator.
   ///
-  /// Used internally by [MenuEntryWidget] keyboard shortcuts and tap handlers.
+  /// Used internally by tap handlers and the arrow-right shortcut. Custom
+  /// entries outside this package cannot call this — use the public
+  /// [activateMenuItem], or [ContextMenuCheckableItem.toggle] for checkable
+  /// entries.
   @internal
   bool activateEntry(ContextMenuEntry entry) {
     final activator = _activators[entry];

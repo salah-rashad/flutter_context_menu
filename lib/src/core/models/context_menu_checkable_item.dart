@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/context_menu_state.dart';
 import 'checkable_controller.dart';
 import 'context_menu_interactive_entry.dart';
 
@@ -41,10 +42,15 @@ import 'context_menu_interactive_entry.dart';
 /// - [CheckableController]
 abstract base class ContextMenuCheckableItem<T>
     extends ContextMenuInteractiveEntry<T> {
-  /// The initial checked state when no [controller] is provided.
+  /// The checked state when no [controller] is provided.
   ///
-  /// When a [controller] is provided, this value is ignored — the
-  /// controller's [CheckableController.value] is used instead.
+  /// When a [controller] is provided this value is ignored — the controller's
+  /// [CheckableController.value] is the source of truth.
+  ///
+  /// Without a controller the entry holds no state of its own: [CheckableMenuItem]
+  /// treats this as the initial value of a controller it creates internally,
+  /// while a subclass that toggles through [toggle] leaves the state with the
+  /// caller, who is expected to rebuild the menu with a new [checked] value.
   final bool checked;
 
   /// Optional controller for managing the checked state.
@@ -54,9 +60,9 @@ abstract base class ContextMenuCheckableItem<T>
   /// from outside the menu widget tree via [ValueListenableBuilder]
   /// or [CheckableController.addListener].
   ///
-  /// When not provided, an internal controller is created automatically
-  /// by [CheckableMenuItem], initialized with the [checked] value.
-  /// The consumer is responsible for disposing a provided controller.
+  /// When not provided, [CheckableMenuItem] creates an internal controller
+  /// initialized with [checked] and disposes it automatically. A controller
+  /// you provide is yours to dispose.
   final CheckableController? controller;
 
   /// Callback invoked when the checked state changes.
@@ -82,4 +88,37 @@ abstract base class ContextMenuCheckableItem<T>
   /// If [controller] is provided, returns its current value.
   /// Otherwise, returns the static [checked] value.
   bool get currentChecked => controller?.value ?? checked;
+
+  /// Toggles the checked state and notifies [onToggle].
+  ///
+  /// Does nothing when the entry is disabled. When a [controller] is
+  /// provided, its value is toggled and [onToggle] receives the new value.
+  /// Otherwise [onToggle] receives the inverse of [checked] — the caller
+  /// owns the state in that case.
+  ///
+  /// The menu is intentionally left open.
+  void toggle() {
+    if (!enabled) return;
+    final controller = this.controller;
+    if (controller != null) {
+      controller.toggle();
+      onToggle?.call(controller.value);
+    } else {
+      onToggle?.call(!checked);
+    }
+  }
+
+  /// Default activation for checkable entries — [toggle], which leaves the
+  /// menu open.
+  ///
+  /// A subclass that overrides only [builder] gets keyboard activation
+  /// (Space/Enter) for free, and should call [toggle] from its own `onTap`
+  /// so tap and keyboard behave identically.
+  ///
+  /// [CheckableMenuItem] replaces this with an activator bound to its widget
+  /// state, so that the controller it creates internally is the one toggled.
+  @override
+  VoidCallback? createActivator(
+          BuildContext context, ContextMenuState<T> menuState) =>
+      toggle;
 }

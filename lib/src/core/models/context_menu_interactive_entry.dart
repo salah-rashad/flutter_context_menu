@@ -28,33 +28,38 @@ abstract base class ContextMenuInteractiveEntry<T> extends ContextMenuEntry<T> {
   /// The [enabled] parameter defaults to `true`.
   const ContextMenuInteractiveEntry({this.enabled = true});
 
-  /// Indicates whether the menu item is using the focus node in a child widget.
+  /// Whether the menu wraps this entry in its own focus widget.
   ///
-  /// Used internally by the [MenuEntryWidget].
+  /// When `true` (the default), the menu owns the entry's focus node and
+  /// keyboard navigation works with no effort from [builder] — determine the
+  /// highlight with `menuState.focusedEntry == this`.
   ///
-  /// This is helpful when users want to manually handle focus in the [builder].
-  /// Override this getter and return `false` if the builder manages its own
-  /// focus node.
+  /// Override to `false` when [builder] returns a widget that must own focus
+  /// itself (a `ListTile`, a `TextField`). The menu then leaves its wrapper
+  /// unfocusable and hands the focus node to [builder] instead, which must
+  /// attach it for keyboard navigation to keep working.
   bool get autoHandleFocus => true;
 
-  /// Returns the default activation callback for this entry.
+  /// Returns the default activation callback for this entry — what happens
+  /// when it is tapped, or focused and activated with Space/Enter.
   ///
-  /// Called by [MenuEntryWidget] to register keyboard and tap activation
-  /// automatically. Return a [VoidCallback] to enable default activation,
-  /// or `null` to skip (e.g., when a widget subclass registers its own
-  /// activator via [ContextMenuState.registerActivator] in `initState`).
+  /// Registered automatically when the entry is built. Return `null` to skip
+  /// registration, leaving activation to a widget that registers its own
+  /// callback.
   ///
   /// Subclasses:
-  /// - [ContextMenuItem] returns a callback that calls [ContextMenuState.activateMenuItem]
-  /// - [ContextMenuCheckableItem] returns `null` — activation is handled by the widget layer
+  /// - [ContextMenuItem] opens its submenu, or selects it and closes the menu
+  /// - [ContextMenuCheckableItem] toggles the checked state, leaving the menu open
   VoidCallback? createActivator(
           BuildContext context, ContextMenuState<T> menuState) =>
       null;
 
   /// Builds the widget representation of this menu entry.
   ///
-  /// The optional [focusNode] parameter is provided when [autoHandleFocus]
-  /// returns `true`, allowing the entry to integrate with keyboard navigation.
+  /// [focusNode] is only meaningful when [autoHandleFocus] is `false` — attach
+  /// it to the focusable widget you return so the entry stays reachable by
+  /// keyboard. Leave it alone otherwise: the menu's own focus widget already
+  /// owns that node, and attaching it twice breaks focus traversal.
   @override
   Widget builder(BuildContext context, ContextMenuState<T> menuState,
       [FocusNode? focusNode]);

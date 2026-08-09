@@ -1,3 +1,4 @@
+import 'package:example/entries/custom_checkable_menu_item.dart';
 import 'package:example/pages/menu_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +52,7 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
       CheckableController(initialValue: true);
   final CheckableController _autoSave = CheckableController();
   final CheckableController _darkMode = CheckableController(initialValue: true);
+  final CheckableController _presentationMode = CheckableController();
 
   @override
   void dispose() {
@@ -58,11 +60,12 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
     _snapToGuides.dispose();
     _autoSave.dispose();
     _darkMode.dispose();
+    _presentationMode.dispose();
     super.dispose();
   }
 
-  ContextMenu<String> _buildCheckableMenu() {
-    return ContextMenu<String>(
+  ContextMenu _buildCheckableMenu() {
+    return ContextMenu(
       entries: [
         const MenuHeader(text: "View Options"),
         CheckableMenuItem(
@@ -83,6 +86,14 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
           label: Text("Disabled option"),
           checked: true,
           enabled: false,
+        ),
+        const MenuDivider(),
+        // Custom checkable entry — subclasses ContextMenuCheckableItem and
+        // overrides only `builder`.
+        SwitchMenuItem(
+          label: "Presentation mode",
+          icon: Icons.slideshow,
+          controller: _presentationMode,
         ),
         const MenuDivider(),
         MenuItem.submenu(
@@ -149,14 +160,20 @@ class _CheckableMenuDemoState extends State<CheckableMenuDemo> {
               const SizedBox(height: 8),
               // Listen to controllers from outside the menu widget tree
               ListenableBuilder(
-                listenable: Listenable.merge(
-                    [_showGrid, _snapToGuides, _autoSave, _darkMode]),
+                listenable: Listenable.merge([
+                  _showGrid,
+                  _snapToGuides,
+                  _autoSave,
+                  _darkMode,
+                  _presentationMode,
+                ]),
                 builder: (context, child) {
                   return Text(
                     "Grid: ${_showGrid.value ? '✓' : '✗'} | "
                     "Snap: ${_snapToGuides.value ? '✓' : '✗'} | "
                     "Auto-save: ${_autoSave.value ? '✓' : '✗'} | "
-                    "Dark mode: ${_darkMode.value ? '✓' : '✗'}",
+                    "Dark mode: ${_darkMode.value ? '✓' : '✗'} | "
+                    "Presentation: ${_presentationMode.value ? '✓' : '✗'}",
                     style: const TextStyle(
                       fontSize: 11,
                       color: Colors.white70,
