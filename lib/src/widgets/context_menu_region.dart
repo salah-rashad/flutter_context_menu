@@ -99,10 +99,12 @@ class _ContextMenuRegionState<T> extends State<ContextMenuRegion<T>> {
   void _showMenu(BuildContext context, Offset position) {
     final menu = widget.contextMenu
         .copyWith(position: widget.contextMenu.position ?? position);
+    final routeOptions = (widget.routeOptions ?? const MenuRouteOptions())
+        .copyWith(requestFocus: widget.routeOptions?.requestFocus ?? false);
     showContextMenu<T>(
       context,
       contextMenu: menu,
-      routeOptions: widget.routeOptions,
+      routeOptions: routeOptions,
       onItemSelected: widget.onItemSelected,
     );
   }

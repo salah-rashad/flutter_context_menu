@@ -40,7 +40,7 @@ class ContextMenuWidget<T> extends StatelessWidget {
                 bindings: defaultMenuShortcuts(context, state)
                   ..addAll(state.shortcuts),
                 child: FocusScope(
-                  autofocus: true,
+                  autofocus: state.requestFocus,
                   node: state.focusScopeNode,
                   child: Opacity(
                     opacity: state.isPositionVerified ? 1.0 : 0.0,
